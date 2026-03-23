@@ -116,6 +116,73 @@
         </div>
     </div>
 
+    <!-- ── Demo Section ── -->
+    <div class="demo-section" id="demoSection">
+        <div class="demo-container">
+            <h2 class="demo-title">
+                <span class="demo-icon">🎬</span>
+                See It In Action
+            </h2>
+            <p class="demo-subtitle">Watch how Poly-Glot Markdown transforms a bare, unstructured doc into a fully RAG & GEO optimized file</p>
+
+            <div class="demo-controls">
+                <button id="playDemoBtn" class="demo-btn primary">▶️ Play Demo</button>
+                <button id="resetDemoBtn" class="demo-btn">↻ Reset</button>
+            </div>
+
+            <div class="demo-panels">
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 1</span>
+                        <h3>Before: Unstructured Markdown</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeBefore">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-issues" id="demoIssues">
+                        <div class="issue-badge">⚠️ No Frontmatter · Poor Structure · Not RAG-Ready</div>
+                    </div>
+                </div>
+
+                <div class="demo-arrow">→</div>
+
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 2</span>
+                        <h3>After: RAG & GEO Optimized</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeAfter">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-benefits" id="demoBenefits">
+                        <div class="benefit-badge">✨ Poly-Glot Optimized</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-stats" id="demoStats" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-value">0%</div>
+                    <div class="stat-label">RAG Score Before</div>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card highlight">
+                    <div class="stat-value">94%</div>
+                    <div class="stat-label">RAG Score After</div>
+                </div>
+                <div class="stat-card highlight">
+                    <div class="stat-value">+94%</div>
+                    <div class="stat-label">Improvement</div>
+                </div>
+            </div>
+
+            <div class="demo-cta">
+                <p>Ready to optimize your Markdown for AI?</p>
+                <button id="tryItNowBtn" class="cta-btn">Try It Now Below ↓</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ── Main Tool ── -->
     <div class="main-content">
 
@@ -204,6 +271,7 @@
 
 </div>
 <script src="ai-formatter.js"></script>
+<script src="demo.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
