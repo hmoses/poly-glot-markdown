@@ -35,6 +35,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .changelog-btn:hover { background: rgba(125,211,252,0.2); transform: translateY(-1px); }
 .crosslink-btn { display: inline-flex; align-items: center; padding: 6px 14px; background: rgba(16,185,129,0.1); color: #10b981; font-size: 12px; font-weight: 600; border-radius: 20px; border: 1.5px solid rgba(16,185,129,0.35); text-decoration: none; transition: all 0.2s; white-space: nowrap; font-family: 'Fira Code', monospace; }
 .crosslink-btn:hover { background: rgba(16,185,129,0.2); border-color: rgba(16,185,129,0.6); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
+.support-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); border: 1px solid #fbbf24; border-radius: 20px; color: #1e1e2e; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+.support-btn:hover { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(251,191,36,0.4); }
+.support-icon { font-size: 14px; line-height: 1; }
+.support-text { font-family: 'Inter', sans-serif; }
 
 /* ── Overview ── */
 .overview-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
