@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Dark navy background with rounded corners -->
+  <rect width="32" height="32" rx="6" ry="6" fill="#0f172a"/>
+
+  <!-- Markdown "M↓" symbol -->
+  <!-- M legs -->
+  <path d="M5 22 L5 10 L10 16 L15 10 L15 22" fill="none" stroke="#7dd3fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Down arrow for the ↓ -->
+  <!-- Vertical line -->
+  <line x1="22" y1="10" x2="22" y2="20" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Arrow head -->
+  <polyline points="18,17 22,22 26,17" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
