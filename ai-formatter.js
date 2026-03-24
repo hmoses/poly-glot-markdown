@@ -1,27 +1,51 @@
 /**
- * AI Markdown/MDX Formatter
- * Optimizes Markdown and MDX for RAG retrieval and GEO discoverability
- * Supports OpenAI and Anthropic — client-side only, keys stored in localStorage
+ * AI Markdown Formatter
+ * Handles API calls to OpenAI and Anthropic for Markdown/MDX optimization.
+ * Runs entirely in the browser — your API key and content never leave your machine.
  */
-
 class AIMarkdownFormatter {
     constructor() {
-        this.apiKey = localStorage.getItem('pgmd_api_key') || '';
+        this.apiKey  = localStorage.getItem('pgmd_api_key')  || '';
         this.provider = localStorage.getItem('pgmd_provider') || 'openai';
-        this.model = localStorage.getItem('pgmd_model') || 'gpt-4o-mini';
+        this.model   = localStorage.getItem('pgmd_model')    || 'gpt-4o-mini';
     }
 
     saveSettings(key, provider, model) {
-        this.apiKey = key;
+        this.apiKey   = key;
         this.provider = provider;
-        this.model = model;
-        localStorage.setItem('pgmd_api_key', key);
+        this.model    = model;
+        localStorage.setItem('pgmd_api_key',  key);
         localStorage.setItem('pgmd_provider', provider);
-        localStorage.setItem('pgmd_model', model);
+        localStorage.setItem('pgmd_model',    model);
     }
 
     isConfigured() {
         return this.apiKey && this.apiKey.trim().length > 10;
+    }
+
+    /**
+     * Parse API error response and return a clear human-readable message.
+     */
+    _parseError(error, provider) {
+        const msg = error?.message || '';
+
+        // Network/CORS failure — fetch throws a TypeError when the request cannot be made at all
+        if (error instanceof TypeError || msg.toLowerCase().includes('failed to fetch') || msg.toLowerCase().includes('networkerror')) {
+            if (provider === 'anthropic') {
+                return 'Network error reaching Anthropic. Please check your API key and internet connection. If you are behind a VPN or firewall, try disabling it.';
+            }
+            return 'Network error reaching OpenAI. Please check your API key and internet connection. If you are behind a VPN or firewall, try disabling it.';
+        }
+        if (msg.includes('401') || msg.toLowerCase().includes('invalid') || msg.toLowerCase().includes('unauthorized') || msg.toLowerCase().includes('authentication')) {
+            return `Invalid API key. Please check your ${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'} API key and try again.`;
+        }
+        if (msg.includes('429') || msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('quota')) {
+            return 'Rate limit or quota exceeded. Please wait a moment and try again, or check your API plan limits.';
+        }
+        if (msg.includes('500') || msg.includes('502') || msg.includes('503')) {
+            return `${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'} servers are temporarily unavailable. Please try again in a moment.`;
+        }
+        return msg || `Unknown error from ${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'}. Please try again.`;
     }
 
     /**
@@ -55,23 +79,34 @@ Rules:
      * Format markdown using OpenAI
      */
     async formatWithOpenAI(content, options) {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.apiKey}` },
-            body: JSON.stringify({
-                model: this.model,
-                messages: [
-                    { role: 'system', content: this.buildPrompt(options) },
-                    { role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }
-                ],
-                temperature: 0.3,
-                max_tokens: 4096
-            })
-        });
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error?.message || `OpenAI error ${response.status}`);
+        let response;
+        try {
+            response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.apiKey}`
+                },
+                body: JSON.stringify({
+                    model: this.model,
+                    messages: [
+                        { role: 'system', content: this.buildPrompt(options) },
+                        { role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }
+                    ],
+                    temperature: 0.3,
+                    max_tokens: 4096
+                })
+            });
+        } catch (networkErr) {
+            throw new Error(this._parseError(networkErr, 'openai'));
         }
+
+        if (!response.ok) {
+            let errBody = {};
+            try { errBody = await response.json(); } catch (_) {}
+            throw new Error(errBody.error?.message || `OpenAI error ${response.status}`);
+        }
+
         const data = await response.json();
         return data.choices[0].message.content.trim();
     }
@@ -80,25 +115,33 @@ Rules:
      * Format markdown using Anthropic
      */
     async formatWithAnthropic(content, options) {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': this.apiKey,
-                'anthropic-version': '2023-06-01',
-                'anthropic-dangerous-direct-browser-access': 'true'
-            },
-            body: JSON.stringify({
-                model: this.model,
-                max_tokens: 4096,
-                system: this.buildPrompt(options),
-                messages: [{ role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }]
-            })
-        });
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error?.message || `Anthropic error ${response.status}`);
+        let response;
+        try {
+            response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': this.apiKey,
+                    'anthropic-version': '2023-06-01',
+                    'anthropic-dangerous-direct-browser-access': 'true'
+                },
+                body: JSON.stringify({
+                    model: this.model,
+                    max_tokens: 4096,
+                    system: this.buildPrompt(options),
+                    messages: [{ role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }]
+                })
+            });
+        } catch (networkErr) {
+            throw new Error(this._parseError(networkErr, 'anthropic'));
         }
+
+        if (!response.ok) {
+            let errBody = {};
+            try { errBody = await response.json(); } catch (_) {}
+            throw new Error(errBody.error?.message || `Anthropic error ${response.status}`);
+        }
+
         const data = await response.json();
         return data.content[0].text.trim();
     }
@@ -107,10 +150,16 @@ Rules:
      * Main format method — routes to correct provider
      */
     async format(content, options) {
-        if (!this.isConfigured()) throw new Error('API key not configured. Add your key in the settings above.');
-        if (this.provider === 'openai') return this.formatWithOpenAI(content, options);
-        if (this.provider === 'anthropic') return this.formatWithAnthropic(content, options);
-        throw new Error('Unknown provider: ' + this.provider);
+        if (!this.isConfigured()) {
+            throw new Error('API key not configured. Add your key in the settings above.');
+        }
+        try {
+            if (this.provider === 'openai')    return await this.formatWithOpenAI(content, options);
+            if (this.provider === 'anthropic') return await this.formatWithAnthropic(content, options);
+            throw new Error('Unknown provider: ' + this.provider);
+        } catch (error) {
+            throw new Error(this._parseError(error, this.provider));
+        }
     }
 }
 
