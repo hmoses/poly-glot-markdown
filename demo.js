@@ -50,72 +50,66 @@ description: "How to implement vector similarity search
   using embeddings and a vector database. Covers cosine
   similarity, top-k retrieval, and threshold tuning
   for RAG pipelines."
-tags: [vector-search, embeddings, RAG, AI, cosine-similarity,
-  pinecone, pgvector, semantic-search]
-author: ""
+tags: [vector-search, embeddings, RAG, AI,
+  cosine-similarity, pinecone, pgvector,
+  semantic-search]
 date: "${today}"
 difficulty: intermediate
 ---
 
 # Vector Search for AI Applications
 
-> **RAG Summary:** Vector search finds semantically similar
-> content by comparing embedding vectors using cosine
-> similarity. Used in retrieval-augmented generation (RAG)
-> to fetch relevant context before LLM inference.
+> **RAG Summary:** Vector search finds semantically
+> similar content by comparing embedding vectors using
+> cosine similarity — powering RAG pipelines, semantic
+> search, and recommendation engines.
 
 ## What Is Vector Search?
 
-Vector search enables **semantic similarity retrieval** by
-converting text into high-dimensional embedding vectors
-and comparing them mathematically — rather than matching
-exact keywords.
+Vector search enables **semantic similarity retrieval**
+by converting text into high-dimensional embeddings
+and comparing them mathematically.
 
 **Key use cases:**
-- Retrieval-Augmented Generation (RAG) pipelines
+- Retrieval-Augmented Generation (RAG)
 - Semantic document search
 - Recommendation engines
-- Duplicate detection
 
 ## How It Works
 
-1. **Embed** the query using a model (e.g. \`text-embedding-3-small\`)
-2. **Compare** against stored embeddings using cosine similarity
-3. **Retrieve** the top-k most similar results
-4. **Filter** by similarity threshold (typically ≥ 0.78)
+1. **Embed** the query (e.g. \`text-embedding-3-small\`)
+2. **Compare** against stored vectors via cosine sim
+3. **Retrieve** top-k most similar results
+4. **Filter** by threshold (typically ≥ 0.78)
 
 ## Choosing a Vector Database
 
-| Database   | Best For              | Hosted |
-|------------|-----------------------|--------|
-| Pinecone   | Production RAG        | ✅ Yes |
-| pgvector   | Existing Postgres DBs | ❌ No  |
-| Weaviate   | Hybrid search         | ✅ Yes |
+| Database  | Best For         | Hosted |
+|-----------|------------------|--------|
+| Pinecone  | Production RAG   | ✅ Yes |
+| pgvector  | Existing Postgres | ❌ No |
+| Weaviate  | Hybrid search    | ✅ Yes |
 
 ## Implementation
 
 \`\`\`python
-# Embed the user query
 query_vector = embed(user_query)  # shape: [1536]
 
-# Retrieve top-5 semantically similar results
 results = db.query(
     vector=query_vector,
     top_k=5,
-    filter={"similarity": {"$gte": 0.78}}
+    filter={"score": {"$gte": 0.78}}
 )
 \`\`\`
 
-> **RAG Chunk — Similarity Threshold:** A cosine similarity
-> score ≥ 0.78 typically indicates strong semantic relevance.
-> Lower thresholds increase recall; higher thresholds
-> improve precision. Tune per your dataset.
+> **RAG Chunk — Threshold Tuning:** Cosine similarity
+> ≥ 0.78 indicates strong semantic relevance. Lower
+> values increase recall; higher values improve
+> precision. Tune per your dataset.
 
 ## See Also
-
 - [Embedding Models Guide](./embeddings.md)
-- [RAG Pipeline Architecture](./rag-pipeline.md)
-- [Chunking Strategies](./chunking.md)`;
+- [RAG Pipeline Architecture](./rag-pipeline.md)`;
 
     // ── Helpers ──────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -214,7 +208,10 @@ results = db.query(
         document.querySelector('.main-content')
             .scrollIntoView({ behavior: 'smooth', block: 'start' });
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'demo_cta_clicked', { source: 'demo_section', action: 'try_it_now' });
+            gtag('event', 'demo_cta_clicked', {
+                source: 'demo_section',
+                action: 'try_it_now'
+            });
         }
     });
 }
