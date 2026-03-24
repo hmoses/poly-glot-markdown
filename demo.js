@@ -1,7 +1,7 @@
 /**
  * Poly-Glot Markdown — See It In Action Demo
- * Animates a before/after transformation of a Markdown file
- * to show RAG & GEO optimization in action.
+ * Animates a before/after transformation showing RAG & GEO optimization.
+ * Matches the demo pattern from poly-glot.ai.
  */
 
 function initializeDemo() {
@@ -9,11 +9,18 @@ function initializeDemo() {
     const resetBtn   = document.getElementById('resetDemoBtn');
     const tryItBtn   = document.getElementById('tryItNowBtn');
     const demoStats  = document.getElementById('demoStats');
+    const demoIssues = document.getElementById('demoIssues');
+    const demoBenefits = document.getElementById('demoBenefits');
     const demoPanels = document.querySelectorAll('.demo-panel');
+
+    if (!playBtn || !resetBtn || !tryItBtn || !demoStats || demoPanels.length < 2) return;
+
+    const beforeCodeEl = document.querySelector('#demoCodeBefore code');
+    const afterCodeEl  = document.querySelector('#demoCodeAfter code');
 
     let isPlaying = false;
 
-    /* ── Before: raw, unstructured markdown ─────────────────── */
+    // ── Before: raw, unstructured markdown ──────────────────────────────
     const beforeCode =
 `# intro
 
@@ -34,29 +41,28 @@ auth.init({ token: process.env.TOKEN })
 
 see the api docs for more info.`;
 
-    /* ── After: RAG & GEO optimized ─────────────────────────── */
+    // ── After: RAG & GEO optimized ───────────────────────────────────────
+    const today = new Date().toISOString().split('T')[0];
     const afterCode =
 `---
 title: "Authentication Setup Guide"
-description: "Step-by-step guide to configuring token-based
-  authentication in your application."
-tags: [authentication, api, security, setup]
-author: ""
-date: "${new Date().toISOString().split('T')[0]}"
+description: "Step-by-step guide to configuring
+  token-based authentication. Covers install,
+  environment setup, and secure API init."
+tags: [authentication, api, security, setup, token]
+date: "${today}"
 ---
 
 # Authentication Setup Guide
 
-> **Summary:** This guide explains how to configure
-> token-based authentication, secure your API token,
-> and initialize the auth module before making API calls.
+> **Summary:** Configure token-based auth by installing
+> the package, setting env vars, and calling
+> \`auth.init()\` before any API requests.
 
 ## Prerequisites
 
-Before starting, ensure you have:
-- A valid **API token** from your dashboard
+- Valid **API token** from your dashboard
 - Node.js 18+ installed
-- The \`@your-org/auth\` package available
 
 ## Setup
 
@@ -68,33 +74,27 @@ npm install @your-org/auth
 
 ### 2. Configure Environment Variables
 
-Store your token securely — **never commit it to source control**:
-
 \`\`\`bash
-# .env
+# .env — never commit this file
 TOKEN=your_secret_token_here
 \`\`\`
 
-### 3. Initialize the Auth Module
-
-Call \`auth.init()\` before any API requests:
+### 3. Initialize Auth
 
 \`\`\`js
 import auth from '@your-org/auth';
-
 auth.init({ token: process.env.TOKEN });
 \`\`\`
 
-> **RAG Chunk:** Authentication is token-based. The token
-> must be set via environment variable and passed to
-> \`auth.init()\` at application startup.
+> **RAG Chunk:** Auth is token-based. Pass the token
+> via env var to \`auth.init()\` at startup.
 
 ## See Also
 
 - [API Reference](./api-docs.md)
 - [Security Best Practices](./security.md)`;
 
-    /* ── Helpers ─────────────────────────────────────────────── */
+    // ── Helpers ──────────────────────────────────────────────────────────
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -103,8 +103,9 @@ auth.init({ token: process.env.TOKEN });
         codeElement.textContent = '';
         const lines = code.split('\n');
         for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
             let currentLine = '';
-            for (const char of lines[i]) {
+            for (const char of line) {
                 currentLine += char;
                 codeElement.textContent =
                     lines.slice(0, i).join('\n') +
@@ -118,62 +119,84 @@ auth.init({ token: process.env.TOKEN });
         }
     }
 
-    /* ── Play ────────────────────────────────────────────────── */
+    // ── Play ─────────────────────────────────────────────────────────────
     playBtn.addEventListener('click', async () => {
         if (isPlaying) return;
         isPlaying = true;
         playBtn.disabled = true;
+        playBtn.textContent = '⏸️ Playing...';
 
-        const beforeIssues   = demoPanels[0].querySelector('.demo-issues');
-        const afterBenefits  = demoPanels[1].querySelector('.demo-benefits');
-        beforeIssues.style.opacity  = '0';
-        afterBenefits.style.opacity = '0';
+        // Reset state
+        demoIssues.style.opacity   = '0';
+        demoBenefits.style.opacity = '0';
+        demoStats.style.display    = 'none';
 
-        // Step 1 — show "before"
+        // Step 1 — activate before panel, type code
         demoPanels[0].classList.add('active');
-        const beforeEl = demoPanels[0].querySelector('.demo-code code');
-        await typeCode(beforeEl, beforeCode, 22);
+        await typeCode(beforeCodeEl, beforeCode, 20);
+
+        // Show issue badges
         await sleep(300);
-        beforeIssues.style.transition = 'opacity 0.5s ease-in';
-        beforeIssues.style.opacity = '1';
+        demoIssues.style.transition = 'opacity 0.5s ease-in';
+        demoIssues.style.opacity = '1';
         await sleep(1500);
 
-        // Step 2 — show "after"
+        // Step 2 — activate after panel, type optimized code
         demoPanels[1].classList.add('active');
-        const afterEl = demoPanels[1].querySelector('.demo-code code');
-        await typeCode(afterEl, afterCode, 12);
+        await typeCode(afterCodeEl, afterCode, 12);
+
+        // Show benefit badges
         await sleep(300);
-        afterBenefits.style.transition = 'opacity 0.5s ease-in';
-        afterBenefits.style.opacity = '1';
+        demoBenefits.style.transition = 'opacity 0.5s ease-in';
+        demoBenefits.style.opacity = '1';
         await sleep(1500);
 
-        // Step 3 — stats
+        // Step 3 — show stats
         demoStats.style.display = 'flex';
+        await sleep(2000);
 
-        playBtn.textContent = '✓ Demo Complete';
-        playBtn.disabled = false;
+        playBtn.textContent    = '✓ Demo Complete';
+        playBtn.disabled       = false;
+        resetBtn.style.display = 'inline-flex';
         isPlaying = false;
+
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'demo_played', { source: 'demo_section' });
+        }
     });
 
-    /* ── Reset ───────────────────────────────────────────────── */
+    // ── Reset ─────────────────────────────────────────────────────────────
     resetBtn.addEventListener('click', () => {
         demoPanels.forEach(p => p.classList.remove('active'));
-        demoStats.style.display = 'none';
-        playBtn.textContent = '▶️ Play Demo';
-        playBtn.disabled = false;
-        isPlaying = false;
+        demoStats.style.display    = 'none';
+        resetBtn.style.display     = 'none';
+        playBtn.textContent        = '▶️ Play Demo';
+        playBtn.disabled           = false;
+        isPlaying                  = false;
 
-        demoPanels[0].querySelector('.demo-code code').textContent = '';
-        demoPanels[1].querySelector('.demo-code code').textContent = '';
-        document.getElementById('demoIssues').style.opacity  = '0';
-        document.getElementById('demoBenefits').style.opacity = '0';
+        beforeCodeEl.textContent   = '';
+        afterCodeEl.textContent    = '';
+        demoIssues.style.opacity   = '0';
+        demoBenefits.style.opacity = '0';
+
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'demo_reset', { source: 'demo_section' });
+        }
     });
 
-    /* ── Try It Now ──────────────────────────────────────────── */
+    // ── Try It Now ────────────────────────────────────────────────────────
     tryItBtn.addEventListener('click', () => {
         document.querySelector('.main-content')
             .scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'demo_cta_clicked', { source: 'demo_section', action: 'try_it_now' });
+        }
     });
 }
 
-document.addEventListener('DOMContentLoaded', initializeDemo);
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeDemo);
+} else {
+    initializeDemo();
+}
