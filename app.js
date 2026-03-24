@@ -45,10 +45,17 @@
     }
 
     function updateModelOptions() {
-        const openaiModels    = ['gpt-4o-mini', 'gpt-4o'];
-        const anthropicModels = ['claude-3-5-haiku-20241022', 'claude-3-5-sonnet-20241022'];
+        const openaiModels = [
+            { value: 'gpt-4o-mini',              label: 'GPT-4o Mini (fast)' },
+            { value: 'gpt-4o',                   label: 'GPT-4o (best)' }
+        ];
+        const anthropicModels = [
+            { value: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (fast)' },
+            { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet' },
+            { value: 'claude-sonnet-4-5',          label: 'Claude Sonnet 4 ✨ (recommended)' }
+        ];
         const models = providerSelect.value === 'openai' ? openaiModels : anthropicModels;
-        modelSelect.innerHTML = models.map(m => `<option value="${m}">${m}</option>`).join('');
+        modelSelect.innerHTML = models.map(m => `<option value="${m.value}">${m.label}</option>`).join('');
     }
 
     providerSelect.addEventListener('change', updateModelOptions);
