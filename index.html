@@ -81,34 +81,75 @@
     <!-- ── Demo Section ── -->
     <div class="demo-section">
         <div class="demo-container">
-            <h2 class="demo-title">See It In Action</h2>
-            <div class="demo-panels">
-                <div class="demo-panel" id="demoBeforePanel">
-                    <div class="demo-panel-header">
-                        <span class="demo-label before">Before</span>
-                        <span class="demo-badge issue">⚠️ Not RAG-Ready</span>
-                    </div>
-                    <pre class="demo-code" id="demoBeforeCode"></pre>
-                </div>
-                <div class="demo-arrow">→</div>
-                <div class="demo-panel" id="demoAfterPanel">
-                    <div class="demo-panel-header">
-                        <span class="demo-label after">After</span>
-                        <span class="demo-badge success">✅ Optimized</span>
-                    </div>
-                    <pre class="demo-code" id="demoAfterCode"></pre>
-                </div>
-            </div>
-            <div class="demo-stats" id="demoStats" style="display:none">
-                <span>📈 +340% RAG retrieval score</span>
-                <span>🎯 GEO keywords added</span>
-                <span>✂️ Semantic chunks created</span>
-                <span>🏷️ Frontmatter generated</span>
-            </div>
+            <h2 class="demo-title">
+                <span class="demo-icon">🎬</span>
+                See It In Action
+            </h2>
+            <p class="demo-subtitle">Watch how Poly-Glot Markdown transforms raw, unstructured docs into RAG-ready, GEO-optimized Markdown</p>
+
             <div class="demo-controls">
-                <button id="demoPlayBtn" class="demo-play-btn">▶ Play Demo</button>
-                <button id="demoResetBtn" class="demo-reset-btn" style="display:none">↺ Reset</button>
+                <button id="playDemoBtn" class="demo-btn primary">▶️ Play Demo</button>
+                <button id="resetDemoBtn" class="demo-btn" style="display:none">↻ Reset</button>
             </div>
+
+            <div class="demo-panels">
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 1</span>
+                        <h3>Before: Raw Markdown</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeBefore">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-issues" id="demoIssues" style="opacity:0; transition: opacity 0.5s ease-in;">
+                        <div class="issue-badge">❌ No frontmatter</div>
+                        <div class="issue-badge">❌ Poor structure</div>
+                        <div class="issue-badge">❌ Not RAG-ready</div>
+                        <div class="issue-badge">❌ No GEO keywords</div>
+                    </div>
+                </div>
+
+                <div class="demo-arrow">→</div>
+
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 2</span>
+                        <h3>After: Optimized Output</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeAfter">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-benefits" id="demoBenefits" style="opacity:0; transition: opacity 0.5s ease-in;">
+                        <div class="benefit-badge">✅ Frontmatter added</div>
+                        <div class="benefit-badge">✅ Semantic structure</div>
+                        <div class="benefit-badge">✅ RAG chunks</div>
+                        <div class="benefit-badge">✅ GEO optimized</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-stats" id="demoStats" style="display:none;">
+                <div class="stat-card">
+                    <div class="stat-value">+340%</div>
+                    <div class="stat-label">RAG Retrieval Score</div>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Semantic Chunks</div>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card">
+                    <div class="stat-value">🏷️</div>
+                    <div class="stat-label">Frontmatter Generated</div>
+                </div>
+                <div class="stat-arrow">→</div>
+                <div class="stat-card">
+                    <div class="stat-value">🎯</div>
+                    <div class="stat-label">GEO Keywords Added</div>
+                </div>
+            </div>
+
             <div class="demo-cta">
                 <p>Ready to optimize your Markdown for AI?</p>
                 <button id="tryItNowBtn" class="cta-btn">Try It Now Below ↓</button>
