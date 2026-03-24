@@ -100,7 +100,7 @@
         updateInputStats();
     });
 
-    // ── Options ──
+    // ── Get selected options ──
     function getOptions() {
         return {
             frontmatter: document.getElementById('optFrontmatter').checked,
