@@ -98,6 +98,7 @@
     clearInputBtn.addEventListener('click', () => {
         inputEditor.value = '';
         updateInputStats();
+        scoreOutputBtn.disabled = true;
     });
 
     // ── Get selected options ──
@@ -143,9 +144,10 @@
             if (options.mdx)         badges.push('✅ MDX');
             impBadges.innerHTML = badges.map(b => `<span class="imp-badge">${b}</span>`).join('');
 
-            copyBtn.disabled     = false;
-            downloadBtn.disabled = false;
-            diffBtn.disabled     = false;
+            copyBtn.disabled        = false;
+            downloadBtn.disabled    = false;
+            diffBtn.disabled        = false;
+            scoreOutputBtn.disabled = false;
 
             // GA4: track successful format
             gtag('event', 'format_success', {
@@ -167,6 +169,23 @@
             loadingOverlay.style.display = 'none';
             formatBtn.disabled = false;
         }
+    });
+
+    // ── Score Input ──
+    const scoreInputBtn  = document.getElementById('scoreInputBtn');
+    const scoreOutputBtn = document.getElementById('scoreOutputBtn');
+
+    scoreInputBtn.addEventListener('click', () => {
+        const input = inputEditor.value.trim();
+        if (!input) { alert('Paste or upload a Markdown file first.'); return; }
+        PolyGlotScorer.show(input, lastOutput || null, false);
+        if (typeof gtag !== 'undefined') gtag('event', 'score_input_clicked');
+    });
+
+    scoreOutputBtn.addEventListener('click', () => {
+        const input = inputEditor.value.trim();
+        PolyGlotScorer.show(input || null, lastOutput, false);
+        if (typeof gtag !== 'undefined') gtag('event', 'score_output_clicked');
     });
 
     // ── Copy ──
@@ -224,3 +243,4 @@
 
     initSettings();
 })();
+
