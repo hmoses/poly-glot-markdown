@@ -1,1 +1,210 @@
-/tmp/index_updated.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXQVWZ5S1W"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EXQVWZ5S1W');
+    </script>
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
+    <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="header-top">
+            <h1>Poly-Glot Markdown</h1>
+            <div class="header-badges">
+                <span class="version-badge">v1.0.0</span>
+                <a href="https://github.com/hmoses/poly-glot-markdown/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="changelog-btn">📝 What's New</a>
+                <a href="https://buymeacoffee.com/hmoses" target="_blank" rel="noopener noreferrer" class="support-btn" title="Support Poly-Glot development">
+                    <span class="support-icon">☕</span>
+                    <span class="support-text">Buy Me a Coffee</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="header-features">
+            <span class="feature-badge">🏷️ Frontmatter</span>
+            <span class="feature-badge">📐 Structure</span>
+            <span class="feature-badge">✂️ RAG Chunking</span>
+            <span class="feature-badge">🎯 GEO Keywords</span>
+            <span class="feature-badge">🔒 Privacy-First</span>
+            <span class="feature-badge">⚡ OpenAI + Anthropic</span>
+        </div>
+
+        <p class="header-sub">Paste or upload any <code>.md</code> / <code>.mdx</code> file and get back a version that's structured for AI retrieval, search discoverability, and long-term maintainability.</p>
+
+        <!-- Settings -->
+        <div class="settings-bar">
+            <div class="setting-group">
+                <label class="setting-label">Provider</label>
+                <select id="providerSelect" class="setting-select">
+                    <option value="openai">OpenAI</option>
+                    <option value="anthropic">Anthropic</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label class="setting-label">Model</label>
+                <select id="modelSelect" class="setting-select"></select>
+            </div>
+            <div class="setting-group api-key-group">
+                <label class="setting-label">API Key <span class="key-hint">(stored locally only)</span></label>
+                <div class="key-input-row">
+                    <input type="password" id="apiKeyInput" class="setting-input" placeholder="sk-... or sk-ant-...">
+                    <button id="toggleKeyBtn" class="toggle-key-btn">👁</button>
+                    <button id="saveKeyBtn" class="save-key-btn">Save</button>
+                </div>
+                <span id="keyStatus" class="key-status"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Demo Section ── -->
+    <div class="demo-section">
+        <div class="demo-container">
+            <h2 class="demo-title">See It In Action</h2>
+            <div class="demo-panels">
+                <div class="demo-panel" id="demoBeforePanel">
+                    <div class="demo-panel-header">
+                        <span class="demo-label before">Before</span>
+                        <span class="demo-badge issue">⚠️ Not RAG-Ready</span>
+                    </div>
+                    <pre class="demo-code" id="demoBeforeCode"></pre>
+                </div>
+                <div class="demo-arrow">→</div>
+                <div class="demo-panel" id="demoAfterPanel">
+                    <div class="demo-panel-header">
+                        <span class="demo-label after">After</span>
+                        <span class="demo-badge success">✅ Optimized</span>
+                    </div>
+                    <pre class="demo-code" id="demoAfterCode"></pre>
+                </div>
+            </div>
+            <div class="demo-stats" id="demoStats" style="display:none">
+                <span>📈 +340% RAG retrieval score</span>
+                <span>🎯 GEO keywords added</span>
+                <span>✂️ Semantic chunks created</span>
+                <span>🏷️ Frontmatter generated</span>
+            </div>
+            <div class="demo-controls">
+                <button id="demoPlayBtn" class="demo-play-btn">▶ Play Demo</button>
+                <button id="demoResetBtn" class="demo-reset-btn" style="display:none">↺ Reset</button>
+            </div>
+            <div class="demo-cta">
+                <p>Ready to optimize your Markdown for AI?</p>
+                <button id="tryItNowBtn" class="cta-btn">Try It Now Below ↓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main Tool ── -->
+    <div class="main-content">
+
+        <!-- Left: Input -->
+        <div class="panel" id="inputPanel">
+            <div class="panel-header">
+                <span class="panel-title">Input</span>
+                <div class="panel-actions">
+                    <label class="upload-btn" for="fileUpload">📁 Upload File</label>
+                    <input type="file" id="fileUpload" accept=".md,.mdx" style="display:none">
+                    <button id="clearInputBtn" class="action-btn">✕ Clear</button>
+                </div>
+            </div>
+
+            <!-- Optimization Options -->
+            <div class="options-bar">
+                <span class="options-label">Optimize for:</span>
+                <label class="opt-toggle"><input type="checkbox" id="optFrontmatter" checked> Frontmatter</label>
+                <label class="opt-toggle"><input type="checkbox" id="optStructure" checked> Structure</label>
+                <label class="opt-toggle"><input type="checkbox" id="optSemantic" checked> Semantic Clarity</label>
+                <label class="opt-toggle"><input type="checkbox" id="optGEO" checked> GEO Keywords</label>
+                <label class="opt-toggle"><input type="checkbox" id="optRAG" checked> RAG Chunking</label>
+                <label class="opt-toggle"><input type="checkbox" id="optMDX"> MDX Components</label>
+            </div>
+
+            <textarea id="inputEditor" placeholder="Paste your Markdown or MDX here..."></textarea>
+
+            <div class="panel-footer">
+                <span id="inputStats" class="stats-text"></span>
+                <button id="formatBtn" class="format-btn">✨ Format for RAG & GEO</button>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-icon">→</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="panel" id="outputPanel">
+            <div class="panel-header">
+                <span class="panel-title">Optimized Output</span>
+                <div class="panel-actions">
+                    <button id="copyBtn" class="action-btn" disabled>📋 Copy</button>
+                    <button id="downloadBtn" class="action-btn" disabled>⬇️ Download</button>
+                    <button id="diffBtn" class="action-btn" disabled>🔍 Diff</button>
+                </div>
+            </div>
+
+            <div id="outputArea">
+                <div class="output-placeholder">
+                    <span class="placeholder-icon">✨</span>
+                    <p>Your optimized Markdown will appear here</p>
+                    <p class="placeholder-sub">RAG-ready · GEO-optimized · Structured</p>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <span id="outputStats" class="stats-text"></span>
+                <div id="improvementBadges" class="improvement-badges"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diff Modal -->
+    <div id="diffModal" class="modal" style="display:none">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Diff View</h3>
+                <button id="closeDiffBtn" class="modal-close">✕</button>
+            </div>
+            <div id="diffContent" class="diff-content"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display:none">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <p id="loadingText">Formatting your Markdown...</p>
+            <p class="loading-sub">Running RAG & GEO optimizations</p>
+        </div>
+    </div>
+
+</div>
+<script src="ai-formatter.js"></script>
+<script src="demo.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
