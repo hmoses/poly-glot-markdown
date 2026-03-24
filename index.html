@@ -129,25 +129,70 @@
             </div>
 
             <div class="demo-stats" id="demoStats" style="display:none;">
-                <div class="stat-card">
-                    <div class="stat-value">+340%</div>
-                    <div class="stat-label">RAG Retrieval Score</div>
+
+                <!-- RAG Score -->
+                <div class="score-block">
+                    <div class="score-title">🔍 RAG Retrieval Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-num before" id="ragBefore">12</div>
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-bar-track">
+                                <div class="score-bar before" id="ragBarBefore" style="width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-num after" id="ragAfter">0</div>
+                            <div class="score-sublabel">After</div>
+                            <div class="score-bar-track">
+                                <div class="score-bar after" id="ragBarAfter" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="ragDelta" style="opacity:0">+<span id="ragDeltaNum">0</span>% improvement</div>
                 </div>
-                <div class="stat-arrow">→</div>
-                <div class="stat-card">
-                    <div class="stat-value">6</div>
-                    <div class="stat-label">Semantic Chunks</div>
+
+                <div class="score-divider"></div>
+
+                <!-- GEO Score -->
+                <div class="score-block">
+                    <div class="score-title">🌐 GEO Discoverability Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-num before" id="geoBefore">8</div>
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-bar-track">
+                                <div class="score-bar before" id="geoBarBefore" style="width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-num after" id="geoAfter">0</div>
+                            <div class="score-sublabel">After</div>
+                            <div class="score-bar-track">
+                                <div class="score-bar after" id="geoBarAfter" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="geoDelta" style="opacity:0">+<span id="geoDeltaNum">0</span>% improvement</div>
                 </div>
-                <div class="stat-arrow">→</div>
-                <div class="stat-card">
-                    <div class="stat-value">🏷️</div>
-                    <div class="stat-label">Frontmatter Generated</div>
+
+                <div class="score-divider"></div>
+
+                <!-- Supporting metrics -->
+                <div class="score-block metrics-block">
+                    <div class="score-title">✨ Improvements Applied</div>
+                    <div class="metrics-grid">
+                        <div class="metric-pill" id="metricFrontmatter" style="opacity:0">🏷️ Frontmatter</div>
+                        <div class="metric-pill" id="metricChunks" style="opacity:0">✂️ 6 RAG Chunks</div>
+                        <div class="metric-pill" id="metricKeywords" style="opacity:0">🎯 8 GEO Keywords</div>
+                        <div class="metric-pill" id="metricStructure" style="opacity:0">📐 Semantic Structure</div>
+                        <div class="metric-pill" id="metricTable" style="opacity:0">📊 Comparison Table</div>
+                        <div class="metric-pill" id="metricSummary" style="opacity:0">📝 RAG Summary Block</div>
+                    </div>
                 </div>
-                <div class="stat-arrow">→</div>
-                <div class="stat-card">
-                    <div class="stat-value">🎯</div>
-                    <div class="stat-label">GEO Keywords Added</div>
-                </div>
+
             </div>
 
             <div class="demo-cta">
@@ -249,3 +294,4 @@
 <script src="app.js"></script>
 </body>
 </html>
+
