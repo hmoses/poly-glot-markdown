@@ -5,13 +5,13 @@
  */
 
 function initializeDemo() {
-    const playBtn    = document.getElementById('playDemoBtn');
-    const resetBtn   = document.getElementById('resetDemoBtn');
-    const tryItBtn   = document.getElementById('tryItNowBtn');
-    const demoStats  = document.getElementById('demoStats');
-    const demoIssues = document.getElementById('demoIssues');
+    const playBtn      = document.getElementById('playDemoBtn');
+    const resetBtn     = document.getElementById('resetDemoBtn');
+    const tryItBtn     = document.getElementById('tryItNowBtn');
+    const demoStats    = document.getElementById('demoStats');
+    const demoIssues   = document.getElementById('demoIssues');
     const demoBenefits = document.getElementById('demoBenefits');
-    const demoPanels = document.querySelectorAll('.demo-panel');
+    const demoPanels   = document.querySelectorAll('.demo-panel');
 
     if (!playBtn || !resetBtn || !tryItBtn || !demoStats || demoPanels.length < 2) return;
 
@@ -20,79 +20,102 @@ function initializeDemo() {
 
     let isPlaying = false;
 
-    // ── Before: raw, unstructured markdown ──────────────────────────────
+    // ── BEFORE: messy, unstructured, not AI-retrievable ─────────────────
     const beforeCode =
-`# intro
+`# vector search
 
-this doc explains how to set up auth in our app.
-you need a token to call the api. make sure to keep
-it secret. there are a few steps involved.
+vector search lets you find similar things.
+its used in ai apps a lot. you embed the query
+and compare it to stored embeddings using math.
 
-## setup
+you need a vector db. some options are pinecone,
+weaviate, or pgvector. pick one and set it up.
 
-install the package first. then configure your env vars.
-call the init function before anything else.
+the main thing is cosine similarity. lower distance
+means more similar. threshold is usually like 0.8
+or whatever works for your data.
 
-## example
+heres a rough example:
 
-\`\`\`js
-auth.init({ token: process.env.TOKEN })
-\`\`\`
+results = db.query(embed(user_query), top_k=5)
 
-see the api docs for more info.`;
+thats basically it. tune the threshold as needed.`;
 
-    // ── After: RAG & GEO optimized ───────────────────────────────────────
+    // ── AFTER: RAG-ready, GEO-optimized, fully structured ───────────────
     const today = new Date().toISOString().split('T')[0];
     const afterCode =
 `---
-title: "Authentication Setup Guide"
-description: "Step-by-step guide to configuring
-  token-based authentication. Covers install,
-  environment setup, and secure API init."
-tags: [authentication, api, security, setup, token]
+title: "Vector Search for AI Applications"
+description: "How to implement vector similarity search
+  using embeddings and a vector database. Covers cosine
+  similarity, top-k retrieval, and threshold tuning
+  for RAG pipelines."
+tags: [vector-search, embeddings, RAG, AI, cosine-similarity,
+  pinecone, pgvector, semantic-search]
+author: ""
 date: "${today}"
+difficulty: intermediate
 ---
 
-# Authentication Setup Guide
+# Vector Search for AI Applications
 
-> **Summary:** Configure token-based auth by installing
-> the package, setting env vars, and calling
-> \`auth.init()\` before any API requests.
+> **RAG Summary:** Vector search finds semantically similar
+> content by comparing embedding vectors using cosine
+> similarity. Used in retrieval-augmented generation (RAG)
+> to fetch relevant context before LLM inference.
 
-## Prerequisites
+## What Is Vector Search?
 
-- Valid **API token** from your dashboard
-- Node.js 18+ installed
+Vector search enables **semantic similarity retrieval** by
+converting text into high-dimensional embedding vectors
+and comparing them mathematically — rather than matching
+exact keywords.
 
-## Setup
+**Key use cases:**
+- Retrieval-Augmented Generation (RAG) pipelines
+- Semantic document search
+- Recommendation engines
+- Duplicate detection
 
-### 1. Install the Package
+## How It Works
 
-\`\`\`bash
-npm install @your-org/auth
+1. **Embed** the query using a model (e.g. \`text-embedding-3-small\`)
+2. **Compare** against stored embeddings using cosine similarity
+3. **Retrieve** the top-k most similar results
+4. **Filter** by similarity threshold (typically ≥ 0.78)
+
+## Choosing a Vector Database
+
+| Database   | Best For              | Hosted |
+|------------|-----------------------|--------|
+| Pinecone   | Production RAG        | ✅ Yes |
+| pgvector   | Existing Postgres DBs | ❌ No  |
+| Weaviate   | Hybrid search         | ✅ Yes |
+
+## Implementation
+
+\`\`\`python
+# Embed the user query
+query_vector = embed(user_query)  # shape: [1536]
+
+# Retrieve top-5 semantically similar results
+results = db.query(
+    vector=query_vector,
+    top_k=5,
+    filter={"similarity": {"$gte": 0.78}}
+)
 \`\`\`
 
-### 2. Configure Environment Variables
-
-\`\`\`bash
-# .env — never commit this file
-TOKEN=your_secret_token_here
-\`\`\`
-
-### 3. Initialize Auth
-
-\`\`\`js
-import auth from '@your-org/auth';
-auth.init({ token: process.env.TOKEN });
-\`\`\`
-
-> **RAG Chunk:** Auth is token-based. Pass the token
-> via env var to \`auth.init()\` at startup.
+> **RAG Chunk — Similarity Threshold:** A cosine similarity
+> score ≥ 0.78 typically indicates strong semantic relevance.
+> Lower thresholds increase recall; higher thresholds
+> improve precision. Tune per your dataset.
 
 ## See Also
 
-- [API Reference](./api-docs.md)
-- [Security Best Practices](./security.md)`;
+- [Embedding Models Guide](./embeddings.md)
+- [RAG Pipeline Architecture](./rag-pipeline.md)
+- [Chunking Strategies](./chunking.md)`;
 
     // ── Helpers ──────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -130,26 +153,28 @@ auth.init({ token: process.env.TOKEN });
         demoIssues.style.opacity   = '0';
         demoBenefits.style.opacity = '0';
         demoStats.style.display    = 'none';
+        beforeCodeEl.textContent   = '';
+        afterCodeEl.textContent    = '';
 
-        // Step 1 — activate before panel, type code
+        // Step 1 — activate before panel, type raw messy markdown
         demoPanels[0].classList.add('active');
-        await typeCode(beforeCodeEl, beforeCode, 20);
+        await typeCode(beforeCodeEl, beforeCode, 22);
 
         // Show issue badges
         await sleep(300);
         demoIssues.style.transition = 'opacity 0.5s ease-in';
         demoIssues.style.opacity = '1';
-        await sleep(1500);
+        await sleep(1200);
 
-        // Step 2 — activate after panel, type optimized code
+        // Step 2 — activate after panel, type optimized markdown
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 12);
+        await typeCode(afterCodeEl, afterCode, 10);
 
         // Show benefit badges
         await sleep(300);
         demoBenefits.style.transition = 'opacity 0.5s ease-in';
         demoBenefits.style.opacity = '1';
-        await sleep(1500);
+        await sleep(1200);
 
         // Step 3 — show stats
         demoStats.style.display = 'flex';
