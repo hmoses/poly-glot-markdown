@@ -61,6 +61,7 @@
         formatter.saveSettings(key, provider, model);
         keyStatus.textContent = '✅ Settings saved';
         keyStatus.className   = 'key-status ok';
+        gtag('event', 'api_key_saved', { provider, model });
     });
 
     toggleKeyBtn.addEventListener('click', () => {
@@ -76,6 +77,7 @@
         reader.onload = (ev) => { inputEditor.value = ev.target.result; updateInputStats(); };
         reader.readAsText(file);
         fileUpload.value = '';
+        gtag('event', 'file_uploaded', { file_type: file.name.endsWith('.mdx') ? 'mdx' : 'md', file_size: file.size });
     });
 
     // ── Stats ──
@@ -98,7 +100,7 @@
         updateInputStats();
     });
 
-    // ── Get selected options ──
+    // ── Options ──
     function getOptions() {
         return {
             frontmatter: document.getElementById('optFrontmatter').checked,
@@ -144,8 +146,23 @@
             copyBtn.disabled     = false;
             downloadBtn.disabled = false;
             diffBtn.disabled     = false;
+
+            // GA4: track successful format
+            gtag('event', 'format_success', {
+                provider:        formatter.provider,
+                model:           formatter.model,
+                input_words:     sIn.words,
+                output_words:    sOut.words,
+                opt_frontmatter: options.frontmatter,
+                opt_structure:   options.structure,
+                opt_semantic:    options.semantic,
+                opt_geo:         options.geo,
+                opt_rag:         options.rag,
+                opt_mdx:         options.mdx,
+            });
         } catch (err) {
             outputArea.textContent = '❌ Error: ' + err.message;
+            gtag('event', 'format_error', { provider: formatter.provider, model: formatter.model, error: err.message });
         } finally {
             loadingOverlay.style.display = 'none';
             formatBtn.disabled = false;
@@ -157,6 +174,7 @@
         navigator.clipboard.writeText(lastOutput).then(() => {
             copyBtn.textContent = '✅ Copied!';
             setTimeout(() => { copyBtn.textContent = '📋 Copy'; }, 2000);
+            gtag('event', 'output_copied');
         });
     });
 
@@ -169,6 +187,7 @@
         a.download = lastFilename;
         a.click();
         URL.revokeObjectURL(url);
+        gtag('event', 'output_downloaded', { filename: lastFilename });
     });
 
     // ── Diff ──
@@ -193,6 +212,7 @@
         }
         diffContent.innerHTML = html;
         diffModal.style.display = 'flex';
+        gtag('event', 'diff_viewed');
     });
 
     closeDiffBtn.addEventListener('click', () => { diffModal.style.display = 'none'; });
