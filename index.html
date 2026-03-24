@@ -48,33 +48,101 @@
             <span class="feature-badge">✂️ RAG Chunking</span>
             <span class="feature-badge">🎯 GEO Keywords</span>
             <span class="feature-badge">🔒 Privacy-First</span>
-            <span class="feature-badge">⚡ OpenAI + Anthropic</span>
+            <span class="feature-badge">🪿 Built with Goose</span>
         </div>
 
-        <p class="header-sub">Paste or upload any <code>.md</code> / <code>.mdx</code> file and get back a version that's structured for AI retrieval, search discoverability, and long-term maintainability.</p>
+        <!-- Section 1: What is it -->
+        <div class="overview-section">
+            <h2 class="overview-heading">What is Poly-Glot Markdown?</h2>
+            <p class="overview-text">
+                <strong>Poly-Glot Markdown transforms plain or poorly structured Markdown and MDX files into fully optimized documents — instantly.</strong>
+                Paste or upload any <code>.md</code> / <code>.mdx</code> file and get back a version that's structured for AI retrieval, search discoverability, and long-term maintainability.
+            </p>
+            <p class="overview-text">
+                Supports both <strong>OpenAI and Anthropic</strong> API keys and runs entirely in your browser — your content and API keys never leave your machine.
+            </p>
+            <p class="overview-text"><strong>Well-formatted Markdown is:</strong></p>
+            <ul class="overview-list">
+                <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
+                <li>🧠 <strong>Understandable</strong> — AI grasps intent</li>
+                <li>🎯 <strong>Discoverable</strong> — GEO optimized</li>
+                <li>🛡️ <strong>Safer</strong> — preserves critical context</li>
+            </ul>
+        </div>
 
-        <!-- Settings -->
-        <div class="settings-bar">
-            <div class="setting-group">
-                <label class="setting-label">Provider</label>
-                <select id="providerSelect" class="setting-select">
-                    <option value="openai">OpenAI</option>
-                    <option value="anthropic">Anthropic</option>
-                </select>
+        <!-- Section 2: How It Works -->
+        <div class="overview-section">
+            <h2 class="overview-heading">How It Works</h2>
+            <div class="how-it-works">
+                <div class="how-step"><span class="step-number">1</span><span class="step-text">Paste or upload your Markdown / MDX</span></div>
+                <div class="how-arrow">→</div>
+                <div class="how-step"><span class="step-number">2</span><span class="step-text">Choose your optimization goals</span></div>
+                <div class="how-arrow">→</div>
+                <div class="how-step"><span class="step-number">3</span><span class="step-text">Get RAG &amp; GEO optimized output instantly</span></div>
             </div>
-            <div class="setting-group">
-                <label class="setting-label">Model</label>
-                <select id="modelSelect" class="setting-select"></select>
-            </div>
-            <div class="setting-group api-key-group">
-                <label class="setting-label">API Key <span class="key-hint">(stored locally only)</span></label>
-                <div class="key-input-row">
-                    <input type="password" id="apiKeyInput" class="setting-input" placeholder="sk-... or sk-ant-...">
-                    <button id="toggleKeyBtn" class="toggle-key-btn">👁</button>
-                    <button id="saveKeyBtn" class="save-key-btn">Save</button>
+        </div>
+
+        <!-- Section 3: What Gets Optimized -->
+        <div class="overview-section">
+            <h2 class="overview-heading">What Gets Optimized</h2>
+            <div class="header-value-props">
+                <div class="value-prop">
+                    <span class="value-icon">🏷️</span>
+                    <div class="value-text"><strong>Frontmatter</strong><span>Adds or enriches YAML frontmatter with title, description, tags, and author</span></div>
                 </div>
-                <span id="keyStatus" class="key-status"></span>
+                <div class="value-prop">
+                    <span class="value-icon">📐</span>
+                    <div class="value-text"><strong>Structure</strong><span>Enforces clear heading hierarchy (H1 → H2 → H3) for semantic chunking</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🔗</span>
+                    <div class="value-text"><strong>Semantic Clarity</strong><span>Rewrites ambiguous sentences so AI models understand intent</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🎯</span>
+                    <div class="value-text"><strong>GEO Keywords</strong><span>Surfaces and emphasizes key terms for generative engine discoverability</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">✂️</span>
+                    <div class="value-text"><strong>RAG Chunking</strong><span>Adds section breaks and summaries optimized for vector database chunking</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🧩</span>
+                    <div class="value-text"><strong>MDX Components</strong><span>Preserves and annotates JSX components in MDX files without breaking them</span></div>
+                </div>
             </div>
+        </div>
+
+        <!-- Section 4: API Key Settings -->
+        <div class="overview-section" id="settingsSection">
+            <h2 class="overview-heading">⚙️ API Settings</h2>
+            <div class="settings-row">
+                <div class="setting-group">
+                    <label class="setting-label">Provider</label>
+                    <select id="providerSelect" class="setting-select">
+                        <option value="openai">OpenAI</option>
+                        <option value="anthropic">Anthropic</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Model</label>
+                    <select id="modelSelect" class="setting-select">
+                        <option value="gpt-4o-mini">GPT-4o Mini (fast)</option>
+                        <option value="gpt-4o">GPT-4o (best)</option>
+                        <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku (fast)</option>
+                        <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (best)</option>
+                    </select>
+                </div>
+                <div class="setting-group api-key-group">
+                    <label class="setting-label">API Key <span class="key-hint">(stored locally only)</span></label>
+                    <div class="api-key-input-wrap">
+                        <input type="password" id="apiKeyInput" class="setting-input" placeholder="sk-... or sk-ant-...">
+                        <button id="toggleKeyBtn" class="toggle-key-btn" title="Show/hide key">👁</button>
+                        <button id="saveKeyBtn" class="save-key-btn">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div id="keyStatus" class="key-status"></div>
         </div>
     </div>
 
@@ -294,4 +362,5 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
