@@ -542,3 +542,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     .isp-divider-v  { display: none; }
     .isp-score-section { padding: 0; }
 }
+
+/* ── Footer ── */
+.site-footer {
+    text-align: center;
+    padding: 18px 24px;
+    border-top: 1px solid rgba(125, 211, 252, 0.1);
+    margin-top: 24px;
+    color: #64748b;
+    font-size: 12px;
+}
+.site-footer strong { color: #94a3b8; }
+.footer-domain {
+    color: #7dd3fc;
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+}
