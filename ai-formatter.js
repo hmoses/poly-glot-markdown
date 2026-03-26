@@ -7,7 +7,7 @@ class AIMarkdownFormatter {
     constructor() {
         this.apiKey  = localStorage.getItem('pgmd_api_key')  || '';
         this.provider = localStorage.getItem('pgmd_provider') || 'openai';
-        const defaultModel = this.provider === 'anthropic' ? 'claude-sonnet-4-5' : 'gpt-4o-mini';
+        const defaultModel = this.provider === 'anthropic' ? 'claude-sonnet-4-5' : 'gpt-4.1-mini';
         this.model   = localStorage.getItem('pgmd_model')    || defaultModel;
     }
 
