@@ -28,35 +28,42 @@ class AIMarkdownFormatter {
      * Parse API error response and return a clear human-readable message.
      */
     _parseError(error, provider) {
-        const msg = error?.message || String(error);
+        const msg = error?.message || '';
 
         // Network/CORS failure — fetch throws a TypeError when the request cannot be made at all
         if (error instanceof TypeError || msg.toLowerCase().includes('failed to fetch') || msg.toLowerCase().includes('networkerror')) {
-            return provider === 'anthropic'
-                ? 'Cannot reach Anthropic API from the browser. Please use an OpenAI key instead, or run the formatter from a local server.'
-                : 'Network error — check your internet connection and try again.';
+            if (provider === 'anthropic') {
+                return 'Network error reaching Anthropic. Please check your API key and internet connection. If you are behind a VPN or firewall, try disabling it.';
+            }
+            return 'Network error reaching OpenAI. Please check your API key and internet connection. If you are behind a VPN or firewall, try disabling it.';
         }
-
-        return msg || 'An unexpected error occurred.';
+        if (msg.includes('401') || msg.toLowerCase().includes('invalid') || msg.toLowerCase().includes('unauthorized') || msg.toLowerCase().includes('authentication')) {
+            return `Invalid API key. Please check your ${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'} API key and try again.`;
+        }
+        if (msg.includes('429') || msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('quota')) {
+            return 'Rate limit or quota exceeded. Please wait a moment and try again, or check your API plan limits.';
+        }
+        if (msg.includes('500') || msg.includes('502') || msg.includes('503')) {
+            return `${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'} servers are temporarily unavailable. Please try again in a moment.`;
+        }
+        return msg || `Unknown error from ${provider === 'anthropic' ? 'Anthropic' : 'OpenAI'}. Please try again.`;
     }
 
     /**
-     * Build the system prompt based on selected optimization options.
+     * Build the system prompt based on selected optimization options
      */
-    buildPrompt(options = {}) {
-        const goals = ['- Fix Markdown formatting, heading hierarchy, and list consistency'];
-
-        if (options.rag)       goals.push('- Add blockquote summaries (> **Summary:** ...) after each H2 for RAG chunking');
-        if (options.frontmatter) goals.push('- Add or enrich YAML frontmatter (title, description, tags, date) at the top');
+    buildPrompt(options) {
+        const goals = [];
+        if (options.frontmatter) goals.push('- Add or enrich YAML frontmatter with title, description, tags, keywords, author, and date fields');
+        if (options.structure)   goals.push('- Enforce a clear heading hierarchy (single H1, logical H2/H3 progression) for semantic chunking');
         if (options.semantic)    goals.push('- Rewrite ambiguous or vague sentences so AI models can clearly understand intent and context');
-        if (options.geo)         goals.push('- Bold 3-5 key keyword phrases per section using **keyword** syntax for GEO discoverability');
-        if (options.links)       goals.push('- Ensure all links have descriptive anchor text (no "click here" or bare URLs)');
-        if (options.tables)      goals.push('- Format any data as proper Markdown tables where appropriate');
-        if (options.codeBlocks)  goals.push('- Add language identifiers to all fenced code blocks');
+        if (options.geo)         goals.push('- Identify and emphasize key terms/phrases for Generative Engine Optimization (GEO) — make the document more likely to be cited by LLMs');
+        if (options.rag)         goals.push('- Add concise section summaries as blockquotes after major sections to improve RAG chunking and retrieval accuracy');
+        if (options.mdx)         goals.push('- Preserve all JSX/MDX components without modification, but add descriptive comments above each component explaining its purpose');
 
-        return `You are an expert technical writer and Markdown/MDX specialist. Your job is to optimize documents for both human readers and AI systems (RAG pipelines, LLMs, GEO).
+        return `You are an expert technical writer specializing in RAG (Retrieval-Augmented Generation) optimization and GEO (Generative Engine Optimization) for Markdown and MDX documents.
 
-Optimization goals:
+Your task is to improve the provided Markdown/MDX document according to these goals:
 ${goals.join('\n')}
 
 Rules:
@@ -75,20 +82,18 @@ Rules:
     async formatWithOpenAI(content, options) {
         let response;
         try {
-            response = await fetch('https://api.openai.com/v1/chat/completions', {
+            response = await fetch('https://poly-glot.ai/api/ai/proxy', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.apiKey}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: this.model,
+                    provider:   'openai',
+                    model:      this.model,
+                    max_tokens: 4096,
+                    apiKey:     this.apiKey,
                     messages: [
                         { role: 'system', content: this.buildPrompt(options) },
                         { role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }
                     ],
-                    temperature: 0.3,
-                    max_tokens: 4096
                 })
             });
         } catch (networkErr) {
@@ -111,18 +116,16 @@ Rules:
     async formatWithAnthropic(content, options) {
         let response;
         try {
-            response = await fetch('https://api.anthropic.com/v1/messages', {
+            response = await fetch('https://poly-glot.ai/api/ai/proxy', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': this.apiKey,
-                    'anthropic-version': '2023-06-01'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: this.model,
+                    provider:   'anthropic',
+                    model:      this.model,
                     max_tokens: 4096,
-                    system: this.buildPrompt(options),
-                    messages: [{ role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }]
+                    apiKey:     this.apiKey,
+                    system:     this.buildPrompt(options),
+                    messages: [{ role: 'user', content: `Please optimize this Markdown/MDX document:\n\n${content}` }],
                 })
             });
         } catch (networkErr) {
