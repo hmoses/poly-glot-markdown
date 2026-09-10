@@ -2,6 +2,8 @@
 
 > Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
 
+I built a technical-documentation preprocessing tool designed to improve downstream RAG retrieval. It optimizes Markdown and MDX by improving semantic structure, heading hierarchy, metadata, chunk boundaries, and section summaries, which makes the source documentation easier for vector or hybrid retrieval systems to index and retrieve accurately.
+
 ## Features
 
 - 📁 Paste or upload `.md` / `.mdx` files
@@ -29,4 +31,4 @@
 
 ## Related
 
-- [Poly-Glot](https://poly-glot.ai) — Code comment standardizer
+- [Poly-Glot AI / Prompt Studio](https://apps.apple.com/us/app/poly-glot-ai-workspace/id6804499285?mt=12) — AI prompt workspace on macOS
