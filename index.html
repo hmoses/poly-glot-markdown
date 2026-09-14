@@ -1,43 +1,47 @@
-<!DOCTYPE html>
+<![CDATA[<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
     <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
-    <link rel="icon" href="parrot.png" type="image/png">
-    <link rel="apple-touch-icon" href="parrot.png">
+    <meta name="keywords" content="markdown, mdx, rag, geo, ai, formatting, optimization, vector search, embeddings, technical writing">
+    <meta name="author" content="Harold Moses">
+    <meta property="og:title" content="Poly-Glot Markdown — RAG & GEO Formatter">
+    <meta property="og:description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://markdown.poly-glot.ai">
+    <link rel="icon" href="parrot-logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="parrot-logo.png">
+    <link rel="canonical" href="https://markdown.poly-glot.ai">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=24">
-
-    <!-- GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2CN5BBJN3E"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JDRFWMR9Q8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){ dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-2CN5BBJN3E');
+        gtag('config', 'G-JDRFWMR9Q8');
     </script>
 </head>
 <body>
-<div class="container">
 
+<div class="container">
     <!-- ── Header ── -->
     <div class="header">
         <div class="header-top">
             <div class="header-brand">
-                <img src="parrot.png" alt="Poly-Glot" class="header-parrot">
+                <img src="parrot-logo.png" alt="Poly-Glot" class="header-parrot">
                 <h1>Poly-Glot Markdown</h1>
             </div>
             <div class="header-badges">
-                <span class="version-badge">v1.0</span>
-                <a href="CHANGELOG.md" class="changelog-btn">📋 Changelog</a>
                 <a href="https://poly-glot.ai" class="crosslink-btn" target="_blank">🦜 poly-glot.ai</a>
-                <a href="https://buymeacoffee.com/haroldmoses" class="support-btn" target="_blank">
-                    <span class="support-icon">☕</span>
-                    <span class="support-text">Buy Me a Coffee</span>
+                <a href="https://apps.apple.com/us/app/poly-glot-ai-workspace/id6804499285?mt=12" class="support-btn" target="_blank">
+                    <span class="support-icon">🍎</span>
+                    <span class="support-text">Get the App</span>
                 </a>
             </div>
         </div>
@@ -45,23 +49,26 @@
         <div class="header-features">
             <span class="feature-badge">🏷️ Frontmatter</span>
             <span class="feature-badge">📐 Structure</span>
-            <span class="feature-badge">🧠 Semantic</span>
+            <span class="feature-badge">🔗 Semantic</span>
             <span class="feature-badge">🎯 GEO</span>
             <span class="feature-badge">✂️ RAG Chunking</span>
             <span class="feature-badge">🧩 MDX</span>
         </div>
 
-        <div class="overview-text">
-            Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
+        <!-- Section 1: What is it -->
+        <div class="overview-section">
+            <p class="overview-text">
+                Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
+            </p>
+            <ul class="overview-list">
+                <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
+                <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
+                <li>🎯 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
+                <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
+            </ul>
         </div>
-        <ul class="overview-list">
-            <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
-            <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
-            <li>🌐 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
-            <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
-        </ul>
 
-        <!-- Section 1: How It Works -->
+        <!-- Section 2: How It Works -->
         <div class="overview-section">
             <h2 class="overview-heading">How It Works</h2>
             <div class="how-it-works">
@@ -73,7 +80,7 @@
             </div>
         </div>
 
-        <!-- Section 2: What Gets Optimized -->
+        <!-- Section 3: What Gets Optimized -->
         <div class="overview-section">
             <h2 class="overview-heading">What Gets Optimized</h2>
             <div class="header-value-props">
@@ -104,7 +111,7 @@
             </div>
         </div>
 
-        <!-- Section 3: API Key Settings -->
+        <!-- Section 4: API Key Settings -->
         <div class="overview-section" id="settingsSection">
             <h2 class="overview-heading">⚙️ API Settings</h2>
             <div class="settings-row">
@@ -360,4 +367,4 @@
 <script src="demo.js?v=24"></script>
 <script src="app.js?v=24"></script>
 </body>
-</html>
+</html>]]>
