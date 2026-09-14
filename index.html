@@ -3,70 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EXQVWZ5S1W"></script>
+    <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
+    <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
+    <meta property="og:title" content="Poly-Glot Markdown — RAG & GEO Formatter">
+    <meta property="og:description" content="AI-powered Markdown optimization for RAG retrieval and GEO discoverability">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://markdown.poly-glot.ai">
+    <link rel="canonical" href="https://markdown.poly-glot.ai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=23">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2KPKF5KDN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-EXQVWZ5S1W');
+        gtag('config', 'G-M2KPKF5KDN');
     </script>
-
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.openai.com https://api.anthropic.com https://www.google-analytics.com https://analytics.google.com; img-src 'self' data: https:; upgrade-insecure-requests">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
-    <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=22">
 </head>
 <body>
-<div class="container">
 
-    <!-- ── Header ── -->
-    <div class="header">
-        <div class="header-top">
-            <div class="header-brand">
-                <img src="parrot-logo.png" alt="Poly-Glot parrot mascot" class="header-parrot" width="72" height="52">
-                <h1>Poly-Glot Markdown</h1>
-            </div>
-            <div class="header-badges">
-                <span class="version-badge">v1.0.0</span>
-                <a href="https://github.com/hmoses/poly-glot-markdown/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="changelog-btn">📝 What's New</a>
+<div class="app">
 
-            </div>
-        </div>
-
-        <div class="header-features">
-            <span class="feature-badge">🏷️ Frontmatter</span>
-            <span class="feature-badge">📐 Structure</span>
-            <span class="feature-badge">✂️ RAG Chunking</span>
-            <span class="feature-badge">🎯 GEO Keywords</span>
-            <span class="feature-badge">🔒 Privacy-First</span>
-            <span class="feature-badge">🪿 Built with Goose</span>
-        </div>
+    <!-- ── Header / Overview ── -->
+    <div class="overview-wrapper">
 
         <!-- Section 1: What is it -->
         <div class="overview-section">
-            <h2 class="overview-heading">What is Poly-Glot Markdown?</h2>
-            <p class="overview-text">
-                <strong>Poly-Glot Markdown transforms plain or poorly structured Markdown and MDX files into fully optimized documents — instantly.</strong>
-                Paste or upload any <code>.md</code> / <code>.mdx</code> file and get back a version that's structured for AI retrieval, search discoverability, and long-term maintainability.
+            <div class="hero-title">
+                <h1>
+                    <span class="hero-icon">📝</span>
+                    Poly-Glot Markdown
+                </h1>
+                <span class="feature-badge">🏷️ Frontmatter</span>
+                <span class="feature-badge">📐 Structure</span>
+                <span class="feature-badge">🔗 Semantic</span>
+                <span class="feature-badge">🎯 GEO</span>
+                <span class="feature-badge">✂️ RAG Chunking</span>
+                <span class="feature-badge">🧩 MDX</span>
+            </div>
+            <p class="overview-sub">
+                Format Markdown and MDX files for better <strong>RAG retrieval</strong>, <strong>GEO discoverability</strong>, and <strong>AI comprehension</strong>.
             </p>
-            <p class="overview-text">
-                Supports both <strong>OpenAI and Anthropic</strong> API keys and runs entirely in your browser — your content and API keys never leave your machine.
-            </p>
-            <p class="overview-text"><strong>Well-formatted Markdown is:</strong></p>
-            <ul class="overview-list">
+            <ul class="overview-bullets">
+                <li>🤖 <strong>AI-Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
                 <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
-                <li>🧠 <strong>Understandable</strong> — AI grasps intent</li>
-                <li>🎯 <strong>Discoverable</strong> — GEO optimized</li>
-                <li>🛡️ <strong>Safer</strong> — preserves critical context</li>
+                <li>🌐 <strong>Discoverable</strong> — GEO-optimized for LLM citation</li>
+                <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
             </ul>
         </div>
 
@@ -211,10 +196,61 @@
                 </div>
             </div>
 
-            <div class="demo-stats" id="demoStats" style="display:none;"></div>
+            <div class="demo-stats" id="demoStats" style="display:none;">
+                <!-- RAG Score Block -->
+                <div class="score-block">
+                    <div class="score-title">RAG Readiness Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-num before">12</div>
+                            <div class="score-bar-track"><div class="score-bar before" id="ragBarBefore" style="width:0%"></div></div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-sublabel">After</div>
+                            <div class="score-num after" id="ragAfter">0</div>
+                            <div class="score-bar-track"><div class="score-bar after" id="ragBarAfter" style="width:0%"></div></div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="ragDelta" style="opacity:0">+<span id="ragDeltaNum">0</span>% improvement</div>
+                </div>
+                <div class="score-divider"></div>
+                <!-- GEO Score Block -->
+                <div class="score-block">
+                    <div class="score-title">GEO Discoverability Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-num before">8</div>
+                            <div class="score-bar-track"><div class="score-bar before" id="geoBarBefore" style="width:0%"></div></div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-sublabel">After</div>
+                            <div class="score-num after" id="geoAfter">0</div>
+                            <div class="score-bar-track"><div class="score-bar after" id="geoBarAfter" style="width:0%"></div></div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="geoDelta" style="opacity:0">+<span id="geoDeltaNum">0</span>% improvement</div>
+                </div>
+                <div class="score-divider"></div>
+                <!-- Metric Pills -->
+                <div class="metrics-block">
+                    <div class="score-title">What Changed</div>
+                    <div class="metrics-grid">
+                        <span class="metric-pill" id="metricFrontmatter" style="opacity:0">🏷️ Frontmatter added</span>
+                        <span class="metric-pill" id="metricChunks" style="opacity:0">✂️ RAG chunks inserted</span>
+                        <span class="metric-pill" id="metricKeywords" style="opacity:0">🎯 GEO keywords bolded</span>
+                        <span class="metric-pill" id="metricStructure" style="opacity:0">📐 Heading hierarchy fixed</span>
+                        <span class="metric-pill" id="metricSummary" style="opacity:0">🧠 Section summaries added</span>
+                        <span class="metric-pill" id="metricTable" style="opacity:0">📊 Structured data preserved</span>
+                    </div>
+                </div>
+            </div>
             <div class="demo-cta" id="demoCta" style="display:none;">
                 <p>Ready to optimize your own Markdown?</p>
-                <button class="cta-btn" onclick="document.getElementById('inputEditor').focus(); document.getElementById('inputEditor').scrollIntoView({behavior:'smooth'})">Start Formatting ↓</button>
+                <button id="tryItNowBtn" class="cta-btn">Start Formatting ↓</button>
             </div>
         </div>
     </div>
@@ -313,9 +349,9 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=22"></script>
-<script src="scorer.js?v=22"></script>
-<script src="demo.js?v=22"></script>
-<script src="app.js?v=22"></script>
+<script src="ai-formatter.js?v=23"></script>
+<script src="scorer.js?v=23"></script>
+<script src="demo.js?v=23"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>

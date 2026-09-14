@@ -11,9 +11,10 @@ function initializeDemo() {
     const demoStats    = document.getElementById('demoStats');
     const demoIssues   = document.getElementById('demoIssues');
     const demoBenefits = document.getElementById('demoBenefits');
+    const demoCta      = document.getElementById('demoCta');
     const demoPanels   = document.querySelectorAll('.demo-panel');
 
-    if (!playBtn || !resetBtn || !tryItBtn || !demoStats || demoPanels.length < 2) return;
+    if (!playBtn || !resetBtn || !demoStats || demoPanels.length < 2) return;
 
     const beforeCodeEl = document.querySelector('#demoCodeBefore code');
     const afterCodeEl  = document.querySelector('#demoCodeAfter code');
@@ -182,7 +183,7 @@ results = db.query(
             setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 400);
         }
 
-        await sleep(800);
+        await sleep(400);
 
         // Metric pills — staggered fade in
         const pills = [
@@ -193,7 +194,7 @@ results = db.query(
             'metricSummary',
             'metricTable',
         ];
-        pills.forEach((id, i) => fadeIn(id, i * 120));
+        pills.forEach((id, i) => fadeIn(id, i * 150));
     }
 
     // ── Play ──────────────────────────────────────────────────────────────
@@ -258,6 +259,7 @@ results = db.query(
         playBtn.textContent    = '✓ Demo Complete';
         playBtn.disabled       = false;
         resetBtn.style.display = 'inline-flex';
+        if (demoCta) demoCta.style.display = 'block';
         isPlaying = false;
 
         if (typeof gtag !== 'undefined') {
@@ -270,6 +272,7 @@ results = db.query(
         demoPanels.forEach(p => p.classList.remove('active'));
         demoStats.style.display    = 'none';
         resetBtn.style.display     = 'none';
+        if (demoCta) demoCta.style.display = 'none';
         playBtn.textContent        = '▶️ Play Demo';
         playBtn.disabled           = false;
         isPlaying                  = false;
@@ -285,13 +288,15 @@ results = db.query(
     });
 
     // ── Try It Now ────────────────────────────────────────────────────────
-    tryItBtn.addEventListener('click', () => {
-        document.querySelector('.main-content')
-            .scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'demo_cta_clicked', { source: 'demo_section', action: 'try_it_now' });
-        }
-    });
+    if (tryItBtn) {
+        tryItBtn.addEventListener('click', () => {
+            document.querySelector('.main-content')
+                .scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'demo_cta_clicked', { source: 'demo_section', action: 'try_it_now' });
+            }
+        });
+    }
 }
 
 // Initialize when DOM is ready
