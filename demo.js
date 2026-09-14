@@ -183,10 +183,9 @@ results = db.query(
             setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 400);
         }
 
+        // Animate metric pills one by one
         await sleep(800);
-
-        // Fade in metric pills one by one
-        const metrics = [
+        const pills = [
             'metricFrontmatter',
             'metricChunks',
             'metricKeywords',
@@ -194,9 +193,8 @@ results = db.query(
             'metricSummary',
             'metricTable',
         ];
-        for (const id of metrics) {
-            fadeIn(id, 0);
-            await sleep(200);
+        for (let i = 0; i < pills.length; i++) {
+            fadeIn(pills[i], i * 150);
         }
     }
 

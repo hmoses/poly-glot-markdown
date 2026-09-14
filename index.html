@@ -5,60 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
     <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
-    <meta name="author" content="Harold Moses">
-    <meta property="og:title" content="Poly-Glot Markdown — RAG & GEO Formatter">
-    <meta property="og:description" content="Transform raw Markdown into RAG-ready, GEO-optimized documents using AI.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://markdown.poly-glot.ai">
-    <link rel="canonical" href="https://markdown.poly-glot.ai">
+    <link rel="icon" href="parrot.png" type="image/png">
+    <link rel="apple-touch-icon" href="parrot.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=23">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=24">
+
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2CN5BBJN3E"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-2CN5BBJN3E');
     </script>
 </head>
 <body>
+<div class="container">
 
-<div class="app-container">
-
-    <!-- ── Hero / Overview ── -->
-    <div class="overview-container">
+    <!-- ── Header ── -->
+    <div class="header">
         <div class="header-top">
-            <div class="logo-group">
-                <span class="logo-icon">📝</span>
-                <h1 class="site-title">Poly-Glot <span class="title-accent">Markdown</span></h1>
+            <div class="header-brand">
+                <img src="parrot.png" alt="Poly-Glot" class="header-parrot">
+                <h1>Poly-Glot Markdown</h1>
             </div>
             <div class="header-badges">
-                <span class="feature-badge">🏷️ Frontmatter</span>
-                <span class="feature-badge">📐 Structure</span>
-                <span class="feature-badge">🧠 Semantic</span>
-                <span class="feature-badge">🎯 GEO</span>
-                <span class="feature-badge">✂️ RAG Chunking</span>
-                <span class="feature-badge">🧩 MDX</span>
-            </div>
-        </div>
-        <p class="header-subtitle">Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.</p>
-
-        <!-- Section 1: What is it -->
-        <div class="overview-section">
-            <h2 class="overview-heading">What Is This?</h2>
-            <p class="overview-text">A technical-documentation preprocessing tool that optimizes your Markdown and MDX files so downstream systems — vector databases, LLMs, search engines — can understand and retrieve them better.</p>
-            <div class="overview-highlights">
-                <li>🤖 <strong>AI-powered</strong> — uses OpenAI or Anthropic</li>
-                <li>🔒 <strong>Private</strong> — API keys stay in your browser</li>
-                <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
-                <li>🎯 <strong>Discoverable</strong> — GEO-optimized for LLMs</li>
+                <span class="version-badge">v1.0</span>
+                <a href="CHANGELOG.md" class="changelog-btn">📋 Changelog</a>
+                <a href="https://poly-glot.ai" class="crosslink-btn" target="_blank">🦜 poly-glot.ai</a>
+                <a href="https://buymeacoffee.com/haroldmoses" class="support-btn" target="_blank">
+                    <span class="support-icon">☕</span>
+                    <span class="support-text">Buy Me a Coffee</span>
+                </a>
             </div>
         </div>
 
-        <!-- Section 2: How It Works -->
+        <div class="header-features">
+            <span class="feature-badge">🏷️ Frontmatter</span>
+            <span class="feature-badge">📐 Structure</span>
+            <span class="feature-badge">🧠 Semantic</span>
+            <span class="feature-badge">🎯 GEO</span>
+            <span class="feature-badge">✂️ RAG Chunking</span>
+            <span class="feature-badge">🧩 MDX</span>
+        </div>
+
+        <div class="overview-text">
+            Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
+        </div>
+        <ul class="overview-list">
+            <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
+            <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
+            <li>🌐 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
+            <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
+        </ul>
+
+        <!-- Section 1: How It Works -->
         <div class="overview-section">
             <h2 class="overview-heading">How It Works</h2>
             <div class="how-it-works">
@@ -70,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Section 3: What Gets Optimized -->
+        <!-- Section 2: What Gets Optimized -->
         <div class="overview-section">
             <h2 class="overview-heading">What Gets Optimized</h2>
             <div class="header-value-props">
@@ -101,7 +104,7 @@
             </div>
         </div>
 
-        <!-- Section 4: API Key Settings -->
+        <!-- Section 3: API Key Settings -->
         <div class="overview-section" id="settingsSection">
             <h2 class="overview-heading">⚙️ API Settings</h2>
             <div class="settings-row">
@@ -352,9 +355,9 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=23"></script>
-<script src="scorer.js?v=23"></script>
-<script src="demo.js?v=23"></script>
-<script src="app.js?v=23"></script>
+<script src="ai-formatter.js?v=24"></script>
+<script src="scorer.js?v=24"></script>
+<script src="demo.js?v=24"></script>
+<script src="app.js?v=24"></script>
 </body>
 </html>
