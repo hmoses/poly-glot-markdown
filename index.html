@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
     <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
+    <meta name="author" content="Harold Moses">
     <meta property="og:title" content="Poly-Glot Markdown — RAG & GEO Formatter">
-    <meta property="og:description" content="AI-powered Markdown optimization for RAG retrieval and GEO discoverability">
+    <meta property="og:description" content="Transform raw Markdown into RAG-ready, GEO-optimized documents using AI.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://markdown.poly-glot.ai">
     <link rel="canonical" href="https://markdown.poly-glot.ai">
@@ -15,44 +16,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=23">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M2KPKF5KDN"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-M2KPKF5KDN');
+        gtag('config', 'G-XXXXXXXXXX');
     </script>
 </head>
 <body>
 
-<div class="app">
+<div class="app-container">
 
-    <!-- ── Header / Overview ── -->
-    <div class="overview-wrapper">
-
-        <!-- Section 1: What is it -->
-        <div class="overview-section">
-            <div class="hero-title">
-                <h1>
-                    <span class="hero-icon">📝</span>
-                    Poly-Glot Markdown
-                </h1>
+    <!-- ── Hero / Overview ── -->
+    <div class="overview-container">
+        <div class="header-top">
+            <div class="logo-group">
+                <span class="logo-icon">📝</span>
+                <h1 class="site-title">Poly-Glot <span class="title-accent">Markdown</span></h1>
+            </div>
+            <div class="header-badges">
                 <span class="feature-badge">🏷️ Frontmatter</span>
                 <span class="feature-badge">📐 Structure</span>
-                <span class="feature-badge">🔗 Semantic</span>
+                <span class="feature-badge">🧠 Semantic</span>
                 <span class="feature-badge">🎯 GEO</span>
                 <span class="feature-badge">✂️ RAG Chunking</span>
                 <span class="feature-badge">🧩 MDX</span>
             </div>
-            <p class="overview-sub">
-                Format Markdown and MDX files for better <strong>RAG retrieval</strong>, <strong>GEO discoverability</strong>, and <strong>AI comprehension</strong>.
-            </p>
-            <ul class="overview-bullets">
-                <li>🤖 <strong>AI-Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
+        </div>
+        <p class="header-subtitle">Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.</p>
+
+        <!-- Section 1: What is it -->
+        <div class="overview-section">
+            <h2 class="overview-heading">What Is This?</h2>
+            <p class="overview-text">A technical-documentation preprocessing tool that optimizes your Markdown and MDX files so downstream systems — vector databases, LLMs, search engines — can understand and retrieve them better.</p>
+            <div class="overview-highlights">
+                <li>🤖 <strong>AI-powered</strong> — uses OpenAI or Anthropic</li>
+                <li>🔒 <strong>Private</strong> — API keys stay in your browser</li>
                 <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
-                <li>🌐 <strong>Discoverable</strong> — GEO-optimized for LLM citation</li>
-                <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
-            </ul>
+                <li>🎯 <strong>Discoverable</strong> — GEO-optimized for LLMs</li>
+            </div>
         </div>
 
         <!-- Section 2: How It Works -->
