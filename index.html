@@ -1,1 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poly-Glot Markdown — RAG & GEO Formatter</title>
+    <meta name="description" content="Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension. Powered by OpenAI and Anthropic.">
+    <meta name="keywords" content="RAG, GEO, Markdown, MDX, AI, formatting, retrieval augmented generation, generative engine optimization, documentation, technical writing">
+    <meta name="author" content="Harold Moses">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://markdown.poly-glot.ai">
+    <link rel="icon" href="parrot-logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="parrot-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=25">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+</head>
+<body>
+<div class="container">
 
+    <!-- ── Header ── -->
+    <div class="header">
+        <div class="header-top">
+            <div class="header-brand">
+                <img src="parrot-logo.png" alt="Poly-Glot" class="header-parrot">
+                <h1>Poly-Glot Markdown</h1>
+            </div>
+            <div class="header-badges">
+                <a href="https://poly-glot.ai" class="crosslink-btn" target="_blank">🦜 poly-glot.ai</a>
+            </div>
+        </div>
+
+        <div class="header-features">
+            <span class="feature-badge">🏷️ Frontmatter</span>
+            <span class="feature-badge">📐 Structure</span>
+            <span class="feature-badge">🔗 Semantic</span>
+            <span class="feature-badge">🎯 GEO</span>
+            <span class="feature-badge">✂️ RAG Chunking</span>
+            <span class="feature-badge">🧩 MDX</span>
+        </div>
+
+        <div class="overview-text">
+            Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
+        </div>
+        <ul class="overview-list">
+            <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
+            <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
+            <li>🌐 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
+            <li>🔒 <strong>Private</strong> — API keys stored locally, nothing leaves your browser</li>
+        </ul>
+
+        <!-- Section 2: How It Works -->
+        <div class="overview-section">
+            <h2 class="overview-heading">How It Works</h2>
+            <div class="how-it-works">
+                <div class="how-step"><span class="step-number">1</span><span class="step-text">Paste or upload your Markdown / MDX</span></div>
+                <div class="how-arrow">→</div>
+                <div class="how-step"><span class="step-number">2</span><span class="step-text">Choose your optimization goals</span></div>
+                <div class="how-arrow">→</div>
+                <div class="how-step"><span class="step-number">3</span><span class="step-text">Get RAG &amp; GEO optimized output instantly</span></div>
+            </div>
+        </div>
+
+        <!-- Section 3: What Gets Optimized -->
+        <div class="overview-section">
+            <h2 class="overview-heading">What Gets Optimized</h2>
+            <div class="header-value-props">
+                <div class="value-prop">
+                    <span class="value-icon">🏷️</span>
+                    <div class="value-text"><strong>Frontmatter</strong><span>Adds or enriches YAML frontmatter with title, description, tags, and author</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">📐</span>
+                    <div class="value-text"><strong>Structure</strong><span>Enforces clear heading hierarchy (H1 → H2 → H3) for semantic chunking</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🔗</span>
+                    <div class="value-text"><strong>Semantic Clarity</strong><span>Rewrites ambiguous sentences so AI models understand intent</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🎯</span>
+                    <div class="value-text"><strong>GEO Keywords</strong><span>Surfaces and emphasizes key terms for generative engine discoverability</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">✂️</span>
+                    <div class="value-text"><strong>RAG Chunking</strong><span>Adds section breaks and summaries optimized for vector database chunking</span></div>
+                </div>
+                <div class="value-prop">
+                    <span class="value-icon">🧩</span>
+                    <div class="value-text"><strong>MDX Components</strong><span>Preserves and annotates JSX components in MDX files without breaking them</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: API Key Settings -->
+        <div class="overview-section" id="settingsSection">
+            <h2 class="overview-heading">⚙️ API Settings</h2>
+            <div class="settings-row">
+                <div class="setting-group">
+                    <label class="setting-label">Provider</label>
+                    <select id="providerSelect" class="setting-select">
+                        <option value="openai">OpenAI</option>
+                        <option value="anthropic">Anthropic</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Model</label>
+                    <select id="modelSelect" class="setting-select">
+                        <option value="gpt-4.1-mini">GPT-4.1 Mini ✨ (recommended)</option>
+                        <option value="gpt-4.1">GPT-4.1 (best)</option>
+                        <option value="gpt-4.1-nano">GPT-4.1 Nano (cheapest)</option>
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4o-mini">GPT-4o Mini</option>
+                        <option value="o3-mini">o3-mini (reasoning)</option>
+                        <option value="o3">o3 (reasoning, powerful)</option>
+                        <option value="o1-mini">o1-mini (reasoning)</option>
+                        <option value="o1">o1 (reasoning)</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                        <option value="gpt-4">GPT-4</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (legacy)</option>
+                        <option value="claude-sonnet-4-5">Claude Sonnet 4 ✨ (recommended)</option>
+                        <option value="claude-opus-4-5">Claude Opus 4 (most powerful)</option>
+                        <option value="claude-haiku-4-5">Claude Haiku 4 (fast)</option>
+                        <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                        <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku</option>
+                        <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                        <option value="claude-3-haiku-20240307">Claude 3 Haiku (legacy)</option>
+                    </select>
+                </div>
+                <div class="setting-group api-key-group">
+                    <label class="setting-label">API Key <span class="key-hint">(stored locally only)</span></label>
+                    <div class="api-key-input-wrap">
+                        <input type="password" id="apiKeyInput" class="setting-input" placeholder="sk-... or sk-ant-...">
+                        <button id="toggleKeyBtn" class="toggle-key-btn" title="Show/hide key">👁</button>
+                        <button id="saveKeyBtn" class="save-key-btn">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div id="keyStatus" class="key-status"></div>
+        </div>
+    </div>
+
+    <!-- ── Demo Section ── -->
+    <div class="demo-section">
+        <div class="demo-container">
+            <h2 class="demo-title">
+                <span class="demo-icon">🎬</span>
+                See It In Action
+            </h2>
+            <p class="demo-subtitle">Watch how Poly-Glot Markdown transforms raw, unstructured docs into RAG-ready, GEO-optimized Markdown</p>
+
+            <div class="demo-controls">
+                <button id="playDemoBtn" class="demo-btn primary">▶️ Play Demo</button>
+                <button id="resetDemoBtn" class="demo-btn" style="display:none">↻ Reset</button>
+            </div>
+
+            <div class="demo-panels">
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 1</span>
+                        <h3>Before: Raw Markdown</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeBefore">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-issues" id="demoIssues" style="opacity:0; transition: opacity 0.5s ease-in;">
+                        <div class="issue-badge">❌ No frontmatter</div>
+                        <div class="issue-badge">❌ Poor structure</div>
+                        <div class="issue-badge">❌ Not RAG-ready</div>
+                        <div class="issue-badge">❌ No GEO keywords</div>
+                    </div>
+                </div>
+
+                <div class="demo-arrow">→</div>
+
+                <div class="demo-panel">
+                    <div class="demo-panel-header">
+                        <span class="demo-step">Step 2</span>
+                        <h3>After: Optimized Output</h3>
+                    </div>
+                    <div class="demo-code" id="demoCodeAfter">
+                        <pre><code></code></pre>
+                    </div>
+                    <div class="demo-benefits" id="demoBenefits" style="opacity:0; transition: opacity 0.5s ease-in;">
+                        <div class="benefit-badge">✅ Frontmatter added</div>
+                        <div class="benefit-badge">✅ Semantic structure</div>
+                        <div class="benefit-badge">✅ RAG chunks</div>
+                        <div class="benefit-badge">✅ GEO optimized</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-stats" id="demoStats" style="display:none;">
+                <!-- RAG Score Block -->
+                <div class="score-block">
+                    <div class="score-title">RAG Readiness Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-num before">12</div>
+                            <div class="score-bar-track"><div class="score-bar before" id="ragBarBefore" style="width:0%"></div></div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-sublabel">After</div>
+                            <div class="score-num after" id="ragAfter">0</div>
+                            <div class="score-bar-track"><div class="score-bar after" id="ragBarAfter" style="width:0%"></div></div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="ragDelta" style="opacity:0">+<span id="ragDeltaNum">0</span>% improvement</div>
+                </div>
+                <div class="score-divider"></div>
+                <!-- GEO Score Block -->
+                <div class="score-block">
+                    <div class="score-title">GEO Discoverability Score</div>
+                    <div class="score-meter-row">
+                        <div class="score-before-wrap">
+                            <div class="score-sublabel">Before</div>
+                            <div class="score-num before">8</div>
+                            <div class="score-bar-track"><div class="score-bar before" id="geoBarBefore" style="width:0%"></div></div>
+                        </div>
+                        <div class="score-arrow-big">→</div>
+                        <div class="score-after-wrap">
+                            <div class="score-sublabel">After</div>
+                            <div class="score-num after" id="geoAfter">0</div>
+                            <div class="score-bar-track"><div class="score-bar after" id="geoBarAfter" style="width:0%"></div></div>
+                        </div>
+                    </div>
+                    <div class="score-delta" id="geoDelta" style="opacity:0">+<span id="geoDeltaNum">0</span>% improvement</div>
+                </div>
+                <div class="score-divider"></div>
+                <!-- Metric Pills -->
+                <div class="metrics-block">
+                    <div class="score-title">What Changed</div>
+                    <div class="metrics-grid">
+                        <span class="metric-pill" id="metricFrontmatter" style="opacity:0">🏷️ Frontmatter added</span>
+                        <span class="metric-pill" id="metricChunks" style="opacity:0">✂️ RAG chunks inserted</span>
+                        <span class="metric-pill" id="metricKeywords" style="opacity:0">🎯 GEO keywords bolded</span>
+                        <span class="metric-pill" id="metricStructure" style="opacity:0">📐 Heading hierarchy fixed</span>
+                        <span class="metric-pill" id="metricSummary" style="opacity:0">🧠 Section summaries added</span>
+                        <span class="metric-pill" id="metricTable" style="opacity:0">📊 Structured data preserved</span>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-cta" id="demoCta" style="display:none;">
+                <p>Ready to optimize your own Markdown?</p>
+                <button id="tryItNowBtn" class="cta-btn">Start Formatting ↓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Main Tool ── -->
+    <div class="main-content">
+
+        <!-- Left: Input -->
+        <div class="panel" id="inputPanel">
+            <div class="panel-header">
+                <span class="panel-title">Input</span>
+                <div class="panel-actions">
+                    <label class="upload-btn" for="fileUpload">📁 Upload File</label>
+                    <input type="file" id="fileUpload" accept=".md,.mdx" style="display:none">
+                    <button id="scoreInputBtn" class="action-btn score-btn" title="Score this document for RAG & GEO quality">📊 Score</button>
+                    <button id="clearInputBtn" class="action-btn">✕ Clear</button>
+                </div>
+            </div>
+
+            <!-- Optimization Options -->
+            <div class="options-bar">
+                <span class="options-label">Optimize for:</span>
+                <label class="opt-toggle"><input type="checkbox" id="optFrontmatter" checked> Frontmatter</label>
+                <label class="opt-toggle"><input type="checkbox" id="optStructure" checked> Structure</label>
+                <label class="opt-toggle"><input type="checkbox" id="optSemantic" checked> Semantic Clarity</label>
+                <label class="opt-toggle"><input type="checkbox" id="optGEO" checked> GEO Keywords</label>
+                <label class="opt-toggle"><input type="checkbox" id="optRAG" checked> RAG Chunking</label>
+                <label class="opt-toggle"><input type="checkbox" id="optMDX"> MDX Components</label>
+            </div>
+
+            <textarea id="inputEditor" placeholder="Paste your Markdown or MDX here..."></textarea>
+
+            <div class="panel-footer">
+                <span id="inputStats" class="stats-text"></span>
+                <button id="formatBtn" class="format-btn">✨ Format for RAG & GEO</button>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-icon">→</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- Right: Output -->
+        <div class="panel" id="outputPanel">
+            <div class="panel-header">
+                <span class="panel-title">Optimized Output</span>
+                <div class="panel-actions">
+                    <button id="scoreOutputBtn" class="action-btn score-btn" disabled title="Compare RAG & GEO scores before vs. after">📊 Score</button>
+                    <button id="copyBtn" class="action-btn" disabled>📋 Copy</button>
+                    <button id="downloadBtn" class="action-btn" disabled>⬇️ Download</button>
+                    <button id="diffBtn" class="action-btn" disabled>🔍 Diff</button>
+                </div>
+            </div>
+
+            <div id="outputArea">
+                <div class="output-placeholder">
+                    <span class="placeholder-icon">✨</span>
+                    <p>Your optimized Markdown will appear here</p>
+                    <p class="placeholder-sub">RAG-ready · GEO-optimized · Structured</p>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <span id="outputStats" class="stats-text"></span>
+                <div id="improvementBadges" class="improvement-badges"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diff Modal -->
+    <div id="diffModal" class="modal" style="display:none">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Diff View</h3>
+                <button id="closeDiffBtn" class="modal-close">✕</button>
+            </div>
+            <div id="diffContent" class="diff-content"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display:none">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <p id="loadingText">Formatting your Markdown...</p>
+            <p class="loading-sub">Running RAG & GEO optimizations</p>
+        </div>
+    </div>
+
+</div>
+
+    <!-- ── Footer ── -->
+    <div class="site-footer">
+        <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
+    </div>
+<script src="ai-formatter.js?v=25"></script>
+<script src="scorer.js?v=25"></script>
+<script src="demo.js?v=25"></script>
+<script src="app.js?v=25"></script>
+</body>
+</html>
