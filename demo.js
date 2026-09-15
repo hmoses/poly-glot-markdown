@@ -23,80 +23,47 @@ function initializeDemo() {
 
     let isPlaying = false;
 
-    // ── BEFORE: messy, unstructured, not AI-retrievable ──────────────────
+    // ── BEFORE: messy, unstructured ──────────────────
     const beforeCode =
 `# vector search
 
 vector search lets you find similar things.
-its used in ai apps a lot. you embed the query
-and compare it to stored embeddings using math.
+you embed the query and compare it to
+stored embeddings using cosine similarity.
 
-you need a vector db. some options are pinecone,
-weaviate, or pgvector. pick one and set it up.
+results = db.query(embed(query), top_k=5)
 
-the main thing is cosine similarity. lower distance
-means more similar. threshold is usually like 0.8
-or whatever works for your data.
+thats basically it.`;
 
-heres a rough example:
-
-results = db.query(embed(user_query), top_k=5)
-
-thats basically it. tune the threshold as needed.`;
-
-    // ── AFTER: RAG-ready, GEO-optimized, fully structured ────────────────
+    // ── AFTER: RAG-ready, GEO-optimized ────────────────
     const today = new Date().toISOString().split('T')[0];
     const afterCode =
 `---
-title: "Vector Search for AI Applications"
-description: "Implement vector similarity search using
-  embeddings and a vector database. Covers cosine
-  similarity, top-k retrieval, and threshold tuning
-  for RAG pipelines."
-tags: [vector-search, embeddings, RAG, AI,
-  cosine-similarity, pinecone, semantic-search]
+title: "Vector Search for AI Apps"
+description: "Semantic search via embeddings"
+tags: [vector-search, RAG, embeddings]
 date: "${today}"
-difficulty: intermediate
 ---
 
-# Vector Search for AI Applications
+# Vector Search for AI Apps
 
-> **RAG Summary:** Vector search finds semantically
-> similar content by comparing embedding vectors via
-> cosine similarity — used in RAG to fetch context
-> before LLM inference.
-
-## What Is Vector Search?
-
-**Semantic similarity retrieval** converts text into
-high-dimensional vectors and compares them — rather
-than matching exact keywords.
+> **RAG Summary:** Finds similar content
+> using cosine similarity on embeddings.
 
 ## How It Works
 
-1. **Embed** the query (e.g. \`text-embedding-3-small\`)
-2. **Compare** via cosine similarity against stored vectors
-3. **Retrieve** top-k most similar results
-4. **Filter** by threshold (typically ≥ 0.78)
-
-## Implementation
+1. **Embed** the query
+2. **Compare** against stored vectors
+3. **Retrieve** top-k results
 
 \`\`\`python
-query_vector = embed(user_query)  # shape: [1536]
 results = db.query(
-    vector=query_vector,
-    top_k=5,
-    filter={"similarity": {"$gte": 0.78}}
+    vector=embed(query),
+    top_k=5
 )
 \`\`\`
 
-> **RAG Chunk — Threshold:** Cosine similarity ≥ 0.78
-> indicates strong semantic relevance. Tune per dataset.
-
-## See Also
-
-- [Embedding Models](./embeddings.md)
-- [RAG Architecture](./rag-pipeline.md)`;
+> **RAG Chunk:** Cosine ≥ 0.78 = relevant.`;
 
     // ── Helpers ───────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -207,9 +174,9 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code same pace via rAF (no iOS throttle)
+        // Step 1 — type before code (2 chars/frame ≈ 1.7s)
         demoPanels[0].classList.add('active');
-        await typeCodeFast(beforeCodeEl, beforeCode, 3);
+        await typeCodeFast(beforeCodeEl, beforeCode, 2);
 
         // BAD scores fire 0ms after last character typed
         demoIssues.style.opacity = '1';
@@ -221,9 +188,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code same visual pace as Step 1 (rAF, no throttle)
+        // Step 2 — type after code same pace (2 chars/frame ≈ 3.7s)
         demoPanels[1].classList.add('active');
-        await typeCodeFast(afterCodeEl, afterCode, 3);
+        await typeCodeFast(afterCodeEl, afterCode, 2);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
@@ -321,75 +288,41 @@ function showDemoCompleted() {
 `# vector search
 
 vector search lets you find similar things.
-its used in ai apps a lot. you embed the query
-and compare it to stored embeddings using math.
+you embed the query and compare it to
+stored embeddings using cosine similarity.
 
-you need a vector db. some options are pinecone,
-weaviate, or pgvector. pick one and set it up.
+results = db.query(embed(query), top_k=5)
 
-the main thing is cosine similarity. lower distance
-means more similar. threshold is usually like 0.8
-or whatever works for your data.
-
-heres a rough example:
-
-results = db.query(embed(user_query), top_k=5)
-
-thats basically it. tune the threshold as needed.`;
+thats basically it.`;
 
     // Show after code instantly
     if (afterCodeEl) afterCodeEl.textContent =
 `---
-title: "Vector Search for AI Applications"
-description: "Implement vector similarity search using
-  embeddings and a vector database. Covers cosine
-  similarity, top-k retrieval, and threshold tuning
-  for RAG pipelines."
-tags: [vector-search, embeddings, RAG, AI,
-  cosine-similarity, pinecone, semantic-search]
+title: "Vector Search for AI Apps"
+description: "Semantic search via embeddings"
+tags: [vector-search, RAG, embeddings]
 date: "${today}"
-difficulty: intermediate
 ---
 
-# Vector Search for AI Applications
+# Vector Search for AI Apps
 
-> **RAG Summary:** Vector search finds semantically
-> similar content using embedding vectors and
-> cosine similarity — used in RAG to fetch context
-> for LLM prompts.
+> **RAG Summary:** Finds similar content
+> using cosine similarity on embeddings.
 
-## How Vector Search Works
+## How It Works
 
-Vector search converts queries and documents into
-**embedding vectors**, then ranks results by
-**cosine similarity** (distance in vector space).
-
-## Choosing a Vector Database
-
-| Database   | Type       | Best For           |
-|-----------|------------|-------------------|
-| Pinecone  | Managed    | Production RAG    |
-| Weaviate  | Self-host  | Hybrid search     |
-| pgvector  | Extension  | Postgres stacks   |
-
-## Implementation
+1. **Embed** the query
+2. **Compare** against stored vectors
+3. **Retrieve** top-k results
 
 \`\`\`python
-# Retrieve top-k similar documents
 results = db.query(
-    vector=embed(user_query),
-    top_k=5,
-    filter={"status": "published"}
+    vector=embed(query),
+    top_k=5
 )
 \`\`\`
 
-> **RAG Chunk — Threshold:** Cosine similarity ≥ 0.78
-> is recommended for technical documentation retrieval.
-
-## Related Resources
-
-- [Embedding Models Comparison](./embedding-models.md)
-- [RAG Architecture](./rag-pipeline.md)`;
+> **RAG Chunk:** Cosine ≥ 0.78 = relevant.`;
 
     // Activate both panels
     demoPanels.forEach(p => p.classList.add('active'));
