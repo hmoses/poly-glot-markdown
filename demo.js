@@ -207,9 +207,9 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code (8ms/char ≈ 4s)
+        // Step 1 — type before code same pace via rAF (no iOS throttle)
         demoPanels[0].classList.add('active');
-        await typeCode(beforeCodeEl, beforeCode, 8);
+        await typeCodeFast(beforeCodeEl, beforeCode, 3);
 
         // BAD scores fire 0ms after last character typed
         demoIssues.style.opacity = '1';
@@ -221,9 +221,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code same pace as Step 1
+        // Step 2 — type after code same visual pace as Step 1 (rAF, no throttle)
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 8);
+        await typeCodeFast(afterCodeEl, afterCode, 3);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
