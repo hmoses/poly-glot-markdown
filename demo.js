@@ -1,18 +1,20 @@
 /**
  * Poly-Glot Markdown — See It In Action Demo
  * Animates a before/after transformation showing RAG & GEO optimization.
- * Includes animated score counters, progress bars, and improvement pills.
+ * Score cards appear directly beneath their respective panels.
  */
 
 function initializeDemo() {
-    const playBtn      = document.getElementById('playDemoBtn');
-    const resetBtn     = document.getElementById('resetDemoBtn');
-    const tryItBtn     = document.getElementById('tryItNowBtn');
-    const demoStats    = document.getElementById('demoStats');
-    const demoIssues   = document.getElementById('demoIssues');
-    const demoBenefits = document.getElementById('demoBenefits');
-    const demoCta      = document.getElementById('demoCta');
-    const demoPanels   = document.querySelectorAll('.demo-panel');
+    const playBtn        = document.getElementById('playDemoBtn');
+    const resetBtn       = document.getElementById('resetDemoBtn');
+    const tryItBtn       = document.getElementById('tryItNowBtn');
+    const demoStats      = document.getElementById('demoStats');
+    const demoIssues     = document.getElementById('demoIssues');
+    const demoBenefits   = document.getElementById('demoBenefits');
+    const demoCta        = document.getElementById('demoCta');
+    const demoPanels     = document.querySelectorAll('.demo-panel');
+    const scoreBefore    = document.getElementById('demoScoreBefore');
+    const scoreAfter     = document.getElementById('demoScoreAfter');
 
     if (!playBtn || !resetBtn || !demoStats || demoPanels.length < 2) return;
 
@@ -121,7 +123,6 @@ results = db.query(
         }
     }
 
-    // Animate a number counting up from start to end
     function countUp(elementId, from, to, duration = 1200, suffix = '') {
         const el = document.getElementById(elementId);
         if (!el) return;
@@ -129,7 +130,6 @@ results = db.query(
         function update(now) {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            // ease out cubic
             const eased = 1 - Math.pow(1 - progress, 3);
             const current = Math.round(from + (to - from) * eased);
             el.textContent = current + suffix;
@@ -138,16 +138,13 @@ results = db.query(
         requestAnimationFrame(update);
     }
 
-    // Animate a progress bar width
     function animateBar(elementId, toPercent, duration = 1200) {
         const el = document.getElementById(elementId);
         if (!el) return;
         el.style.transition = `width ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
-        // Small delay so transition fires
         setTimeout(() => { el.style.width = toPercent + '%'; }, 50);
     }
 
-    // Fade in an element
     function fadeIn(elementId, delay = 0) {
         setTimeout(() => {
             const el = document.getElementById(elementId);
@@ -159,39 +156,40 @@ results = db.query(
 
     // ── Animate scores ────────────────────────────────────────────────────
     async function animateScores() {
-        // RAG: 12 → 91
-        animateBar('ragBarBefore', 12, 600);
-        await sleep(400);
-        animateBar('ragBarAfter', 91, 1200);
-        countUp('ragAfter', 0, 91, 1200);
-        fadeIn('ragDelta', 800);
-        const ragDeltaEl = document.getElementById('ragDeltaNum');
-        if (ragDeltaEl) {
-            setTimeout(() => countUp('ragDeltaNum', 0, 658, 1200), 400);
+        // Show before score card — bad scores appear under before panel
+        if (scoreBefore) {
+            scoreBefore.style.display = 'block';
+            animateBar('ragBarBefore', 12, 600);
+            animateBar('geoBarBefore', 8, 600);
         }
 
-        await sleep(600);
-
-        // GEO: 8 → 87
-        animateBar('geoBarBefore', 8, 600);
-        await sleep(400);
-        animateBar('geoBarAfter', 87, 1200);
-        countUp('geoAfter', 0, 87, 1200);
-        fadeIn('geoDelta', 800);
-        const geoDeltaEl = document.getElementById('geoDeltaNum');
-        if (geoDeltaEl) {
-            setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 400);
-        }
-
-        // Animate metric pills one by one
         await sleep(800);
+
+        // Show after score card — good scores appear under after panel
+        if (scoreAfter) {
+            scoreAfter.style.display = 'block';
+            animateBar('ragBarAfter', 91, 1200);
+            animateBar('geoBarAfter', 87, 1200);
+            countUp('ragAfter', 0, 91, 1200);
+            countUp('geoAfter', 0, 87, 1200);
+        }
+
+        await sleep(1000);
+
+        // Show deltas
+        fadeIn('ragDelta', 0);
+        fadeIn('geoDelta', 200);
+        const ragDeltaEl = document.getElementById('ragDeltaNum');
+        if (ragDeltaEl) countUp('ragDeltaNum', 0, 658, 1200);
+        const geoDeltaEl = document.getElementById('geoDeltaNum');
+        if (geoDeltaEl) setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 200);
+
+        // Show metrics
+        await sleep(800);
+        demoStats.style.display = 'flex';
         const pills = [
-            'metricFrontmatter',
-            'metricChunks',
-            'metricKeywords',
-            'metricStructure',
-            'metricSummary',
-            'metricTable',
+            'metricFrontmatter', 'metricChunks', 'metricKeywords',
+            'metricStructure', 'metricSummary', 'metricTable',
         ];
         for (let i = 0; i < pills.length; i++) {
             fadeIn(pills[i], i * 150);
@@ -205,14 +203,15 @@ results = db.query(
         playBtn.disabled = true;
         playBtn.textContent = '⏸️ Playing...';
 
-        // Reset
+        // Reset everything
         demoIssues.style.opacity   = '0';
         demoBenefits.style.opacity = '0';
         demoStats.style.display    = 'none';
+        if (scoreBefore) scoreBefore.style.display = 'none';
+        if (scoreAfter)  scoreAfter.style.display  = 'none';
         beforeCodeEl.textContent   = '';
         afterCodeEl.textContent    = '';
 
-        // Reset score elements
         ['ragAfter','geoAfter'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.textContent = '0';
@@ -251,9 +250,7 @@ results = db.query(
         demoBenefits.style.opacity = '1';
         await sleep(800);
 
-        // Step 3 — show animated scores
-        demoStats.style.display = 'flex';
-        await sleep(200);
+        // Step 3 — show animated scores under each panel
         await animateScores();
         await sleep(1500);
 
@@ -272,6 +269,8 @@ results = db.query(
     resetBtn.addEventListener('click', () => {
         demoPanels.forEach(p => p.classList.remove('active'));
         demoStats.style.display    = 'none';
+        if (scoreBefore) scoreBefore.style.display = 'none';
+        if (scoreAfter)  scoreAfter.style.display  = 'none';
         resetBtn.style.display     = 'none';
         if (demoCta) demoCta.style.display = 'none';
         playBtn.textContent        = '▶️ Play Demo';
@@ -300,7 +299,7 @@ results = db.query(
     }
 }
 
-// Auto-play: show the completed demo state immediately so RAG scores are visible on load
+// Auto-play: show the completed demo state immediately
 function showDemoCompleted() {
     const playBtn      = document.getElementById('playDemoBtn');
     const resetBtn     = document.getElementById('resetDemoBtn');
@@ -311,6 +310,8 @@ function showDemoCompleted() {
     const demoPanels   = document.querySelectorAll('.demo-panel');
     const beforeCodeEl = document.querySelector('#demoCodeBefore code');
     const afterCodeEl  = document.querySelector('#demoCodeAfter code');
+    const scoreBefore  = document.getElementById('demoScoreBefore');
+    const scoreAfter   = document.getElementById('demoScoreAfter');
 
     if (!playBtn || !demoStats || demoPanels.length < 2) return;
 
@@ -398,34 +399,40 @@ results = db.query(
     if (demoIssues) demoIssues.style.opacity = '1';
     if (demoBenefits) demoBenefits.style.opacity = '1';
 
-    // Show scores at final values
+    // Show before score card with bad scores
+    if (scoreBefore) {
+        scoreBefore.style.display = 'block';
+        const ragBarBefore = document.getElementById('ragBarBefore');
+        if (ragBarBefore) { ragBarBefore.style.transition = 'none'; ragBarBefore.style.width = '12%'; }
+        const geoBarBefore = document.getElementById('geoBarBefore');
+        if (geoBarBefore) { geoBarBefore.style.transition = 'none'; geoBarBefore.style.width = '8%'; }
+    }
+
+    // Show after score card with good scores
+    if (scoreAfter) {
+        scoreAfter.style.display = 'block';
+        const ragAfterEl = document.getElementById('ragAfter');
+        if (ragAfterEl) ragAfterEl.textContent = '91';
+        const ragBarAfter = document.getElementById('ragBarAfter');
+        if (ragBarAfter) { ragBarAfter.style.transition = 'none'; ragBarAfter.style.width = '91%'; }
+        const geoAfterEl = document.getElementById('geoAfter');
+        if (geoAfterEl) geoAfterEl.textContent = '87';
+        const geoBarAfter = document.getElementById('geoBarAfter');
+        if (geoBarAfter) { geoBarAfter.style.transition = 'none'; geoBarAfter.style.width = '87%'; }
+
+        // Show deltas
+        const ragDelta = document.getElementById('ragDelta');
+        if (ragDelta) ragDelta.style.opacity = '1';
+        const ragDeltaNum = document.getElementById('ragDeltaNum');
+        if (ragDeltaNum) ragDeltaNum.textContent = '658';
+        const geoDelta = document.getElementById('geoDelta');
+        if (geoDelta) geoDelta.style.opacity = '1';
+        const geoDeltaNum = document.getElementById('geoDeltaNum');
+        if (geoDeltaNum) geoDeltaNum.textContent = '988';
+    }
+
+    // Show metrics
     demoStats.style.display = 'flex';
-
-    // RAG score: 12 → 91
-    const ragAfterEl = document.getElementById('ragAfter');
-    if (ragAfterEl) ragAfterEl.textContent = '91';
-    const ragBarBefore = document.getElementById('ragBarBefore');
-    if (ragBarBefore) { ragBarBefore.style.transition = 'none'; ragBarBefore.style.width = '12%'; }
-    const ragBarAfter = document.getElementById('ragBarAfter');
-    if (ragBarAfter) { ragBarAfter.style.transition = 'none'; ragBarAfter.style.width = '91%'; }
-    const ragDelta = document.getElementById('ragDelta');
-    if (ragDelta) ragDelta.style.opacity = '1';
-    const ragDeltaNum = document.getElementById('ragDeltaNum');
-    if (ragDeltaNum) ragDeltaNum.textContent = '658';
-
-    // GEO score: 8 → 87
-    const geoAfterEl = document.getElementById('geoAfter');
-    if (geoAfterEl) geoAfterEl.textContent = '87';
-    const geoBarBefore = document.getElementById('geoBarBefore');
-    if (geoBarBefore) { geoBarBefore.style.transition = 'none'; geoBarBefore.style.width = '8%'; }
-    const geoBarAfter = document.getElementById('geoBarAfter');
-    if (geoBarAfter) { geoBarAfter.style.transition = 'none'; geoBarAfter.style.width = '87%'; }
-    const geoDelta = document.getElementById('geoDelta');
-    if (geoDelta) geoDelta.style.opacity = '1';
-    const geoDeltaNum = document.getElementById('geoDeltaNum');
-    if (geoDeltaNum) geoDeltaNum.textContent = '988';
-
-    // Show all metric pills
     ['metricFrontmatter','metricChunks','metricKeywords',
      'metricStructure','metricSummary','metricTable'].forEach(id => {
         const el = document.getElementById(id);

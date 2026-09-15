@@ -168,6 +168,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     display: grid; grid-template-columns: 1fr 40px 1fr;
     gap: 0; align-items: start; margin-bottom: 28px;
 }
+.demo-column {
+    display: flex; flex-direction: column; gap: 12px;
+}
 .demo-panel {
     background: #0f172a; border: 1px solid rgba(125,211,252,0.15);
     border-radius: 12px; overflow: hidden;
@@ -220,10 +223,40 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     border-radius: 16px; overflow: hidden;
 }
 
-/* ── Score Blocks ── */
-.score-block {
-    padding: 24px 28px;
+/* ── Score Cards (per-panel) ── */
+.demo-score-card {
+    background: rgba(15,23,42,0.7);
+    border: 1px solid rgba(125,211,252,0.15);
+    border-radius: 12px; padding: 16px 18px;
+    backdrop-filter: blur(8px);
 }
+.score-card-title {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; margin-bottom: 12px;
+}
+.score-card-title.bad  { color: #f87171; }
+.score-card-title.good { color: #34d399; }
+.score-card-row {
+    display: flex; gap: 16px;
+}
+.score-card-metric {
+    flex: 1; display: flex; flex-direction: column; gap: 4px;
+}
+.score-card-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: #64748b;
+}
+.score-card-num {
+    font-size: 36px; font-weight: 800; line-height: 1;
+    font-family: 'Fira Code', monospace;
+}
+.score-card-num.bad  { color: #f87171; }
+.score-card-num.good { color: #34d399; }
+.score-card-deltas {
+    display: flex; gap: 12px; margin-top: 12px;
+}
+
+/* ── Shared score primitives ── */
 .metrics-block { padding: 20px 28px; }
 .score-divider {
     height: 1px; background: rgba(125,211,252,0.1); margin: 0;
@@ -231,22 +264,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .score-title {
     font-size: 13px; font-weight: 700; text-transform: uppercase;
     letter-spacing: .07em; color: #7dd3fc; margin-bottom: 16px;
-}
-.score-meter-row {
-    display: flex; align-items: center; gap: 16px;
-}
-.score-before-wrap, .score-after-wrap {
-    flex: 1; display: flex; flex-direction: column; gap: 6px;
-}
-.score-num {
-    font-size: 42px; font-weight: 800; line-height: 1;
-    font-family: 'Fira Code', monospace;
-}
-.score-num.before { color: #f87171; }
-.score-num.after  { color: #34d399; }
-.score-sublabel {
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .06em; color: #64748b;
 }
 .score-bar-track {
     height: 8px; background: rgba(255,255,255,0.06);
@@ -259,16 +276,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 }
 .score-bar.before { background: linear-gradient(90deg, #f87171, #fb923c); }
 .score-bar.after  { background: linear-gradient(90deg, #34d399, #10b981); }
-.score-arrow-big {
-    font-size: 24px; color: #7dd3fc; flex-shrink: 0;
-    padding-bottom: 24px;
-}
 .score-delta {
-    margin-top: 12px; font-size: 13px; font-weight: 600;
+    font-size: 12px; font-weight: 600;
     color: #34d399; transition: opacity 0.6s ease;
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 4px;
 }
-.score-delta::before { content: '▲'; font-size: 10px; }
+.score-delta::before { content: '▲'; font-size: 9px; }
 
 /* ── Metric Pills ── */
 .metrics-grid {
@@ -317,23 +330,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     .demo-title { font-size: 22px; flex-direction: column; }
     .demo-controls { flex-direction: column; }
 
-    /* ── Score blocks: stack before/after vertically on mobile ── */
-    .score-block { padding: 18px 16px; }
+    /* Score cards already stack via grid → 1fr, just tighten */
+    .demo-score-card { padding: 14px; }
+    .score-card-num { font-size: 30px; }
     .metrics-block { padding: 16px; }
-    .score-meter-row {
-        flex-direction: column; gap: 12px; align-items: stretch;
-    }
-    .score-arrow-big {
-        font-size: 20px; padding-bottom: 0; text-align: center;
-        transform: rotate(90deg); align-self: center;
-    }
-    .score-num { font-size: 36px; }
-    .score-title { font-size: 12px; margin-bottom: 12px; }
-    .score-before-wrap, .score-after-wrap {
-        flex-direction: row; align-items: center; gap: 12px;
-    }
-    .score-sublabel { min-width: 48px; }
-    .score-bar-track { flex: 1; margin-top: 0; }
 }
 
 /* ── Main Content ── */

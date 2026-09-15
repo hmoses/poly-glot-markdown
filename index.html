@@ -157,81 +157,85 @@
             </div>
 
             <div class="demo-panels">
-                <div class="demo-panel">
-                    <div class="demo-panel-header">
-                        <span class="demo-step">Step 1</span>
-                        <h3>Before: Raw Markdown</h3>
+                <!-- ── Before column ── -->
+                <div class="demo-column">
+                    <div class="demo-panel">
+                        <div class="demo-panel-header">
+                            <span class="demo-step">Step 1</span>
+                            <h3>Before: Raw Markdown</h3>
+                        </div>
+                        <div class="demo-code" id="demoCodeBefore">
+                            <pre><code></code></pre>
+                        </div>
+                        <div class="demo-issues" id="demoIssues" style="opacity:0; transition: opacity 0.5s ease-in;">
+                            <div class="issue-badge">❌ No frontmatter</div>
+                            <div class="issue-badge">❌ Poor structure</div>
+                            <div class="issue-badge">❌ Not RAG-ready</div>
+                            <div class="issue-badge">❌ No GEO keywords</div>
+                        </div>
                     </div>
-                    <div class="demo-code" id="demoCodeBefore">
-                        <pre><code></code></pre>
-                    </div>
-                    <div class="demo-issues" id="demoIssues" style="opacity:0; transition: opacity 0.5s ease-in;">
-                        <div class="issue-badge">❌ No frontmatter</div>
-                        <div class="issue-badge">❌ Poor structure</div>
-                        <div class="issue-badge">❌ Not RAG-ready</div>
-                        <div class="issue-badge">❌ No GEO keywords</div>
+                    <!-- Before scores: poor RAG & GEO directly under bad panel -->
+                    <div class="demo-score-card demo-score-before" id="demoScoreBefore" style="display:none;">
+                        <div class="score-card-title bad">❌ Before Scores</div>
+                        <div class="score-card-row">
+                            <div class="score-card-metric">
+                                <span class="score-card-label">RAG</span>
+                                <span class="score-card-num bad">12</span>
+                                <div class="score-bar-track"><div class="score-bar before" id="ragBarBefore" style="width:0%"></div></div>
+                            </div>
+                            <div class="score-card-metric">
+                                <span class="score-card-label">GEO</span>
+                                <span class="score-card-num bad">8</span>
+                                <div class="score-bar-track"><div class="score-bar before" id="geoBarBefore" style="width:0%"></div></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="demo-arrow">→</div>
 
-                <div class="demo-panel">
-                    <div class="demo-panel-header">
-                        <span class="demo-step">Step 2</span>
-                        <h3>After: Optimized Output</h3>
+                <!-- ── After column ── -->
+                <div class="demo-column">
+                    <div class="demo-panel">
+                        <div class="demo-panel-header">
+                            <span class="demo-step">Step 2</span>
+                            <h3>After: Optimized Output</h3>
+                        </div>
+                        <div class="demo-code" id="demoCodeAfter">
+                            <pre><code></code></pre>
+                        </div>
+                        <div class="demo-benefits" id="demoBenefits" style="opacity:0; transition: opacity 0.5s ease-in;">
+                            <div class="benefit-badge">✅ Frontmatter added</div>
+                            <div class="benefit-badge">✅ Semantic structure</div>
+                            <div class="benefit-badge">✅ RAG chunks</div>
+                            <div class="benefit-badge">✅ GEO optimized</div>
+                        </div>
                     </div>
-                    <div class="demo-code" id="demoCodeAfter">
-                        <pre><code></code></pre>
-                    </div>
-                    <div class="demo-benefits" id="demoBenefits" style="opacity:0; transition: opacity 0.5s ease-in;">
-                        <div class="benefit-badge">✅ Frontmatter added</div>
-                        <div class="benefit-badge">✅ Semantic structure</div>
-                        <div class="benefit-badge">✅ RAG chunks</div>
-                        <div class="benefit-badge">✅ GEO optimized</div>
+                    <!-- After scores: good RAG & GEO directly under good panel -->
+                    <div class="demo-score-card demo-score-after" id="demoScoreAfter" style="display:none;">
+                        <div class="score-card-title good">✅ After Scores</div>
+                        <div class="score-card-row">
+                            <div class="score-card-metric">
+                                <span class="score-card-label">RAG</span>
+                                <span class="score-card-num good" id="ragAfter">0</span>
+                                <div class="score-bar-track"><div class="score-bar after" id="ragBarAfter" style="width:0%"></div></div>
+                            </div>
+                            <div class="score-card-metric">
+                                <span class="score-card-label">GEO</span>
+                                <span class="score-card-num good" id="geoAfter">0</span>
+                                <div class="score-bar-track"><div class="score-bar after" id="geoBarAfter" style="width:0%"></div></div>
+                            </div>
+                        </div>
+                        <div class="score-card-deltas">
+                            <div class="score-delta" id="ragDelta" style="opacity:0">RAG +<span id="ragDeltaNum">0</span>%</div>
+                            <div class="score-delta" id="geoDelta" style="opacity:0">GEO +<span id="geoDeltaNum">0</span>%</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Metrics summary — still full width -->
             <div class="demo-stats" id="demoStats" style="display:none;">
-                <!-- RAG Score Block -->
-                <div class="score-block">
-                    <div class="score-title">RAG Readiness Score</div>
-                    <div class="score-meter-row">
-                        <div class="score-before-wrap">
-                            <div class="score-sublabel">Before</div>
-                            <div class="score-num before">12</div>
-                            <div class="score-bar-track"><div class="score-bar before" id="ragBarBefore" style="width:0%"></div></div>
-                        </div>
-                        <div class="score-arrow-big">→</div>
-                        <div class="score-after-wrap">
-                            <div class="score-sublabel">After</div>
-                            <div class="score-num after" id="ragAfter">0</div>
-                            <div class="score-bar-track"><div class="score-bar after" id="ragBarAfter" style="width:0%"></div></div>
-                        </div>
-                    </div>
-                    <div class="score-delta" id="ragDelta" style="opacity:0">+<span id="ragDeltaNum">0</span>% improvement</div>
-                </div>
-                <div class="score-divider"></div>
-                <!-- GEO Score Block -->
-                <div class="score-block">
-                    <div class="score-title">GEO Discoverability Score</div>
-                    <div class="score-meter-row">
-                        <div class="score-before-wrap">
-                            <div class="score-sublabel">Before</div>
-                            <div class="score-num before">8</div>
-                            <div class="score-bar-track"><div class="score-bar before" id="geoBarBefore" style="width:0%"></div></div>
-                        </div>
-                        <div class="score-arrow-big">→</div>
-                        <div class="score-after-wrap">
-                            <div class="score-sublabel">After</div>
-                            <div class="score-num after" id="geoAfter">0</div>
-                            <div class="score-bar-track"><div class="score-bar after" id="geoBarAfter" style="width:0%"></div></div>
-                        </div>
-                    </div>
-                    <div class="score-delta" id="geoDelta" style="opacity:0">+<span id="geoDeltaNum">0</span>% improvement</div>
-                </div>
-                <div class="score-divider"></div>
-                <!-- Metric Pills -->
                 <div class="metrics-block">
                     <div class="score-title">What Changed</div>
                     <div class="metrics-grid">
