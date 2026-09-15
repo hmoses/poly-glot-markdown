@@ -123,6 +123,16 @@ results = db.query(
         }
     }
 
+    // Fast mode: type line-by-line instead of char-by-char
+    async function typeCodeFast(codeElement, code, lineDelay = 30) {
+        codeElement.textContent = '';
+        const lines = code.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+            codeElement.textContent = lines.slice(0, i + 1).join('\n');
+            await sleep(lineDelay);
+        }
+    }
+
     function countUp(elementId, from, to, duration = 1200, suffix = '') {
         const el = document.getElementById(elementId);
         if (!el) return;
@@ -202,9 +212,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code (1ms/char ≈ 1.2s)
+        // Step 2 — type after code line-by-line (~1.5s on any device)
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 1);
+        await typeCodeFast(afterCodeEl, afterCode, 30);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
