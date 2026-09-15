@@ -200,11 +200,11 @@ results = db.query(
             animateBar('geoBarBefore', 8, 600);
         }
 
-        await sleep(800);
+        await sleep(200);
 
-        // Step 2 — type after code (3ms/char ≈ 3.5s)
+        // Step 2 — type after code (1ms/char ≈ 1.2s)
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 3);
+        await typeCode(afterCodeEl, afterCode, 1);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
