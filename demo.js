@@ -221,9 +221,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code char-by-char smooth at 60fps (~1.2s)
+        // Step 2 — type after code same pace as Step 1
         demoPanels[1].classList.add('active');
-        await typeCodeFast(afterCodeEl, afterCode, 12);
+        await typeCode(afterCodeEl, afterCode, 8);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
