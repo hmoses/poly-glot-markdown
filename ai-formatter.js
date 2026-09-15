@@ -1,7 +1,7 @@
 /**
  * Poly-Glot Markdown — Dual-Mode Formatter
  * Mode 1: Instant (client-side rules) — works offline, no network
- * Mode 2: AI-Enhanced (server-side Gemini 2.0 Flash) — seamless, no API key needed
+ * Mode 2: AI-Enhanced (server-side Gemini 3.6 Flash) — seamless, no API key needed
  *
  * Methodology:
  * - RAG optimization: LlamaIndex, Pinecone, LangChain chunking best practices
@@ -12,7 +12,7 @@
 class AIMarkdownFormatter {
     constructor() {
         this.mode = localStorage.getItem('pgmd_mode') || 'instant';
-        this.serverUrl = 'https://poly-glot.ai/api/markdown/format';
+        this.serverUrl = 'https://br-steep-leaf-ae2o29qz-mcp.compute.c-2.us-east-2.aws.neon.tech/api/markdown/format';
     }
 
     setMode(mode) {

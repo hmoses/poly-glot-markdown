@@ -349,7 +349,7 @@
         if (formatter.isAIMode()) {
             modeBadge.textContent = '🧠 AI-Enhanced';
             modeBadge.classList.add('ai-active');
-            modeHint.textContent = 'Powered by Gemini 2.0 Flash — semantic rewriting, real AI optimization';
+            modeHint.textContent = 'Powered by Gemini 3.6 Flash — semantic rewriting, real AI optimization';
             modeToggleBtn.textContent = '⚡ Switch to Instant';
         } else {
             modeBadge.textContent = '⚡ Instant Mode';
