@@ -316,6 +316,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     .demo-section { padding: 30px 16px; }
     .demo-title { font-size: 22px; flex-direction: column; }
     .demo-controls { flex-direction: column; }
+
+    /* ── Score blocks: stack before/after vertically on mobile ── */
+    .score-block { padding: 18px 16px; }
+    .metrics-block { padding: 16px; }
+    .score-meter-row {
+        flex-direction: column; gap: 12px; align-items: stretch;
+    }
+    .score-arrow-big {
+        font-size: 20px; padding-bottom: 0; text-align: center;
+        transform: rotate(90deg); align-self: center;
+    }
+    .score-num { font-size: 36px; }
+    .score-title { font-size: 12px; margin-bottom: 12px; }
+    .score-before-wrap, .score-after-wrap {
+        flex-direction: row; align-items: center; gap: 12px;
+    }
+    .score-sublabel { min-width: 48px; }
+    .score-bar-track { flex: 1; margin-top: 0; }
 }
 
 /* ── Main Content ── */
