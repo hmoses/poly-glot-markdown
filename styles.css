@@ -789,7 +789,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .ai-badge.ai-active {
     background: rgba(168,139,250,.12); color: #a78bfa; border-color: rgba(168,139,250,.2);
 }
-.ai-hint { font-size: 12px; color: #64748b; }
+.ai-hint { font-size: 12px; color: #64748b; max-width: 600px; line-height: 1.5; }
 .ai-enhance-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .ai-toggle-btn {
     padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
@@ -797,6 +797,102 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     cursor: pointer; transition: all .2s;
 }
 .ai-toggle-btn:hover { background: rgba(168,139,250,.2); }
+
+/* ── Mode Detail Cards ── */
+.mode-details-section {
+    max-width: 1400px;
+    margin: 0 auto 24px;
+    padding: 0;
+}
+.mode-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.mode-detail-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+}
+.mode-instant-card { border-top: 3px solid #34d399; }
+.mode-ai-card { border-top: 3px solid #a78bfa; }
+.mode-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.mode-detail-icon { font-size: 22px; }
+.mode-detail-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0;
+}
+.mode-detail-desc {
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.65;
+    margin: 0 0 16px 0;
+}
+.mode-detail-desc strong { color: #e2e8f0; }
+.mode-rule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.mode-rule-list > li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.mode-rule-list > li:last-child { border-bottom: none; }
+.mode-rule-list > li > strong {
+    display: block;
+    font-size: 13.5px;
+    color: #e2e8f0;
+    margin-bottom: 5px;
+}
+.mode-rule-list > li > span {
+    display: block;
+    font-size: 12.5px;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+.mode-rule-list code {
+    background: rgba(125, 211, 252, 0.08);
+    color: #7dd3fc;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+}
+.mode-rule-list a {
+    color: #7dd3fc;
+    text-decoration: none;
+}
+.mode-rule-list a:hover { text-decoration: underline; }
+.mode-ai-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.mode-ai-tag {
+    background: rgba(167, 139, 250, 0.08);
+    color: #a78bfa;
+    border: 1px solid rgba(167, 139, 250, 0.15);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 500;
+}
+@media (max-width: 768px) {
+    .mode-details-grid { grid-template-columns: 1fr; }
+}
+
 
 
 /* ── Methodology Section ──────────────────────────────────────── */

@@ -349,12 +349,12 @@
         if (formatter.isAIMode()) {
             modeBadge.textContent = '🧠 AI-Enhanced';
             modeBadge.classList.add('ai-active');
-            modeHint.textContent = 'Powered by Gemini 3.6 Flash — semantic rewriting, real AI optimization';
+            modeHint.textContent = 'Gemini 3.6 Flash — semantic rewriting, natural summaries, context-aware keyword bolding, intelligent restructuring · Free, no API key';
             modeToggleBtn.textContent = '⚡ Switch to Instant';
         } else {
             modeBadge.textContent = '⚡ Instant Mode';
             modeBadge.classList.remove('ai-active');
-            modeHint.textContent = 'Client-side rules — instant, works offline';
+            modeHint.textContent = '7 deterministic rules: frontmatter generation, heading hierarchy, citation anchors, GEO keyword bolding, chunk boundaries, section summaries, keyword extraction · Zero latency, works offline';
             modeToggleBtn.textContent = '🧠 Switch to AI-Enhanced';
         }
     }

@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=42">
+    <link rel="stylesheet" href="styles.css?v=43">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -303,6 +303,92 @@
         </div>
     </div>
 
+    <!-- ── Mode Details ── -->
+    <div class="mode-details-section">
+        <div class="mode-details-grid">
+            <div class="mode-detail-card mode-instant-card">
+                <div class="mode-detail-header">
+                    <span class="mode-detail-icon">⚡</span>
+                    <h3>Instant Mode — What It Does</h3>
+                </div>
+                <p class="mode-detail-desc">Seven deterministic rules run entirely in your browser with zero latency. No network calls, no API keys, works offline. Every transformation is predictable and repeatable.</p>
+                <ul class="mode-rule-list">
+                    <li>
+                        <strong>🏷️ Frontmatter Generation</strong>
+                        <span>Detects missing YAML frontmatter and generates it from document content — title extracted from H1, description from first paragraph, tags from keyword frequency analysis, plus <code>last_reviewed</code>, <code>expires</code> (90 days), <code>source</code>, and <code>version</code> fields. If frontmatter exists, enriches it with any missing fields without overwriting existing values.</span>
+                    </li>
+                    <li>
+                        <strong>📐 Heading Hierarchy Fix</strong>
+                        <span>Enforces single-H1 rule — demotes duplicate H1s to H2. Scans for heading-level jumps (H1 → H3) that break semantic chunking in vector databases. Ensures clean H1 → H2 → H3 progression that tools like LlamaIndex and LangChain rely on for recursive splitting.</span>
+                    </li>
+                    <li>
+                        <strong>🔗 Citation Anchor IDs</strong>
+                        <span>Adds <code>{#section-slug}</code> anchor IDs to every H2 and H3 heading. Enables passage-level retrieval — RAG systems can link directly to a specific section instead of returning the entire document. Slugs are auto-generated from heading text (lowercase, hyphenated).</span>
+                    </li>
+                    <li>
+                        <strong>🎯 GEO Keyword Bolding</strong>
+                        <span>Extracts the top keywords using word frequency + bigram analysis with stopword filtering. Bolds up to 5 high-value phrases using <code>**keyword**</code> syntax. Skips headings, code blocks, and frontmatter. This is the single highest-impact GEO optimization — bolded key phrases increase AI search citation by 20–40% (<a href="https://arxiv.org/abs/2311.09735" target="_blank">Aggarwal et al. 2023</a>).</span>
+                    </li>
+                    <li>
+                        <strong>✂️ RAG Chunk Boundaries</strong>
+                        <span>Inserts <code>&lt;!-- chunk-boundary --&gt;</code> markers between major sections (before each H2). Prevents vector database chunkers from splitting mid-paragraph or mid-thought. Explicit boundaries give you control over where chunks break instead of relying on token-count splitting.</span>
+                    </li>
+                    <li>
+                        <strong>📝 Section Summaries</strong>
+                        <span>Generates a <code>&gt; **Summary:** ...</code> blockquote after each H2 heading, extracted from the first 200 characters of section content. Places the most important information at the top of each chunk — critical because LLMs attend most to the beginning of retrieved passages (<a href="https://arxiv.org/abs/2307.03172" target="_blank">Liu et al. "Lost in the Middle" 2023</a>).</span>
+                    </li>
+                    <li>
+                        <strong>🔑 Keyword Extraction Engine</strong>
+                        <span>Strips frontmatter and code blocks, tokenizes text, filters 80+ English stopwords, counts unigram and bigram frequencies (bigrams boosted 1.5×), and returns the top 10 terms. Used by both frontmatter tag generation and GEO bolding. Entirely client-side — your content never leaves the browser.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mode-detail-card mode-ai-card">
+                <div class="mode-detail-header">
+                    <span class="mode-detail-icon">🧠</span>
+                    <h3>AI-Enhanced Mode — What It Does</h3>
+                </div>
+                <p class="mode-detail-desc">Sends your document to <strong>Google Gemini 3.6 Flash</strong> via the Poly-Glot server for deep semantic rewriting. The AI understands your content's meaning — not just its structure — and produces naturally written, publication-ready output.</p>
+                <ul class="mode-rule-list">
+                    <li>
+                        <strong>🧠 Semantic Rewriting</strong>
+                        <span>Gemini reads and understands your entire document, then rewrites vague or ambiguous sentences for clarity. Converts run-on paragraphs into structured, scannable text. Preserves your voice and tone while making every sentence precise enough for AI retrieval.</span>
+                    </li>
+                    <li>
+                        <strong>🏷️ Intelligent Frontmatter</strong>
+                        <span>Generates contextually accurate metadata — the AI writes a real description (not just the first sentence), selects semantically relevant tags, and adds freshness fields (<code>last_reviewed</code>, <code>expires</code>, <code>source</code>, <code>version</code>). Enriches existing frontmatter without overwriting.</span>
+                    </li>
+                    <li>
+                        <strong>📝 Natural Summaries</strong>
+                        <span>Instead of extracting the first 200 characters, the AI writes a genuine summary for each H2 section that captures the key takeaway — the kind of summary a human editor would write. These summaries become the most-attended text in each RAG chunk.</span>
+                    </li>
+                    <li>
+                        <strong>🎯 Context-Aware GEO Optimization</strong>
+                        <span>The AI identifies which phrases actually matter for search visibility based on semantic understanding, not just word frequency. Bolds the phrases that AI search engines (Perplexity, ChatGPT, Google AI Overviews) are most likely to cite.</span>
+                    </li>
+                    <li>
+                        <strong>📐 Intelligent Restructuring</strong>
+                        <span>Fixes heading hierarchy, splits oversized sections (>500 words) into logical sub-sections, merges tiny fragments, and adds anchor IDs — all while maintaining logical flow. The AI understands where a new section should start based on topic shifts, not just word count.</span>
+                    </li>
+                    <li>
+                        <strong>✂️ Smart Chunk Optimization</strong>
+                        <span>Places chunk boundaries at natural topic transitions. Adds summary blockquotes and citation anchors. Targets 100–500 words per chunk — the sweet spot for embedding models like <code>text-embedding-3-small</code> and <code>voyage-3</code>.</span>
+                    </li>
+                    <li>
+                        <strong>🧩 MDX Preservation</strong>
+                        <span>When MDX mode is enabled, the AI preserves all JSX components (<code>&lt;Callout&gt;</code>, <code>&lt;Tab&gt;</code>, <code>&lt;CodeBlock&gt;</code>) and adds descriptive comments above each component explaining its purpose — making MDX files both human-readable and AI-parseable.</span>
+                    </li>
+                </ul>
+                <div class="mode-ai-footer">
+                    <span class="mode-ai-tag">Free — no API key needed</span>
+                    <span class="mode-ai-tag">Rate limited: 20 requests/hour</span>
+                    <span class="mode-ai-tag">Content never stored or logged</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ── Main Tool ── -->
     <div class="main-content">
 
@@ -464,9 +550,9 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=42"></script>
-<script src="scorer.js?v=42"></script>
-<script src="demo.js?v=42"></script>
-<script src="app.js?v=42"></script>
+<script src="ai-formatter.js?v=43"></script>
+<script src="scorer.js?v=43"></script>
+<script src="demo.js?v=43"></script>
+<script src="app.js?v=43"></script>
 </body>
 </html>
