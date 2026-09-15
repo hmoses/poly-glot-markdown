@@ -23,47 +23,35 @@ function initializeDemo() {
 
     let isPlaying = false;
 
-    // ── BEFORE: messy, unstructured ──────────────────
+    // ── BEFORE: sloppy, no structure ──────────────────
     const beforeCode =
-`# vector search
+`# my recipe
 
-vector search lets you find similar things.
-you embed the query and compare it to
-stored embeddings using cosine similarity.
+mix flour and sugar together.
+add eggs and milk. bake at 350
+for about 30 min. its pretty good.`;
 
-results = db.query(embed(query), top_k=5)
-
-thats basically it.`;
-
-    // ── AFTER: RAG-ready, GEO-optimized ────────────────
+    // ── AFTER: RAG-ready, structured ────────────────
     const today = new Date().toISOString().split('T')[0];
     const afterCode =
 `---
-title: "Vector Search for AI Apps"
-description: "Semantic search via embeddings"
-tags: [vector-search, RAG, embeddings]
-date: "${today}"
+title: "Classic Vanilla Cake"
+tags: [baking, cake, dessert]
 ---
 
-# Vector Search for AI Apps
+# Classic Vanilla Cake
 
-> **RAG Summary:** Finds similar content
-> using cosine similarity on embeddings.
+> **Summary:** Simple vanilla cake.
 
-## How It Works
+## Ingredients
 
-1. **Embed** the query
-2. **Compare** against stored vectors
-3. **Retrieve** top-k results
+- Flour, sugar, eggs, milk
 
-\`\`\`python
-results = db.query(
-    vector=embed(query),
-    top_k=5
-)
-\`\`\`
+## Steps
 
-> **RAG Chunk:** Cosine ≥ 0.78 = relevant.`;
+1. Mix dry ingredients
+2. Add eggs and milk
+3. Bake at 350°F for 30 min`;
 
     // ── Helpers ───────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -90,15 +78,20 @@ results = db.query(
         }
     }
 
-    // Fast smooth mode: char-by-char at 60fps, N chars per frame
-    async function typeCodeFast(codeElement, code, charsPerFrame = 8) {
+    // Readable typing: 1 char every N frames via rAF (iOS-safe, no throttle)
+    // framesPerChar=3 at 60fps = ~50ms/char = 200 WPM reading speed
+    async function typeCodeSmooth(codeElement, code, framesPerChar = 3) {
         return new Promise(resolve => {
             codeElement.textContent = '';
             let pos = 0;
+            let frameCount = 0;
             function tick() {
-                const end = Math.min(pos + charsPerFrame, code.length);
-                codeElement.textContent = code.slice(0, end);
-                pos = end;
+                frameCount++;
+                if (frameCount >= framesPerChar) {
+                    frameCount = 0;
+                    pos++;
+                    codeElement.textContent = code.slice(0, pos);
+                }
                 if (pos < code.length) {
                     requestAnimationFrame(tick);
                 } else {
@@ -174,9 +167,9 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code (2 chars/frame ≈ 1.7s)
+        // Step 1 — type before code at 200 WPM (~5s)
         demoPanels[0].classList.add('active');
-        await typeCodeFast(beforeCodeEl, beforeCode, 2);
+        await typeCodeSmooth(beforeCodeEl, beforeCode, 3);
 
         // BAD scores fire 0ms after last character typed
         demoIssues.style.opacity = '1';
@@ -188,9 +181,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code same pace (2 chars/frame ≈ 3.7s)
+        // Step 2 — type after code at 200 WPM (~8s)
         demoPanels[1].classList.add('active');
-        await typeCodeFast(afterCodeEl, afterCode, 2);
+        await typeCodeSmooth(afterCodeEl, afterCode, 3);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
@@ -285,44 +278,32 @@ function showDemoCompleted() {
 
     // Show before code instantly
     if (beforeCodeEl) beforeCodeEl.textContent =
-`# vector search
+`# my recipe
 
-vector search lets you find similar things.
-you embed the query and compare it to
-stored embeddings using cosine similarity.
-
-results = db.query(embed(query), top_k=5)
-
-thats basically it.`;
+mix flour and sugar together.
+add eggs and milk. bake at 350
+for about 30 min. its pretty good.`;
 
     // Show after code instantly
     if (afterCodeEl) afterCodeEl.textContent =
 `---
-title: "Vector Search for AI Apps"
-description: "Semantic search via embeddings"
-tags: [vector-search, RAG, embeddings]
-date: "${today}"
+title: "Classic Vanilla Cake"
+tags: [baking, cake, dessert]
 ---
 
-# Vector Search for AI Apps
+# Classic Vanilla Cake
 
-> **RAG Summary:** Finds similar content
-> using cosine similarity on embeddings.
+> **Summary:** Simple vanilla cake.
 
-## How It Works
+## Ingredients
 
-1. **Embed** the query
-2. **Compare** against stored vectors
-3. **Retrieve** top-k results
+- Flour, sugar, eggs, milk
 
-\`\`\`python
-results = db.query(
-    vector=embed(query),
-    top_k=5
-)
-\`\`\`
+## Steps
 
-> **RAG Chunk:** Cosine ≥ 0.78 = relevant.`;
+1. Mix dry ingredients
+2. Add eggs and milk
+3. Bake at 350°F for 30 min`;
 
     // Activate both panels
     demoPanels.forEach(p => p.classList.add('active'));
