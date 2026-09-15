@@ -339,4 +339,47 @@
     function escHtml(str) {
         return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
+
+    // ── AI Enhancement Toggle ──
+    const enableAIBtn    = document.getElementById('enableAIBtn');
+    const geminiKeyWrap  = document.getElementById('geminiKeyWrap');
+    const geminiKeyInput = document.getElementById('geminiKeyInput');
+    const saveGeminiBtn  = document.getElementById('saveGeminiBtn');
+    const modeBadge      = document.getElementById('modeBadge');
+    const aiHint         = document.querySelector('.ai-hint');
+
+    function updateModeUI() {
+        if (formatter.isAIMode()) {
+            modeBadge.textContent = '🧠 AI-Enhanced Mode';
+            modeBadge.classList.add('ai-active');
+            aiHint.textContent = 'Powered by Google Gemini 2.0 Flash (free)';
+            enableAIBtn.textContent = '⚡ Switch to Instant Mode';
+            enableAIBtn.onclick = () => {
+                formatter.setGeminiKey('');
+                geminiKeyWrap.style.display = 'none';
+                updateModeUI();
+            };
+        } else {
+            modeBadge.textContent = '⚡ Instant Mode';
+            modeBadge.classList.remove('ai-active');
+            aiHint.textContent = 'Client-side optimization — no API needed';
+            enableAIBtn.textContent = '🧠 Enable AI-Enhanced Mode (Free)';
+            enableAIBtn.onclick = () => {
+                geminiKeyWrap.style.display = 'flex';
+            };
+        }
+    }
+
+    saveGeminiBtn.addEventListener('click', () => {
+        const key = geminiKeyInput.value.trim();
+        if (!key) return;
+        formatter.setGeminiKey(key);
+        geminiKeyWrap.style.display = 'none';
+        updateModeUI();
+    });
+
+    // Load saved key on startup
+    if (formatter.isAIMode()) {
+        updateModeUI();
+    }
 })();

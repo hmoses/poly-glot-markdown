@@ -210,6 +210,22 @@
         </div>
     </div>
 
+    <!-- ── AI Enhancement (Optional) ── -->
+    <div class="ai-enhance-bar" id="aiEnhanceBar">
+        <div class="ai-enhance-left">
+            <span class="ai-badge" id="modeBadge">⚡ Instant Mode</span>
+            <span class="ai-hint">Client-side optimization — no API needed</span>
+        </div>
+        <div class="ai-enhance-right">
+            <button id="enableAIBtn" class="ai-toggle-btn">🧠 Enable AI-Enhanced Mode (Free)</button>
+            <div id="geminiKeyWrap" class="gemini-key-wrap" style="display:none">
+                <input type="password" id="geminiKeyInput" class="gemini-key-input" placeholder="Gemini API key (free from Google AI Studio)">
+                <button id="saveGeminiBtn" class="gemini-save-btn">Save</button>
+                <a href="https://aistudio.google.com/apikeys" target="_blank" class="gemini-get-key">Get free key →</a>
+            </div>
+        </div>
+    </div>
+
     <!-- ── Main Tool ── -->
     <div class="main-content">
 
@@ -313,6 +329,59 @@
     </div>
 
 </div>
+
+    <!-- ── How It Works / Methodology ── -->
+    <div class="methodology-section">
+        <div class="methodology-container">
+            <h2 class="methodology-title">📐 How Scoring Works</h2>
+            <p class="methodology-intro">Scores are structural heuristics grounded in published RAG and GEO research. They measure how well your document follows patterns proven to improve retrieval quality and AI search visibility.</p>
+            
+            <div class="methodology-grid">
+                <div class="method-card">
+                    <h3>RAG Score (0–100)</h3>
+                    <p>Measures retrieval-readiness — how well a vector search system can chunk, index, and retrieve your document.</p>
+                    <ul>
+                        <li><strong>Frontmatter metadata</strong> (20pts) — title, description, tags improve chunk metadata filtering <cite>Pinecone, 2023</cite></li>
+                        <li><strong>Heading hierarchy</strong> (20pts) — single H1, logical H2/H3 enables semantic chunking <cite>LlamaIndex RecursiveCharacterTextSplitter</cite></li>
+                        <li><strong>Section summaries</strong> (20pts) — dense passage-initial info improves retrieval <cite>Liu et al. "Lost in the Middle", Stanford 2023</cite></li>
+                        <li><strong>Chunk boundaries</strong> (5pts) — explicit markers prevent mid-sentence splits <cite>LangChain chunking docs</cite></li>
+                        <li><strong>Citation anchors</strong> (5pts) — heading IDs enable passage-level retrieval <cite>Google Passage Indexing</cite></li>
+                        <li><strong>Freshness metadata</strong> (5pts) — last_reviewed, expires prevent stale retrieval <cite>Google Search Quality Guidelines</cite></li>
+                        <li><strong>Content signals</strong> (25pts) — code blocks, lists, tables, links, document length</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>GEO Score (0–100)</h3>
+                    <p>Measures AI search visibility — how likely AI engines (Perplexity, ChatGPT, Gemini) are to cite your document.</p>
+                    <ul>
+                        <li><strong>Authoritative title</strong> (20pts) — clear, descriptive title >10 chars <cite>Aggarwal et al. "GEO", 2023</cite></li>
+                        <li><strong>Description</strong> (15pts) — meta description for AI summarization</li>
+                        <li><strong>Tags & keywords</strong> (23pts) — topical signals for semantic matching <cite>GEO paper: keyword optimization +20-40% visibility</cite></li>
+                        <li><strong>Bold emphasis</strong> (18pts) — key phrases bolded for AI extraction <cite>GEO paper: authoritative language increases citation</cite></li>
+                        <li><strong>Author & date</strong> (9pts) — authorship signals for trust scoring</li>
+                        <li><strong>Freshness</strong> (5pts) — last_reviewed and expires dates</li>
+                        <li><strong>Content depth</strong> (10pts) — sufficient word count for comprehensive answers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="methodology-refs">
+                <h3>📚 References</h3>
+                <ul>
+                    <li>Lewis et al. (2020). <a href="https://arxiv.org/abs/2005.11401" target="_blank">"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"</a> — Meta AI</li>
+                    <li>Aggarwal et al. (2023). <a href="https://arxiv.org/abs/2311.09735" target="_blank">"GEO: Generative Engine Optimization"</a> — Princeton / Georgia Tech / IIT Delhi</li>
+                    <li>Liu et al. (2023). <a href="https://arxiv.org/abs/2307.03172" target="_blank">"Lost in the Middle: How Language Models Use Long Contexts"</a> — Stanford</li>
+                    <li><a href="https://docs.pinecone.io/guides/get-started/key-concepts" target="_blank">Pinecone: Chunking Best Practices</a></li>
+                    <li><a href="https://python.langchain.com/docs/concepts/text_splitters/" target="_blank">LangChain: Text Splitters</a></li>
+                    <li><a href="https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf" target="_blank">Google Search Quality Evaluator Guidelines</a></li>
+                </ul>
+            </div>
+
+            <div class="methodology-disclaimer">
+                <strong>⚠️ Transparency:</strong> Scores are structural heuristics, not retrieval benchmarks. A high score means your document follows patterns that published research shows improve RAG chunking and GEO visibility. It does not guarantee any specific retrieval or citation outcome. For validated metrics, enable AI-Enhanced Mode to run your document through an actual LLM for semantic analysis.
+            </div>
+        </div>
+    </div>
 
     <!-- ── Footer ── -->
     <div class="site-footer">
