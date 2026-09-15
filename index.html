@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=41">
+    <link rel="stylesheet" href="styles.css?v=42">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -45,11 +45,93 @@
             Format Markdown and MDX files for better RAG retrieval, GEO discoverability, and AI comprehension.
         </div>
         <ul class="overview-list">
-            <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
+            <li>🤖 <strong>AI Powered</strong> — Instant Mode applies client-side rules; AI-Enhanced Mode uses Gemini 3.6 Flash for semantic rewriting (free, no API key needed)</li>
             <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
             <li>🌐 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
             <li>🔒 <strong>Private</strong> — Instant Mode runs entirely in your browser. AI-Enhanced Mode sends your text to our server (never stored, never logged)</li>
         </ul>
+
+        <!-- Section: Why RAG & GEO Matter -->
+        <div class="overview-section why-section">
+            <h2 class="overview-heading">🔍 Why RAG & GEO Matter</h2>
+
+            <div class="why-grid">
+                <div class="why-card why-rag">
+                    <div class="why-card-header">
+                        <span class="why-icon">📚</span>
+                        <h3>RAG — Retrieval-Augmented Generation</h3>
+                    </div>
+                    <p class="why-lead">RAG is how AI systems find and use your content. When someone asks ChatGPT, Copilot, or an internal AI assistant a question, RAG is the pipeline that retrieves relevant documents, chunks them, and feeds them to the language model.</p>
+                    <div class="why-problem">
+                        <strong>The problem:</strong> Most documentation is written for humans, not machines. AI retrieval systems split documents into chunks — and poorly structured docs produce bad chunks. Missing frontmatter means no metadata filtering. No heading hierarchy means chunks split mid-thought. No summaries means the AI has to guess what each section is about.
+                    </div>
+                    <div class="why-solution">
+                        <strong>What Poly-Glot fixes:</strong>
+                        <ul>
+                            <li>Adds YAML frontmatter so vector databases can filter by title, tags, and date</li>
+                            <li>Enforces heading hierarchy (H1 → H2 → H3) so chunkers split at semantic boundaries</li>
+                            <li>Inserts section summaries so the most important info appears at the top of each chunk — where LLMs pay the most attention (<a href="https://arxiv.org/abs/2307.03172" target="_blank">Liu et al. 2023</a>)</li>
+                            <li>Adds explicit chunk boundaries (<code>&lt;!-- chunk-boundary --&gt;</code>) to prevent mid-sentence splits</li>
+                            <li>Generates citation anchors (<code>{#section-slug}</code>) for passage-level retrieval</li>
+                        </ul>
+                    </div>
+                    <div class="why-stat">
+                        <span class="stat-number">↑ 40%</span>
+                        <span class="stat-label">Retrieval accuracy improvement from structured chunking vs. naive splitting (<a href="https://docs.pinecone.io/guides/get-started/key-concepts" target="_blank">Pinecone, 2023</a>)</span>
+                    </div>
+                </div>
+
+                <div class="why-card why-geo">
+                    <div class="why-card-header">
+                        <span class="why-icon">🌐</span>
+                        <h3>GEO — Generative Engine Optimization</h3>
+                    </div>
+                    <p class="why-lead">GEO is the new SEO. When users search with AI engines like Perplexity, Google AI Overviews, ChatGPT Search, or Gemini — those engines cite sources. GEO determines whether <em>your</em> content gets cited or someone else's.</p>
+                    <div class="why-problem">
+                        <strong>The problem:</strong> Traditional SEO optimizes for link ranking. But AI search engines don't show ten blue links — they generate answers and cite sources inline. If your content lacks authoritative signals (clear titles, bolded key phrases, structured data, freshness dates), AI engines will cite your competitors instead.
+                    </div>
+                    <div class="why-solution">
+                        <strong>What Poly-Glot fixes:</strong>
+                        <ul>
+                            <li>Generates descriptive titles and meta descriptions that AI engines use for summarization</li>
+                            <li>Bolds 3–5 key phrases per section — the exact pattern that increases AI citation likelihood (<a href="https://arxiv.org/abs/2311.09735" target="_blank">Aggarwal et al. 2023</a>)</li>
+                            <li>Extracts and surfaces topical keywords/tags for semantic matching</li>
+                            <li>Adds author attribution and freshness dates (last_reviewed, expires) for trust scoring</li>
+                            <li>Structures content with clear Q&A patterns that AI engines prefer to cite</li>
+                        </ul>
+                    </div>
+                    <div class="why-stat">
+                        <span class="stat-number">↑ 20–40%</span>
+                        <span class="stat-label">Visibility improvement from keyword optimization and authoritative language (<a href="https://arxiv.org/abs/2311.09735" target="_blank">GEO paper, Princeton/Georgia Tech 2023</a>)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-bottom">
+                <div class="why-comparison">
+                    <div class="comparison-col">
+                        <h4>❌ Without Optimization</h4>
+                        <ul>
+                            <li>AI retrieval returns wrong chunks</li>
+                            <li>Perplexity/ChatGPT cite competitors</li>
+                            <li>Internal AI tools hallucinate from poor context</li>
+                            <li>Vector search returns low-relevance results</li>
+                            <li>Documentation gets stale with no freshness signals</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-col">
+                        <h4>✅ With Poly-Glot Markdown</h4>
+                        <ul>
+                            <li>Every chunk has context, metadata, and summaries</li>
+                            <li>AI search engines cite your content by name</li>
+                            <li>Internal RAG pipelines return precise answers</li>
+                            <li>Vector embeddings capture true document meaning</li>
+                            <li>Freshness metadata keeps content current and trusted</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Section 2: How It Works -->
         <div class="overview-section">
@@ -382,9 +464,9 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=41"></script>
-<script src="scorer.js?v=41"></script>
-<script src="demo.js?v=41"></script>
-<script src="app.js?v=41"></script>
+<script src="ai-formatter.js?v=42"></script>
+<script src="scorer.js?v=42"></script>
+<script src="demo.js?v=42"></script>
+<script src="app.js?v=42"></script>
 </body>
 </html>
