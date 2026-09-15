@@ -123,14 +123,23 @@ results = db.query(
         }
     }
 
-    // Fast mode: type line-by-line instead of char-by-char
-    async function typeCodeFast(codeElement, code, lineDelay = 30) {
-        codeElement.textContent = '';
-        const lines = code.split('\n');
-        for (let i = 0; i < lines.length; i++) {
-            codeElement.textContent = lines.slice(0, i + 1).join('\n');
-            await sleep(lineDelay);
-        }
+    // Fast smooth mode: char-by-char at 60fps, N chars per frame
+    async function typeCodeFast(codeElement, code, charsPerFrame = 8) {
+        return new Promise(resolve => {
+            codeElement.textContent = '';
+            let pos = 0;
+            function tick() {
+                const end = Math.min(pos + charsPerFrame, code.length);
+                codeElement.textContent = code.slice(0, end);
+                pos = end;
+                if (pos < code.length) {
+                    requestAnimationFrame(tick);
+                } else {
+                    resolve();
+                }
+            }
+            requestAnimationFrame(tick);
+        });
     }
 
     function countUp(elementId, from, to, duration = 1200, suffix = '') {
@@ -212,9 +221,9 @@ results = db.query(
 
         await sleep(200);
 
-        // Step 2 — type after code line-by-line (~1.5s on any device)
+        // Step 2 — type after code char-by-char smooth at 60fps (~1.2s)
         demoPanels[1].classList.add('active');
-        await typeCodeFast(afterCodeEl, afterCode, 30);
+        await typeCodeFast(afterCodeEl, afterCode, 12);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
