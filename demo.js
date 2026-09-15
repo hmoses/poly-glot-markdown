@@ -300,9 +300,148 @@ results = db.query(
     }
 }
 
+// Auto-play: show the completed demo state immediately so RAG scores are visible on load
+function showDemoCompleted() {
+    const playBtn      = document.getElementById('playDemoBtn');
+    const resetBtn     = document.getElementById('resetDemoBtn');
+    const demoStats    = document.getElementById('demoStats');
+    const demoIssues   = document.getElementById('demoIssues');
+    const demoBenefits = document.getElementById('demoBenefits');
+    const demoCta      = document.getElementById('demoCta');
+    const demoPanels   = document.querySelectorAll('.demo-panel');
+    const beforeCodeEl = document.querySelector('#demoCodeBefore code');
+    const afterCodeEl  = document.querySelector('#demoCodeAfter code');
+
+    if (!playBtn || !demoStats || demoPanels.length < 2) return;
+
+    const today = new Date().toISOString().split('T')[0];
+
+    // Show before code instantly
+    if (beforeCodeEl) beforeCodeEl.textContent =
+`# vector search
+
+vector search lets you find similar things.
+its used in ai apps a lot. you embed the query
+and compare it to stored embeddings using math.
+
+you need a vector db. some options are pinecone,
+weaviate, or pgvector. pick one and set it up.
+
+the main thing is cosine similarity. lower distance
+means more similar. threshold is usually like 0.8
+or whatever works for your data.
+
+heres a rough example:
+
+results = db.query(embed(user_query), top_k=5)
+
+thats basically it. tune the threshold as needed.`;
+
+    // Show after code instantly
+    if (afterCodeEl) afterCodeEl.textContent =
+`---
+title: "Vector Search for AI Applications"
+description: "Implement vector similarity search using
+  embeddings and a vector database. Covers cosine
+  similarity, top-k retrieval, and threshold tuning
+  for RAG pipelines."
+tags: [vector-search, embeddings, RAG, AI,
+  cosine-similarity, pinecone, semantic-search]
+date: "${today}"
+difficulty: intermediate
+---
+
+# Vector Search for AI Applications
+
+> **RAG Summary:** Vector search finds semantically
+> similar content using embedding vectors and
+> cosine similarity — used in RAG to fetch context
+> for LLM prompts.
+
+## How Vector Search Works
+
+Vector search converts queries and documents into
+**embedding vectors**, then ranks results by
+**cosine similarity** (distance in vector space).
+
+## Choosing a Vector Database
+
+| Database   | Type       | Best For           |
+|-----------|------------|-------------------|
+| Pinecone  | Managed    | Production RAG    |
+| Weaviate  | Self-host  | Hybrid search     |
+| pgvector  | Extension  | Postgres stacks   |
+
+## Implementation
+
+\`\`\`python
+# Retrieve top-k similar documents
+results = db.query(
+    vector=embed(user_query),
+    top_k=5,
+    filter={"status": "published"}
+)
+\`\`\`
+
+> **RAG Chunk — Threshold:** Cosine similarity ≥ 0.78
+> is recommended for technical documentation retrieval.
+
+## Related Resources
+
+- [Embedding Models Comparison](./embedding-models.md)
+- [RAG Architecture](./rag-pipeline.md)`;
+
+    // Activate both panels
+    demoPanels.forEach(p => p.classList.add('active'));
+
+    // Show issue/benefit badges
+    if (demoIssues) demoIssues.style.opacity = '1';
+    if (demoBenefits) demoBenefits.style.opacity = '1';
+
+    // Show scores at final values
+    demoStats.style.display = 'flex';
+
+    // RAG score: 12 → 91
+    const ragAfterEl = document.getElementById('ragAfter');
+    if (ragAfterEl) ragAfterEl.textContent = '91';
+    const ragBarBefore = document.getElementById('ragBarBefore');
+    if (ragBarBefore) { ragBarBefore.style.transition = 'none'; ragBarBefore.style.width = '12%'; }
+    const ragBarAfter = document.getElementById('ragBarAfter');
+    if (ragBarAfter) { ragBarAfter.style.transition = 'none'; ragBarAfter.style.width = '91%'; }
+    const ragDelta = document.getElementById('ragDelta');
+    if (ragDelta) ragDelta.style.opacity = '1';
+    const ragDeltaNum = document.getElementById('ragDeltaNum');
+    if (ragDeltaNum) ragDeltaNum.textContent = '658';
+
+    // GEO score: 8 → 87
+    const geoAfterEl = document.getElementById('geoAfter');
+    if (geoAfterEl) geoAfterEl.textContent = '87';
+    const geoBarBefore = document.getElementById('geoBarBefore');
+    if (geoBarBefore) { geoBarBefore.style.transition = 'none'; geoBarBefore.style.width = '8%'; }
+    const geoBarAfter = document.getElementById('geoBarAfter');
+    if (geoBarAfter) { geoBarAfter.style.transition = 'none'; geoBarAfter.style.width = '87%'; }
+    const geoDelta = document.getElementById('geoDelta');
+    if (geoDelta) geoDelta.style.opacity = '1';
+    const geoDeltaNum = document.getElementById('geoDeltaNum');
+    if (geoDeltaNum) geoDeltaNum.textContent = '988';
+
+    // Show all metric pills
+    ['metricFrontmatter','metricChunks','metricKeywords',
+     'metricStructure','metricSummary','metricTable'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.opacity = '1';
+    });
+
+    // Show CTA and reset button
+    if (demoCta) demoCta.style.display = 'block';
+    playBtn.textContent = '✓ Demo Complete';
+    if (resetBtn) resetBtn.style.display = 'inline-flex';
+}
+
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeDemo);
+    document.addEventListener('DOMContentLoaded', () => { initializeDemo(); showDemoCompleted(); });
 } else {
     initializeDemo();
+    showDemoCompleted();
 }
