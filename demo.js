@@ -188,9 +188,9 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code
+        // Step 1 — type before code (8ms/char ≈ 4s)
         demoPanels[0].classList.add('active');
-        await typeCode(beforeCodeEl, beforeCode, 22);
+        await typeCode(beforeCodeEl, beforeCode, 8);
 
         // BAD scores fire 0ms after last character typed
         demoIssues.style.opacity = '1';
@@ -202,9 +202,9 @@ results = db.query(
 
         await sleep(800);
 
-        // Step 2 — type after code
+        // Step 2 — type after code (3ms/char ≈ 3.5s)
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 10);
+        await typeCode(afterCodeEl, afterCode, 3);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
