@@ -154,48 +154,6 @@ results = db.query(
         }, delay);
     }
 
-    // ── Animate scores ────────────────────────────────────────────────────
-    async function animateScores() {
-        // Show before score card — bad scores appear under before panel
-        if (scoreBefore) {
-            scoreBefore.style.display = 'block';
-            animateBar('ragBarBefore', 12, 600);
-            animateBar('geoBarBefore', 8, 600);
-        }
-
-        await sleep(800);
-
-        // Show after score card — good scores appear under after panel
-        if (scoreAfter) {
-            scoreAfter.style.display = 'block';
-            animateBar('ragBarAfter', 91, 1200);
-            animateBar('geoBarAfter', 87, 1200);
-            countUp('ragAfter', 0, 91, 1200);
-            countUp('geoAfter', 0, 87, 1200);
-        }
-
-        await sleep(1000);
-
-        // Show deltas
-        fadeIn('ragDelta', 0);
-        fadeIn('geoDelta', 200);
-        const ragDeltaEl = document.getElementById('ragDeltaNum');
-        if (ragDeltaEl) countUp('ragDeltaNum', 0, 658, 1200);
-        const geoDeltaEl = document.getElementById('geoDeltaNum');
-        if (geoDeltaEl) setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 200);
-
-        // Show metrics
-        await sleep(800);
-        demoStats.style.display = 'flex';
-        const pills = [
-            'metricFrontmatter', 'metricChunks', 'metricKeywords',
-            'metricStructure', 'metricSummary', 'metricTable',
-        ];
-        for (let i = 0; i < pills.length; i++) {
-            fadeIn(pills[i], i * 150);
-        }
-    }
-
     // ── Play ──────────────────────────────────────────────────────────────
     playBtn.addEventListener('click', async () => {
         if (isPlaying) return;
@@ -238,7 +196,15 @@ results = db.query(
         await sleep(300);
         demoIssues.style.transition = 'opacity 0.5s ease-in';
         demoIssues.style.opacity = '1';
-        await sleep(1200);
+        await sleep(400);
+
+        // BAD scores fire immediately after bad run
+        if (scoreBefore) {
+            scoreBefore.style.display = 'block';
+            animateBar('ragBarBefore', 12, 600);
+            animateBar('geoBarBefore', 8, 600);
+        }
+        await sleep(1000);
 
         // Step 2 — type after code
         demoPanels[1].classList.add('active');
@@ -248,10 +214,34 @@ results = db.query(
         await sleep(300);
         demoBenefits.style.transition = 'opacity 0.5s ease-in';
         demoBenefits.style.opacity = '1';
+        await sleep(400);
+
+        // GOOD scores fire immediately after good run
+        if (scoreAfter) {
+            scoreAfter.style.display = 'block';
+            animateBar('ragBarAfter', 91, 1200);
+            animateBar('geoBarAfter', 87, 1200);
+            countUp('ragAfter', 0, 91, 1200);
+            countUp('geoAfter', 0, 87, 1200);
+        }
         await sleep(800);
 
-        // Step 3 — show animated scores under each panel
-        await animateScores();
+        // Show deltas on after card
+        fadeIn('ragDelta', 0);
+        fadeIn('geoDelta', 200);
+        countUp('ragDeltaNum', 0, 658, 1200);
+        setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 200);
+        await sleep(800);
+
+        // Show "What Changed" metrics
+        demoStats.style.display = 'flex';
+        const pills = [
+            'metricFrontmatter', 'metricChunks', 'metricKeywords',
+            'metricStructure', 'metricSummary', 'metricTable',
+        ];
+        for (let i = 0; i < pills.length; i++) {
+            fadeIn(pills[i], i * 150);
+        }
         await sleep(1500);
 
         playBtn.textContent    = '✓ Demo Complete';
