@@ -188,53 +188,47 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code
+        // Step 1 — before code + bad scores INSTANT
         demoPanels[0].classList.add('active');
-        await typeCode(beforeCodeEl, beforeCode, 22);
-
-        // Badges + BAD scores fire INSTANTLY (0ms) after bad run
-        demoIssues.style.transition = 'opacity 0.5s ease-in';
+        beforeCodeEl.textContent = beforeCode;
         demoIssues.style.opacity = '1';
         if (scoreBefore) {
             scoreBefore.style.display = 'block';
-            animateBar('ragBarBefore', 12, 600);
-            animateBar('geoBarBefore', 8, 600);
+            animateBar('ragBarBefore', 12, 400);
+            animateBar('geoBarBefore', 8, 400);
         }
-        await sleep(1200);
 
-        // Step 2 — type after code
+        await sleep(600);
+
+        // Step 2 — after code + good scores INSTANT
         demoPanels[1].classList.add('active');
-        await typeCode(afterCodeEl, afterCode, 10);
-
-        // Badges + GOOD scores fire INSTANTLY (0ms) after good run
-        demoBenefits.style.transition = 'opacity 0.5s ease-in';
+        afterCodeEl.textContent = afterCode;
         demoBenefits.style.opacity = '1';
         if (scoreAfter) {
             scoreAfter.style.display = 'block';
-            animateBar('ragBarAfter', 91, 1200);
-            animateBar('geoBarAfter', 87, 1200);
-            countUp('ragAfter', 0, 91, 1200);
-            countUp('geoAfter', 0, 87, 1200);
+            animateBar('ragBarAfter', 91, 800);
+            animateBar('geoBarAfter', 87, 800);
+            countUp('ragAfter', 0, 91, 800);
+            countUp('geoAfter', 0, 87, 800);
         }
-        await sleep(1000);
 
-        // Show deltas on after card
+        await sleep(500);
+
+        // Deltas
         fadeIn('ragDelta', 0);
-        fadeIn('geoDelta', 200);
-        countUp('ragDeltaNum', 0, 658, 1200);
-        setTimeout(() => countUp('geoDeltaNum', 0, 988, 1200), 200);
-        await sleep(800);
+        fadeIn('geoDelta', 100);
+        countUp('ragDeltaNum', 0, 658, 800);
+        setTimeout(() => countUp('geoDeltaNum', 0, 988, 800), 100);
 
-        // Show "What Changed" metrics
+        await sleep(400);
+
+        // "What Changed" metrics
         demoStats.style.display = 'flex';
-        const pills = [
-            'metricFrontmatter', 'metricChunks', 'metricKeywords',
-            'metricStructure', 'metricSummary', 'metricTable',
-        ];
-        for (let i = 0; i < pills.length; i++) {
-            fadeIn(pills[i], i * 150);
-        }
-        await sleep(1500);
+        ['metricFrontmatter','metricChunks','metricKeywords',
+         'metricStructure','metricSummary','metricTable'].forEach((id, i) => {
+            fadeIn(id, i * 80);
+        });
+        await sleep(600);
 
         playBtn.textContent    = '✓ Demo Complete';
         playBtn.disabled       = false;
