@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=39">
+    <link rel="stylesheet" href="styles.css?v=40">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -48,7 +48,7 @@
             <li>🤖 <strong>AI Powered</strong> — uses OpenAI or Anthropic to optimize structure, clarity, and metadata</li>
             <li>📚 <strong>Searchable</strong> — better RAG retrieval</li>
             <li>🌐 <strong>Discoverable</strong> — GEO optimized for LLM citation</li>
-            <li>🔒 <strong>Private</strong> — runs entirely in your browser, nothing leaves your machine</li>
+            <li>🔒 <strong>Private</strong> — Instant Mode runs entirely in your browser. AI-Enhanced Mode sends your text to our server (never stored, never logged)</li>
         </ul>
 
         <!-- Section 2: How It Works -->
@@ -210,19 +210,14 @@
         </div>
     </div>
 
-    <!-- ── AI Enhancement (Optional) ── -->
+    <!-- ── Mode Toggle ── -->
     <div class="ai-enhance-bar" id="aiEnhanceBar">
         <div class="ai-enhance-left">
             <span class="ai-badge" id="modeBadge">⚡ Instant Mode</span>
-            <span class="ai-hint">Client-side optimization — no API needed</span>
+            <span class="ai-hint" id="modeHint">Client-side rules — instant, works offline</span>
         </div>
         <div class="ai-enhance-right">
-            <button id="enableAIBtn" class="ai-toggle-btn">🧠 Enable AI-Enhanced Mode (Free)</button>
-            <div id="geminiKeyWrap" class="gemini-key-wrap" style="display:none">
-                <input type="password" id="geminiKeyInput" class="gemini-key-input" placeholder="Gemini API key (free from Google AI Studio)">
-                <button id="saveGeminiBtn" class="gemini-save-btn">Save</button>
-                <a href="https://aistudio.google.com/apikeys" target="_blank" class="gemini-get-key">Get free key →</a>
-            </div>
+            <button id="modeToggleBtn" class="ai-toggle-btn">🧠 Switch to AI-Enhanced</button>
         </div>
     </div>
 
@@ -387,9 +382,9 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=39"></script>
-<script src="scorer.js?v=39"></script>
-<script src="demo.js?v=39"></script>
-<script src="app.js?v=39"></script>
+<script src="ai-formatter.js?v=40"></script>
+<script src="scorer.js?v=40"></script>
+<script src="demo.js?v=40"></script>
+<script src="app.js?v=40"></script>
 </body>
 </html>

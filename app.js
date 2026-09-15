@@ -340,44 +340,29 @@
         return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // ── AI Enhancement Toggle ──
-    const enableAIBtn    = document.getElementById('enableAIBtn');
-    const geminiKeyWrap  = document.getElementById('geminiKeyWrap');
-    const geminiKeyInput = document.getElementById('geminiKeyInput');
-    const saveGeminiBtn  = document.getElementById('saveGeminiBtn');
-    const modeBadge      = document.getElementById('modeBadge');
-    const aiHint         = document.querySelector('.ai-hint');
+    // ── Mode Toggle (Instant ↔ AI-Enhanced) ──
+    const modeToggleBtn = document.getElementById('modeToggleBtn');
+    const modeBadge     = document.getElementById('modeBadge');
+    const modeHint      = document.getElementById('modeHint');
 
     function updateModeUI() {
         if (formatter.isAIMode()) {
-            modeBadge.textContent = '🧠 AI-Enhanced Mode';
+            modeBadge.textContent = '🧠 AI-Enhanced';
             modeBadge.classList.add('ai-active');
-            aiHint.textContent = 'Powered by Google Gemini 2.0 Flash (free)';
-            enableAIBtn.textContent = '⚡ Switch to Instant Mode';
-            enableAIBtn.onclick = () => {
-                formatter.setGeminiKey('');
-                geminiKeyWrap.style.display = 'none';
-                updateModeUI();
-            };
+            modeHint.textContent = 'Powered by Gemini 2.0 Flash — semantic rewriting, real AI optimization';
+            modeToggleBtn.textContent = '⚡ Switch to Instant';
         } else {
             modeBadge.textContent = '⚡ Instant Mode';
             modeBadge.classList.remove('ai-active');
-            aiHint.textContent = 'Client-side optimization — no API needed';
-            enableAIBtn.textContent = '🧠 Enable AI-Enhanced Mode (Free)';
-            enableAIBtn.onclick = () => {
-                geminiKeyWrap.style.display = 'flex';
-            };
+            modeHint.textContent = 'Client-side rules — instant, works offline';
+            modeToggleBtn.textContent = '🧠 Switch to AI-Enhanced';
         }
     }
 
-    saveGeminiBtn.addEventListener('click', () => {
-        const key = geminiKeyInput.value.trim();
-        if (!key) return;
-        formatter.setGeminiKey(key);
-        geminiKeyWrap.style.display = 'none';
+    modeToggleBtn.addEventListener('click', () => {
+        formatter.setMode(formatter.isAIMode() ? 'instant' : 'ai');
         updateModeUI();
     });
 
-    // Initialize mode UI on startup (always)
     updateModeUI();
 })();
