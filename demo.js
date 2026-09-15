@@ -437,8 +437,7 @@ results = db.query(
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { initializeDemo(); showDemoCompleted(); });
+    document.addEventListener('DOMContentLoaded', () => { initializeDemo(); });
 } else {
     initializeDemo();
-    showDemoCompleted();
 }
