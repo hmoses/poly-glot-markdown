@@ -378,8 +378,6 @@
         updateModeUI();
     });
 
-    // Load saved key on startup
-    if (formatter.isAIMode()) {
-        updateModeUI();
-    }
+    // Initialize mode UI on startup (always)
+    updateModeUI();
 })();
