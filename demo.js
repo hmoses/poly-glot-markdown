@@ -192,31 +192,23 @@ results = db.query(
         demoPanels[0].classList.add('active');
         await typeCode(beforeCodeEl, beforeCode, 22);
 
-        // Show issue badges
-        await sleep(300);
+        // Badges + BAD scores fire INSTANTLY (0ms) after bad run
         demoIssues.style.transition = 'opacity 0.5s ease-in';
         demoIssues.style.opacity = '1';
-        await sleep(400);
-
-        // BAD scores fire immediately after bad run
         if (scoreBefore) {
             scoreBefore.style.display = 'block';
             animateBar('ragBarBefore', 12, 600);
             animateBar('geoBarBefore', 8, 600);
         }
-        await sleep(1000);
+        await sleep(1200);
 
         // Step 2 — type after code
         demoPanels[1].classList.add('active');
         await typeCode(afterCodeEl, afterCode, 10);
 
-        // Show benefit badges
-        await sleep(300);
+        // Badges + GOOD scores fire INSTANTLY (0ms) after good run
         demoBenefits.style.transition = 'opacity 0.5s ease-in';
         demoBenefits.style.opacity = '1';
-        await sleep(400);
-
-        // GOOD scores fire immediately after good run
         if (scoreAfter) {
             scoreAfter.style.display = 'block';
             animateBar('ragBarAfter', 91, 1200);
@@ -224,7 +216,7 @@ results = db.query(
             countUp('ragAfter', 0, 91, 1200);
             countUp('geoAfter', 0, 87, 1200);
         }
-        await sleep(800);
+        await sleep(1000);
 
         // Show deltas on after card
         fadeIn('ragDelta', 0);
