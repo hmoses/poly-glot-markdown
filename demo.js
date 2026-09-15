@@ -188,21 +188,25 @@ results = db.query(
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — before code + bad scores INSTANT
+        // Step 1 — type before code
         demoPanels[0].classList.add('active');
-        beforeCodeEl.textContent = beforeCode;
+        await typeCode(beforeCodeEl, beforeCode, 22);
+
+        // BAD scores fire 0ms after last character typed
         demoIssues.style.opacity = '1';
         if (scoreBefore) {
             scoreBefore.style.display = 'block';
-            animateBar('ragBarBefore', 12, 400);
-            animateBar('geoBarBefore', 8, 400);
+            animateBar('ragBarBefore', 12, 600);
+            animateBar('geoBarBefore', 8, 600);
         }
 
-        await sleep(600);
+        await sleep(800);
 
-        // Step 2 — after code + good scores INSTANT
+        // Step 2 — type after code
         demoPanels[1].classList.add('active');
-        afterCodeEl.textContent = afterCode;
+        await typeCode(afterCodeEl, afterCode, 10);
+
+        // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
         if (scoreAfter) {
             scoreAfter.style.display = 'block';
@@ -212,7 +216,7 @@ results = db.query(
             countUp('geoAfter', 0, 87, 800);
         }
 
-        await sleep(500);
+        await sleep(600);
 
         // Deltas
         fadeIn('ragDelta', 0);
@@ -220,7 +224,7 @@ results = db.query(
         countUp('ragDeltaNum', 0, 658, 800);
         setTimeout(() => countUp('geoDeltaNum', 0, 988, 800), 100);
 
-        await sleep(400);
+        await sleep(500);
 
         // "What Changed" metrics
         demoStats.style.display = 'flex';
