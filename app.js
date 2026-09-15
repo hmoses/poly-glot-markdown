@@ -1,18 +1,13 @@
 /**
  * Poly-Glot Markdown — App Controller
- * Handles UI interactions, file upload, formatting, diff view, copy/download
+ * Handles UI interactions, file upload, formatting, diff view, chunk preview, copy/download
+ * No API keys needed — all processing is client-side
  */
 
 (function () {
     const formatter = new AIMarkdownFormatter();
 
     // ── DOM refs ──
-    const providerSelect  = document.getElementById('providerSelect');
-    const modelSelect     = document.getElementById('modelSelect');
-    const apiKeyInput     = document.getElementById('apiKeyInput');
-    const saveKeyBtn      = document.getElementById('saveKeyBtn');
-    const toggleKeyBtn    = document.getElementById('toggleKeyBtn');
-    const keyStatus       = document.getElementById('keyStatus');
     const fileUpload      = document.getElementById('fileUpload');
     const inputEditor     = document.getElementById('inputEditor');
     const clearInputBtn   = document.getElementById('clearInputBtn');
@@ -23,71 +18,20 @@
     const copyBtn         = document.getElementById('copyBtn');
     const downloadBtn     = document.getElementById('downloadBtn');
     const diffBtn         = document.getElementById('diffBtn');
+    const chunkBtn        = document.getElementById('chunkBtn');
     const loadingOverlay  = document.getElementById('loadingOverlay');
     const diffModal       = document.getElementById('diffModal');
     const diffContent     = document.getElementById('diffContent');
     const closeDiffBtn    = document.getElementById('closeDiffBtn');
+    const chunkModal      = document.getElementById('chunkModal');
+    const chunkContent    = document.getElementById('chunkContent');
+    const chunkStatsBar   = document.getElementById('chunkStatsBar');
+    const closeChunkBtn   = document.getElementById('closeChunkBtn');
     const impBadges       = document.getElementById('improvementBadges');
+    const scoreOutputBtn  = document.getElementById('scoreOutputBtn');
 
-    let lastOutput = '';
+    let lastOutput   = '';
     let lastFilename = 'optimized.md';
-
-    // ── Init settings from localStorage ──
-    function initSettings() {
-        providerSelect.value = formatter.provider;
-        apiKeyInput.value    = formatter.apiKey;
-        updateModelOptions();
-        modelSelect.value    = formatter.model;
-        if (formatter.isConfigured()) {
-            keyStatus.textContent = '✅ API key loaded from local storage';
-            keyStatus.className   = 'key-status ok';
-        }
-    }
-
-    function updateModelOptions() {
-        const openaiModels = [
-            { value: 'gpt-4.1-mini',   label: 'GPT-4.1 Mini ✨ (recommended)' },
-            { value: 'gpt-4.1',        label: 'GPT-4.1 (best)' },
-            { value: 'gpt-4.1-nano',   label: 'GPT-4.1 Nano (cheapest)' },
-            { value: 'gpt-4o',         label: 'GPT-4o' },
-            { value: 'gpt-4o-mini',    label: 'GPT-4o Mini' },
-            { value: 'o3-mini',        label: 'o3-mini (reasoning)' },
-            { value: 'o3',             label: 'o3 (reasoning, powerful)' },
-            { value: 'o1-mini',        label: 'o1-mini (reasoning)' },
-            { value: 'o1',             label: 'o1 (reasoning)' },
-            { value: 'gpt-4-turbo',    label: 'GPT-4 Turbo' },
-            { value: 'gpt-4',          label: 'GPT-4' },
-            { value: 'gpt-3.5-turbo',  label: 'GPT-3.5 Turbo (legacy)' }
-        ];
-        const anthropicModels = [
-            { value: 'claude-sonnet-4-5',          label: 'Claude Sonnet 4 ✨ (recommended)' },
-            { value: 'claude-opus-4-5',            label: 'Claude Opus 4 (most powerful)' },
-            { value: 'claude-haiku-4-5',           label: 'Claude Haiku 4 (fast)' },
-            { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet' },
-            { value: 'claude-3-5-haiku-20241022',  label: 'Claude 3.5 Haiku' },
-            { value: 'claude-3-opus-20240229',     label: 'Claude 3 Opus' },
-            { value: 'claude-3-haiku-20240307',    label: 'Claude 3 Haiku (legacy)' }
-        ];
-        const models = providerSelect.value === 'openai' ? openaiModels : anthropicModels;
-        modelSelect.innerHTML = models.map(m => `<option value="${m.value}">${m.label}</option>`).join('');
-    }
-
-    providerSelect.addEventListener('change', updateModelOptions);
-
-    saveKeyBtn.addEventListener('click', () => {
-        const key      = apiKeyInput.value.trim();
-        const provider = providerSelect.value;
-        const model    = modelSelect.value;
-        if (!key) { keyStatus.textContent = '❌ Please enter an API key'; keyStatus.className = 'key-status err'; return; }
-        formatter.saveSettings(key, provider, model);
-        keyStatus.textContent = '✅ Settings saved';
-        keyStatus.className   = 'key-status ok';
-        gtag('event', 'api_key_saved', { provider, model });
-    });
-
-    toggleKeyBtn.addEventListener('click', () => {
-        apiKeyInput.type = apiKeyInput.type === 'password' ? 'text' : 'password';
-    });
 
     // ── File Upload ──
     fileUpload.addEventListener('change', (e) => {
@@ -98,7 +42,7 @@
         reader.onload = (ev) => { inputEditor.value = ev.target.result; updateInputStats(); };
         reader.readAsText(file);
         fileUpload.value = '';
-        gtag('event', 'file_uploaded', { file_type: file.name.endsWith('.mdx') ? 'mdx' : 'md', file_size: file.size });
+        if (typeof gtag !== 'undefined') gtag('event', 'file_uploaded', { file_type: file.name.endsWith('.mdx') ? 'mdx' : 'md', file_size: file.size });
     });
 
     // ── Stats ──
@@ -120,6 +64,7 @@
         inputEditor.value = '';
         updateInputStats();
         scoreOutputBtn.disabled = true;
+        chunkBtn.disabled = true;
     });
 
     // ── Get selected options ──
@@ -138,54 +83,47 @@
     formatBtn.addEventListener('click', async () => {
         const input = inputEditor.value.trim();
         if (!input) { alert('Please paste or upload a Markdown/MDX file first.'); return; }
-        if (!formatter.isConfigured()) { alert('Please save your API key in the settings above first.'); return; }
 
+        const options = getOptions();
         loadingOverlay.style.display = 'flex';
         formatBtn.disabled = true;
 
         try {
-            const options = getOptions();
-            const result  = await formatter.format(input, options);
-            lastOutput    = result;
+            lastOutput = await formatter.format(input, options);
+            outputArea.textContent = lastOutput;
+            outputArea.classList.add('has-output');
 
-            outputArea.textContent = result;
-
-            // Stats
             const sIn  = countStats(input);
-            const sOut = countStats(result);
+            const sOut = countStats(lastOutput);
             outputStats.textContent = `${sOut.words} words · ${sOut.lines} lines · ${sOut.chars} chars`;
 
             // Improvement badges
             const badges = [];
-            if (options.frontmatter) badges.push('✅ Frontmatter');
-            if (options.structure)   badges.push('✅ Structure');
-            if (options.semantic)    badges.push('✅ Semantic Clarity');
-            if (options.geo)         badges.push('✅ GEO');
-            if (options.rag)         badges.push('✅ RAG Chunks');
-            if (options.mdx)         badges.push('✅ MDX');
+            if (options.frontmatter && /^---/m.test(lastOutput) && !/^---/m.test(input)) badges.push('📋 Frontmatter');
+            if (options.structure)   badges.push('🏗️ Structure');
+            if (options.semantic)    badges.push('💡 Clarity');
+            if (options.geo)        badges.push('🔑 GEO Keywords');
+            if (options.rag)        badges.push('🧩 RAG Chunks');
+            if (/last_reviewed\s*:/.test(lastOutput)) badges.push('📅 Freshness');
+            if (/\{#[\w-]+\}/.test(lastOutput)) badges.push('🔗 Anchors');
+            if (/chunk-boundary/.test(lastOutput)) badges.push('✂️ Boundaries');
             impBadges.innerHTML = badges.map(b => `<span class="imp-badge">${b}</span>`).join('');
 
-            copyBtn.disabled        = false;
-            downloadBtn.disabled    = false;
-            diffBtn.disabled        = false;
+            copyBtn.disabled = false;
+            downloadBtn.disabled = false;
+            diffBtn.disabled = false;
+            chunkBtn.disabled = false;
             scoreOutputBtn.disabled = false;
 
-            // GA4: track successful format
-            gtag('event', 'format_success', {
-                provider:        formatter.provider,
-                model:           formatter.model,
-                input_words:     sIn.words,
-                output_words:    sOut.words,
-                opt_frontmatter: options.frontmatter,
-                opt_structure:   options.structure,
-                opt_semantic:    options.semantic,
-                opt_geo:         options.geo,
-                opt_rag:         options.rag,
-                opt_mdx:         options.mdx,
+            if (typeof gtag !== 'undefined') gtag('event', 'format_success', {
+                input_words: sIn.words, output_words: sOut.words,
+                opt_frontmatter: options.frontmatter, opt_structure: options.structure,
+                opt_semantic: options.semantic, opt_geo: options.geo,
+                opt_rag: options.rag, opt_mdx: options.mdx,
             });
         } catch (err) {
             outputArea.textContent = '❌ Error: ' + err.message;
-            gtag('event', 'format_error', { provider: formatter.provider, model: formatter.model, error: err.message });
+            if (typeof gtag !== 'undefined') gtag('event', 'format_error', { error: err.message });
         } finally {
             loadingOverlay.style.display = 'none';
             formatBtn.disabled = false;
@@ -193,8 +131,7 @@
     });
 
     // ── Score Input ──
-    const scoreInputBtn  = document.getElementById('scoreInputBtn');
-    const scoreOutputBtn = document.getElementById('scoreOutputBtn');
+    const scoreInputBtn = document.getElementById('scoreInputBtn');
 
     scoreInputBtn.addEventListener('click', () => {
         const input = inputEditor.value.trim();
@@ -216,7 +153,7 @@
         navigator.clipboard.writeText(lastOutput).then(() => {
             copyBtn.textContent = '✅ Copied!';
             setTimeout(() => { copyBtn.textContent = '📋 Copy'; }, 2000);
-            gtag('event', 'output_copied');
+            if (typeof gtag !== 'undefined') gtag('event', 'output_copied');
         });
     });
 
@@ -229,7 +166,7 @@
         a.download = lastFilename;
         a.click();
         URL.revokeObjectURL(url);
-        gtag('event', 'output_downloaded', { filename: lastFilename });
+        if (typeof gtag !== 'undefined') gtag('event', 'output_downloaded', { filename: lastFilename });
     });
 
     // ── Diff ──
@@ -254,17 +191,152 @@
         }
         diffContent.innerHTML = html;
         diffModal.style.display = 'flex';
-        gtag('event', 'diff_viewed');
+        if (typeof gtag !== 'undefined') gtag('event', 'diff_viewed');
     });
 
     closeDiffBtn.addEventListener('click', () => { diffModal.style.display = 'none'; });
     diffModal.addEventListener('click', (e) => { if (e.target === diffModal) diffModal.style.display = 'none'; });
 
+    // ── Chunk Preview ──
+    chunkBtn.addEventListener('click', () => {
+        if (!lastOutput) return;
+        const chunks = splitIntoChunks(lastOutput);
+        renderChunkPreview(chunks);
+        chunkModal.style.display = 'flex';
+        if (typeof gtag !== 'undefined') gtag('event', 'chunk_preview_viewed', { chunk_count: chunks.length });
+    });
+
+    closeChunkBtn.addEventListener('click', () => { chunkModal.style.display = 'none'; });
+    chunkModal.addEventListener('click', (e) => { if (e.target === chunkModal) chunkModal.style.display = 'none'; });
+
+    function splitIntoChunks(text) {
+        const chunks = [];
+        // Split on chunk-boundary markers or H2 headings
+        const parts = text.split(/(?=<!-- chunk-boundary -->)|(?=^## )/gm);
+        let chunkNum = 0;
+
+        // Handle frontmatter as its own chunk
+        const fmMatch = text.match(/^(---\s*\n[\s\S]*?\n---)\s*\n?/);
+        let remaining = text;
+        if (fmMatch) {
+            chunks.push({
+                num: ++chunkNum,
+                title: '📋 Frontmatter (Metadata)',
+                body: fmMatch[1],
+                tokens: estimateTokens(fmMatch[1]),
+                anchors: [],
+                hasFreshness: /last_reviewed\s*:/.test(fmMatch[1]),
+                hasExpires: /expires\s*:/.test(fmMatch[1]),
+                hasSource: /source\s*:/.test(fmMatch[1]),
+                hasVersion: /version\s*:/.test(fmMatch[1]),
+            });
+            remaining = text.slice(fmMatch[0].length);
+        }
+
+        // Split remaining content by H2 headings
+        const sections = remaining.split(/(?=^## )/gm).filter(s => s.trim());
+
+        for (const section of sections) {
+            const clean = section.replace(/<!-- chunk-boundary -->\s*/g, '').trim();
+            if (!clean) continue;
+
+            const headingMatch = clean.match(/^(#{2,3})\s+(.+?)(?:\s*\{#([\w-]+)\})?\s*$/m);
+            const title = headingMatch ? headingMatch[2] : `Chunk ${chunkNum + 1}`;
+            const anchors = (clean.match(/\{#([\w-]+)\}/g) || []).map(a => a.replace(/[{}#]/g, ''));
+            const tokens = estimateTokens(clean);
+            const words = clean.trim().split(/\s+/).length;
+
+            chunks.push({
+                num: ++chunkNum,
+                title: title,
+                body: clean,
+                tokens: tokens,
+                words: words,
+                anchors: anchors,
+                oversized: words > 500,
+                undersized: words < 30 && words > 0,
+                hasSummary: /> \*\*Summary:\*\*/.test(clean),
+            });
+        }
+
+        return chunks;
+    }
+
+    function estimateTokens(text) {
+        // Rough estimate: ~4 chars per token for English
+        return Math.round(text.length / 4);
+    }
+
+    function renderChunkPreview(chunks) {
+        const totalTokens = chunks.reduce((sum, c) => sum + c.tokens, 0);
+        const totalAnchors = chunks.reduce((sum, c) => sum + (c.anchors ? c.anchors.length : 0), 0);
+        const oversized = chunks.filter(c => c.oversized).length;
+        const withSummary = chunks.filter(c => c.hasSummary).length;
+
+        chunkStatsBar.innerHTML = `
+            <span class="chunk-stat">🧩 <strong>${chunks.length}</strong> chunks</span>
+            <span class="chunk-stat">📝 <strong>${totalTokens.toLocaleString()}</strong> est. tokens</span>
+            <span class="chunk-stat">🔗 <strong>${totalAnchors}</strong> citation anchors</span>
+            <span class="chunk-stat">📄 <strong>${withSummary}</strong> summaries</span>
+            ${oversized > 0 ? `<span class="chunk-stat">⚠️ <strong>${oversized}</strong> oversized</span>` : '<span class="chunk-stat chunk-ok">✅ All chunks sized well</span>'}
+        `;
+
+        let html = '';
+        for (const chunk of chunks) {
+            const sizeClass = chunk.oversized ? 'chunk-warn' : chunk.undersized ? 'chunk-warn' : 'chunk-ok';
+            const sizeLabel = chunk.oversized ? '⚠️ oversized' : chunk.undersized ? '⚠️ undersized' : '✅ good';
+            const preview = chunk.body.substring(0, 300) + (chunk.body.length > 300 ? '...' : '');
+
+            html += `
+            <div class="chunk-card">
+                <div class="chunk-card-header">
+                    <span class="chunk-card-title">Chunk ${chunk.num}: ${escHtml(chunk.title)}</span>
+                    <div class="chunk-card-meta">
+                        <span class="chunk-tokens">~${chunk.tokens} tokens</span>
+                        ${chunk.words ? `<span>${chunk.words} words</span>` : ''}
+                        <span class="${sizeClass}">${sizeLabel}</span>
+                        ${chunk.hasSummary ? '<span class="chunk-ok">📄 summary</span>' : ''}
+                    </div>
+                </div>
+                <div class="chunk-card-body">${escHtml(preview)}</div>
+                ${chunk.anchors && chunk.anchors.length > 0 ? `
+                <div class="chunk-card-anchors">
+                    ${chunk.anchors.map(a => `<span class="chunk-anchor-tag">#${a}</span>`).join('')}
+                </div>` : ''}
+                ${chunk.hasFreshness || chunk.hasExpires || chunk.hasSource || chunk.hasVersion ? `
+                <div class="chunk-freshness-bar">
+                    ${chunk.hasSource ? '<span class="fresh">📦 source</span>' : ''}
+                    ${chunk.hasVersion ? '<span class="fresh">🏷️ version</span>' : ''}
+                    ${chunk.hasFreshness ? '<span class="fresh">📅 last_reviewed</span>' : ''}
+                    ${chunk.hasExpires ? '<span class="fresh">⏰ expires</span>' : ''}
+                </div>` : ''}
+                ${chunk.oversized ? '<div class="chunk-overlap-warn">⚠️ This chunk exceeds 500 words. Consider splitting into sub-sections for better retrieval.</div>' : ''}
+            </div>`;
+        }
+
+        // Duplicate detection
+        const chunkTexts = chunks.map(c => c.body.toLowerCase().replace(/\s+/g, ' ').trim());
+        for (let i = 0; i < chunkTexts.length; i++) {
+            for (let j = i + 1; j < chunkTexts.length; j++) {
+                const similarity = jaccardSimilarity(chunkTexts[i], chunkTexts[j]);
+                if (similarity > 0.5) {
+                    html += `<div class="chunk-overlap-warn">⚠️ Chunks ${i + 1} and ${j + 1} share ${Math.round(similarity * 100)}% similar content — consider merging or deduplicating.</div>`;
+                }
+            }
+        }
+
+        chunkContent.innerHTML = html;
+    }
+
+    function jaccardSimilarity(a, b) {
+        const setA = new Set(a.split(/\s+/));
+        const setB = new Set(b.split(/\s+/));
+        const intersection = [...setA].filter(x => setB.has(x)).length;
+        const union = new Set([...setA, ...setB]).size;
+        return union === 0 ? 0 : intersection / union;
+    }
+
     function escHtml(str) {
         return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
-
-    initSettings();
 })();
-
-

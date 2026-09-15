@@ -225,7 +225,36 @@ const PolyGlotScorer = (() => {
         if (tables >= 2) score += 5;
         const links = (text.match(/\[.+\]\(.+\)/g) || []).length;
         score += Math.min(links * 2, 5);
-        return Math.min(Math.round(score), 100);
+
+        // Source & version metadata (5pts)
+        if (/source\s*:/i.test(text)) score += 3;
+        if (/version\s*:/i.test(text)) score += 2;
+
+        // Freshness metadata (5pts)
+        if (/last_reviewed\s*:/i.test(text)) score += 3;
+        if (/expires\s*:/i.test(text)) score += 2;
+
+        // Citation anchors on headings (5pts)
+        const anchors = (text.match(/\{#[\w-]+\}/g) || []).length;
+        score += Math.min(anchors * 2, 5);
+
+        // Chunk boundary markers (5pts)
+        const chunkMarkers = (text.match(/<!--\s*chunk-boundary\s*-->/g) || []).length;
+        score += Math.min(chunkMarkers * 2, 5);
+
+        // Chunk size penalty: sections >500 words lose points
+        const sections = text.split(/^## /gm);
+        let oversized = 0;
+        let undersized = 0;
+        sections.forEach(s => {
+            const wc = s.trim().split(/\s+/).length;
+            if (wc > 500) oversized++;
+            if (wc > 0 && wc < 30) undersized++;
+        });
+        if (oversized > 0) score -= Math.min(oversized * 3, 10);
+        if (undersized > 0) score -= Math.min(undersized * 2, 5);
+
+        return Math.min(Math.max(Math.round(score), 0), 100);
     }
 
     // ── GEO Score: Markdown (0–100) ──────────────────────────────────────
@@ -249,6 +278,15 @@ const PolyGlotScorer = (() => {
         if (words >= 200) score += 10;
         else if (words >= 100) score += 5;
         if (/^## /m.test(text)) score += 5;
+
+        // Freshness signals for GEO (5pts)
+        if (/last_reviewed\s*:/i.test(text)) score += 3;
+        if (/expires\s*:/i.test(text)) score += 2;
+
+        // Citation anchors help GEO citing (3pts)
+        const geoAnchors = (text.match(/\{#[\w-]+\}/g) || []).length;
+        score += Math.min(geoAnchors, 3);
+
         return Math.min(Math.round(score), 100);
     }
 
