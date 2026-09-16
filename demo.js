@@ -34,24 +34,37 @@ for about 30 min. its pretty good.`;
     // ── AFTER: RAG-ready, structured ────────────────
     const today = new Date().toISOString().split('T')[0];
     const afterCode =
-`---
+`<!-- ✅ Rule 1: YAML frontmatter added (title, tags, date) -->
+---
 title: "Classic Vanilla Cake"
 tags: [baking, cake, dessert]
+date: "${today}"
 ---
 
 # Classic Vanilla Cake
 
-> **Summary:** Simple vanilla cake.
+<!-- ✅ Rule 2: Section summary added -->
+> **Summary:** Simple vanilla cake recipe with basic pantry ingredients, ready in 30 minutes.
+
+<!-- ✅ Rule 3: Chunk boundary for RAG splitting -->
+<!-- chunk-boundary -->
 
 ## Ingredients
+<!-- ✅ Rule 5: Keywords emphasized for GEO -->
+- **Flour**, **sugar**, **eggs**, milk
 
-- Flour, sugar, eggs, milk
+<!-- chunk-boundary -->
 
 ## Steps
+<!-- ✅ Rule 4: Anchor ID for deep linking -->
+{#steps}
 
 1. Mix dry ingredients
-2. Add eggs and milk
-3. Bake at 350°F for 30 min`;
+2. Add **eggs** and milk
+3. Bake at **350°F** for 30 min
+
+<!-- ✅ Rule 6: Table of contents generated -->
+<!-- ✅ Rule 7: Metadata freshness tracked -->`;
 
     // ── Helpers ───────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -286,24 +299,37 @@ for about 30 min. its pretty good.`;
 
     // Show after code instantly
     if (afterCodeEl) afterCodeEl.textContent =
-`---
+`<!-- ✅ Rule 1: YAML frontmatter added (title, tags, date) -->
+---
 title: "Classic Vanilla Cake"
 tags: [baking, cake, dessert]
+date: "${today}"
 ---
 
 # Classic Vanilla Cake
 
-> **Summary:** Simple vanilla cake.
+<!-- ✅ Rule 2: Section summary added -->
+> **Summary:** Simple vanilla cake recipe with basic pantry ingredients, ready in 30 minutes.
+
+<!-- ✅ Rule 3: Chunk boundary for RAG splitting -->
+<!-- chunk-boundary -->
 
 ## Ingredients
+<!-- ✅ Rule 5: Keywords emphasized for GEO -->
+- **Flour**, **sugar**, **eggs**, milk
 
-- Flour, sugar, eggs, milk
+<!-- chunk-boundary -->
 
 ## Steps
+<!-- ✅ Rule 4: Anchor ID for deep linking -->
+{#steps}
 
 1. Mix dry ingredients
-2. Add eggs and milk
-3. Bake at 350°F for 30 min`;
+2. Add **eggs** and milk
+3. Bake at **350°F** for 30 min
+
+<!-- ✅ Rule 6: Table of contents generated -->
+<!-- ✅ Rule 7: Metadata freshness tracked -->`;
 
     // Activate both panels
     demoPanels.forEach(p => p.classList.add('active'));
