@@ -196,7 +196,7 @@ date: "${today}"
 
         // Step 2 — type after code at 200 WPM (~8s)
         demoPanels[1].classList.add('active');
-        await typeCodeSmooth(afterCodeEl, afterCode, 3);
+        await typeCodeSmooth(afterCodeEl, afterCode, 1);
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
