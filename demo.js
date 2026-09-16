@@ -180,26 +180,24 @@ date: "${today}"
             if (el) el.style.opacity = '0';
         });
 
-        // Step 1 — type before code at 200 WPM (~5s)
+        // Type both columns simultaneously, same duration (~5s)
         demoPanels[0].classList.add('active');
-        await typeCodeSmooth(beforeCodeEl, beforeCode, 3);
+        demoPanels[1].classList.add('active');
+        const targetFrames = Math.ceil(beforeCode.length * 3); // same total duration as before
+        const afterFPC = Math.max(1, Math.round(targetFrames / afterCode.length));
+        await Promise.all([
+            typeCodeSmooth(beforeCodeEl, beforeCode, 3),
+            typeCodeSmooth(afterCodeEl, afterCode, afterFPC)
+        ]);
 
-        // BAD scores fire 0ms after last character typed
+        // Both scores fire together after typing completes
         demoIssues.style.opacity = '1';
+        demoBenefits.style.opacity = '1';
         if (scoreBefore) {
             scoreBefore.style.display = 'block';
-            animateBar('ragBarBefore', 12, 600);
-            animateBar('geoBarBefore', 8, 600);
+            animateBar('ragBarBefore', 12, 800);
+            animateBar('geoBarBefore', 8, 800);
         }
-
-        await sleep(200);
-
-        // Step 2 — show after code instantly (transform effect)
-        demoPanels[1].classList.add('active');
-        afterCodeEl.textContent = afterCode;
-
-        // GOOD scores fire 0ms after last character typed
-        demoBenefits.style.opacity = '1';
         if (scoreAfter) {
             scoreAfter.style.display = 'block';
             animateBar('ragBarAfter', 91, 800);
