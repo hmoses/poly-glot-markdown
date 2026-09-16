@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=43">
+    <link rel="stylesheet" href="styles.css?v=44">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -233,6 +233,15 @@
         </div>
 
     </div>
+
+    <!-- ── Tab Bar ── -->
+    <div class="tab-bar">
+        <button id="tabFormat" class="tab-btn tab-active">📝 Format</button>
+        <button id="tabPipeline" class="tab-btn">🔬 RAG Pipeline</button>
+    </div>
+
+    <!-- ══════ VIEW: FORMAT (existing tool) ══════ -->
+    <div id="viewFormat">
 
     <!-- ── Demo Section ── -->
     <div class="demo-section">
@@ -548,6 +557,97 @@
 
 </div>
 
+    </div><!-- /viewFormat -->
+
+    <!-- ══════ VIEW: PIPELINE ══════ -->
+    <div id="viewPipeline" style="display:none">
+        <div class="pl-container">
+
+            <!-- Pipeline Header -->
+            <div class="pl-hero">
+                <h2>🔬 In-Browser RAG Pipeline</h2>
+                <p>Full retrieval-augmented generation running entirely in your browser. No backend. No API keys for embeddings. Vectors persist in IndexedDB.</p>
+                <div class="pl-stack-pills">
+                    <span class="pl-pill pl-pill-green">Transformers.js</span>
+                    <span class="pl-pill pl-pill-blue">all-MiniLM-L6-v2</span>
+                    <span class="pl-pill pl-pill-purple">IndexedDB</span>
+                    <span class="pl-pill pl-pill-cyan">Cosine Similarity</span>
+                    <span class="pl-pill pl-pill-amber">Gemini 3.6 Flash</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Load Model -->
+            <div class="pl-step-card">
+                <div class="pl-step-header">
+                    <span class="pl-step-num">1</span>
+                    <h3>Load Embedding Model</h3>
+                    <span class="pl-step-tag">~23 MB · runs in WebAssembly</span>
+                </div>
+                <p class="pl-step-desc">Downloads <code>all-MiniLM-L6-v2</code> via Transformers.js. Runs locally in your browser — your content never leaves your machine for embeddings.</p>
+                <div class="pl-step-actions">
+                    <button id="plLoadModel" class="pl-btn pl-btn-primary">⬇️ Load Model</button>
+                    <span id="plModelStatus" class="pl-status">Not loaded</span>
+                </div>
+            </div>
+
+            <!-- Step 2: Embed -->
+            <div class="pl-step-card">
+                <div class="pl-step-header">
+                    <span class="pl-step-num">2</span>
+                    <h3>Embed Document</h3>
+                    <span class="pl-step-tag">chunk → vectorize → store</span>
+                </div>
+                <p class="pl-step-desc">Paste formatted Markdown (or use your Format tab output). The document is chunked by H2 sections, each chunk is embedded into a 384-dim vector, and stored in IndexedDB.</p>
+                <div class="pl-embed-actions">
+                    <button id="plUseOutput" class="pl-btn pl-btn-outline">📋 Use Format Output</button>
+                    <label id="plEmbedFile" class="pl-btn pl-btn-outline">📁 Upload .md</label>
+                    <input type="file" id="plEmbedFileInput" accept=".md,.mdx,.txt" style="display:none">
+                </div>
+                <textarea id="plEmbedInput" class="pl-textarea" rows="6" placeholder="Paste Markdown content to embed…"></textarea>
+                <div class="pl-step-actions">
+                    <button id="plEmbedBtn" class="pl-btn pl-btn-primary" disabled>🧮 Embed Chunks</button>
+                    <span id="plEmbedStatus" class="pl-status"></span>
+                </div>
+                <div class="pl-store-bar">
+                    <span id="plStoreStatus"></span>
+                    <button id="plClearStore" class="pl-btn pl-btn-danger-sm">🗑️ Clear Store</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Search -->
+            <div class="pl-step-card">
+                <div class="pl-step-header">
+                    <span class="pl-step-num">3</span>
+                    <h3>Semantic Search</h3>
+                    <span class="pl-step-tag">cosine similarity · top-5</span>
+                </div>
+                <p class="pl-step-desc">Type a query. It gets embedded with the same model, then compared against all stored chunks using cosine similarity. Returns the top 5 most relevant passages.</p>
+                <div class="pl-search-row">
+                    <input id="plSearchInput" class="pl-input" type="text" placeholder="Search your embedded documents…">
+                    <button id="plSearchBtn" class="pl-btn pl-btn-primary" disabled>🔍 Search</button>
+                </div>
+                <div id="plSearchResults" class="pl-results"></div>
+            </div>
+
+            <!-- Step 4: Ask -->
+            <div class="pl-step-card">
+                <div class="pl-step-header">
+                    <span class="pl-step-num">4</span>
+                    <h3>Ask (RAG)</h3>
+                    <span class="pl-step-tag">retrieve → Gemini → grounded answer</span>
+                </div>
+                <p class="pl-step-desc">Ask a natural language question. The top-5 chunks are retrieved and sent to Gemini 3.6 Flash as context. The LLM generates an answer grounded in your documents — with source citations.</p>
+                <div class="pl-search-row">
+                    <input id="plAskInput" class="pl-input" type="text" placeholder="Ask a question about your documents…">
+                    <button id="plAskBtn" class="pl-btn pl-btn-primary" disabled>💬 Ask</button>
+                </div>
+                <div id="plAskAnswer" class="pl-answer"></div>
+                <div id="plAskSources" class="pl-sources"></div>
+            </div>
+
+        </div>
+    </div><!-- /viewPipeline -->
+
     <!-- ── How It Works / Methodology ── -->
     <div class="methodology-section">
         <div class="methodology-container">
@@ -605,10 +705,12 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=43"></script>
-<script src="scorer.js?v=43"></script>
-<script src="demo.js?v=43"></script>
-<script src="app.js?v=43"></script>
+<script src="ai-formatter.js?v=44"></script>
+<script src="scorer.js?v=44"></script>
+<script src="demo.js?v=44"></script>
+<script src="app.js?v=44"></script>
+<script src="pipeline.js?v=44"></script>
+<script src="pipeline-ui.js?v=44"></script>
 </body>
 </html>
 <!-- deploy 1789572146 -->
