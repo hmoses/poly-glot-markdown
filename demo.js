@@ -194,9 +194,9 @@ date: "${today}"
 
         await sleep(200);
 
-        // Step 2 — type after code at 200 WPM (~8s)
+        // Step 2 — show after code instantly (transform effect)
         demoPanels[1].classList.add('active');
-        await typeCodeSmooth(afterCodeEl, afterCode, 1);
+        afterCodeEl.textContent = afterCode;
 
         // GOOD scores fire 0ms after last character typed
         demoBenefits.style.opacity = '1';
