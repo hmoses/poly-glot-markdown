@@ -114,6 +114,7 @@
             diffBtn.disabled = false;
             chunkBtn.disabled = false;
             scoreOutputBtn.disabled = false;
+            var spb = document.getElementById('sendToPipelineBtn'); if (spb) spb.disabled = false;
 
             if (typeof gtag !== 'undefined') gtag('event', 'format_success', {
                 input_words: sIn.words, output_words: sOut.words,

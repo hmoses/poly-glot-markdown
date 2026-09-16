@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=44">
+    <link rel="stylesheet" href="styles.css?v=45">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -455,6 +455,14 @@
         </div>
     </div>
 
+    <!-- ── Formatter Section Header ── -->
+    <div style="max-width:1400px;margin:0 auto 16px;padding:0">
+        <h2 style="font-size:22px;font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:10px;margin:0">
+            <span style="font-size:26px">✨</span> Markdown Formatter
+        </h2>
+        <p style="font-size:13px;color:#94a3b8;margin:6px 0 0;line-height:1.6">Paste or upload your Markdown below. Choose optimization options and click <strong style="color:#34d399">Format</strong>. When done, click <strong style="color:#34d399">🔬 → Pipeline</strong> in the output panel to send your formatted doc straight to the RAG Pipeline for embedding, search, and AI-powered Q&A.</p>
+    </div>
+
     <!-- ── Main Tool ── -->
     <div class="main-content">
 
@@ -506,6 +514,7 @@
                     <button id="downloadBtn" class="action-btn" disabled>⬇️ Download</button>
                     <button id="diffBtn" class="action-btn" disabled>🔍 Diff</button>
                     <button id="chunkBtn" class="action-btn" disabled title="Preview how this document will be chunked by a RAG system">🧩 Chunks</button>
+                    <button id="sendToPipelineBtn" class="action-btn" disabled title="Send to RAG Pipeline" style="background:rgba(16,185,129,0.1);color:#34d399;border-color:rgba(16,185,129,0.3)" onclick="if(document.getElementById('outputArea').textContent){document.getElementById('plEmbedInput').value=document.getElementById('outputArea').textContent;document.getElementById('tabPipeline').click();document.getElementById('plEmbedInput').scrollIntoView({behavior:'smooth'})}">🔬 → Pipeline</button>
                 </div>
             </div>
 
@@ -555,6 +564,22 @@
             <p id="loadingText">Formatting your Markdown...</p>
             <p class="loading-sub">Running RAG & GEO optimizations</p>
         </div>
+    </div>
+
+    <!-- What's Next: Format → Pipeline flow -->
+    <div style="max-width:1400px;margin:24px auto 0;padding:28px;background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(56,189,248,0.06));border:1px solid rgba(125,211,252,0.12);border-radius:12px;text-align:center">
+        <h3 style="font-size:18px;color:#e2e8f0;margin:0 0 8px">🚀 What's Next?</h3>
+        <p style="font-size:14px;color:#94a3b8;margin:0 0 20px;line-height:1.7">Your formatted Markdown is RAG-ready. Now embed it, search it, and ask questions — all in your browser.</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+            <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:10px 18px;font-size:13px;color:#34d399;font-weight:600">✅ Format</div>
+            <span style="color:#7dd3fc;font-size:20px;font-weight:700">→</span>
+            <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:10px 18px;font-size:13px;color:#38bdf8;font-weight:600">🧮 Embed</div>
+            <span style="color:#7dd3fc;font-size:20px;font-weight:700">→</span>
+            <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:8px;padding:10px 18px;font-size:13px;color:#a78bfa;font-weight:600">🔍 Search</div>
+            <span style="color:#7dd3fc;font-size:20px;font-weight:700">→</span>
+            <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:10px 18px;font-size:13px;color:#fbbf24;font-weight:600">💬 Ask</div>
+        </div>
+        <button class="cta-btn" onclick="document.getElementById('tabPipeline').click()" style="padding:12px 32px;font-size:15px">🔬 Open RAG Pipeline →</button>
     </div>
 
     </div><!-- /viewFormat -->
@@ -747,6 +772,7 @@
 <script src="app.js?v=44"></script>
 <script src="pipeline.js?v=45"></script>
 <script src="pipeline-ui.js?v=45"></script>
+<script src="pipeline-demo.js?v=45"></script>
 </body>
 </html>
 <!-- deploy 1789572146 -->
