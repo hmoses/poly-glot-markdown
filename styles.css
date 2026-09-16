@@ -173,7 +173,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 }
 .demo-panel {
     background: #0f172a; border: 1px solid rgba(125,211,252,0.15);
-    border-radius: 12px; overflow: hidden;
+    border-radius: 12px; overflow: visible;
     opacity: 0.45; transition: opacity 0.5s ease;
 }
 .demo-panel.active { opacity: 1; }

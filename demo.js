@@ -61,10 +61,7 @@ date: "${today}"
 
 1. Mix dry ingredients
 2. Add **eggs** and milk
-3. Bake at **350°F** for 30 min
-
-<!-- ✅ Rule 6: Table of contents generated -->
-<!-- ✅ Rule 7: Metadata freshness tracked -->`;
+3. Bake at **350°F** for 30 min`;
 
     // ── Helpers ───────────────────────────────────────────────────────────
     function sleep(ms) {
@@ -194,11 +191,9 @@ date: "${today}"
 
         await sleep(200);
 
-        // Step 2 — type after code at same speed/duration as Step 1
+        // Step 2 — type after code at same char speed as Step 1
         demoPanels[1].classList.add('active');
-        const targetFrames = Math.ceil(beforeCode.length * 3);
-        const afterFPC = Math.max(1, Math.round(targetFrames / afterCode.length));
-        await typeCodeSmooth(afterCodeEl, afterCode, afterFPC);
+        await typeCodeSmooth(afterCodeEl, afterCode, 3);
 
         // GOOD scores fire after Step 2 finishes
         demoBenefits.style.opacity = '1';
@@ -328,10 +323,7 @@ date: "${today}"
 
 1. Mix dry ingredients
 2. Add **eggs** and milk
-3. Bake at **350°F** for 30 min
-
-<!-- ✅ Rule 6: Table of contents generated -->
-<!-- ✅ Rule 7: Metadata freshness tracked -->`;
+3. Bake at **350°F** for 30 min`;
 
     // Activate both panels
     demoPanels.forEach(p => p.classList.add('active'));
