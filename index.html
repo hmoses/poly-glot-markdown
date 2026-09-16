@@ -32,12 +32,18 @@
             </div>
         </div>
 
-        <!-- ── Tab Bar (inside header) ── -->
+        <!-- ── Tab Bar ── -->
         <div class="tab-bar">
-            <button id="tabFormat" class="tab-btn tab-active">📝 Format</button>
-            <button id="tabPipeline" class="tab-btn">🔬 RAG Pipeline</button>
+            <button id="tabFormat" class="tab-btn tab-active" onclick="document.getElementById('viewFormat').style.display='';document.getElementById('viewPipeline').style.display='none';this.classList.add('tab-active');document.getElementById('tabPipeline').classList.remove('tab-active')">📝 Format</button>
+            <button id="tabPipeline" class="tab-btn" onclick="document.getElementById('viewPipeline').style.display='';document.getElementById('viewFormat').style.display='none';this.classList.add('tab-active');document.getElementById('tabFormat').classList.remove('tab-active')">🔬 RAG Pipeline</button>
         </div>
 
+    </div><!-- /header -->
+
+    <!-- ══════ VIEW: FORMAT ══════ -->
+    <div id="viewFormat">
+
+    <div class="header" style="border-radius:0 0 var(--radius) var(--radius);border-top:none;margin-top:-1px">
         <div class="header-features">
             <span class="feature-badge">🏷️ Frontmatter</span>
             <span class="feature-badge">📐 Structure</span>
@@ -237,11 +243,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-    <!-- ══════ VIEW: FORMAT (existing tool) ══════ -->
-    <div id="viewFormat">
 
     <!-- ── Demo Section ── -->
     <div class="demo-section">
@@ -561,16 +563,50 @@
     <div id="viewPipeline" style="display:none">
         <div class="pl-container">
 
-            <!-- Pipeline Header -->
+            <!-- Pipeline Overview -->
             <div class="pl-hero">
                 <h2>🔬 In-Browser RAG Pipeline</h2>
-                <p>Full retrieval-augmented generation running entirely in your browser. No backend. No API keys for embeddings. Vectors persist in IndexedDB.</p>
+                <p>A complete retrieval-augmented generation pipeline running entirely in your browser. Format your docs in the Format tab, then embed, search, and query them here — no backend, no signup, no cost.</p>
                 <div class="pl-stack-pills">
                     <span class="pl-pill pl-pill-green">Transformers.js</span>
                     <span class="pl-pill pl-pill-blue">all-MiniLM-L6-v2</span>
                     <span class="pl-pill pl-pill-purple">IndexedDB</span>
                     <span class="pl-pill pl-pill-cyan">Cosine Similarity</span>
                     <span class="pl-pill pl-pill-amber">Gemini 3.6 Flash</span>
+                </div>
+            </div>
+
+            <!-- How to Use -->
+            <div class="pl-step-card" style="border-top:3px solid var(--accent);margin-bottom:24px">
+                <h3 style="font-size:16px;color:#e2e8f0;margin:0 0 16px">📋 How to Use</h3>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;margin-bottom:16px">
+                    <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;padding:14px 8px">
+                        <div style="font-size:1.3rem;margin-bottom:4px">⬇️</div>
+                        <div style="font-size:11px;font-weight:700;color:#34d399;margin-bottom:4px">STEP 1</div>
+                        <div style="font-size:12px;color:#e2e8f0;font-weight:600">Load Model</div>
+                        <div style="font-size:11px;color:#94a3b8;margin-top:4px">One-time download<br>~23 MB, cached</div>
+                    </div>
+                    <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:14px 8px">
+                        <div style="font-size:1.3rem;margin-bottom:4px">🧮</div>
+                        <div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:4px">STEP 2</div>
+                        <div style="font-size:12px;color:#e2e8f0;font-weight:600">Embed Docs</div>
+                        <div style="font-size:11px;color:#94a3b8;margin-top:4px">Paste or upload<br>markdown files</div>
+                    </div>
+                    <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:8px;padding:14px 8px">
+                        <div style="font-size:1.3rem;margin-bottom:4px">🔍</div>
+                        <div style="font-size:11px;font-weight:700;color:#a78bfa;margin-bottom:4px">STEP 3</div>
+                        <div style="font-size:12px;color:#e2e8f0;font-weight:600">Search</div>
+                        <div style="font-size:11px;color:#94a3b8;margin-top:4px">Semantic search<br>across your docs</div>
+                    </div>
+                    <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:14px 8px">
+                        <div style="font-size:1.3rem;margin-bottom:4px">💬</div>
+                        <div style="font-size:11px;font-weight:700;color:#fbbf24;margin-bottom:4px">STEP 4</div>
+                        <div style="font-size:12px;color:#e2e8f0;font-weight:600">Ask</div>
+                        <div style="font-size:11px;color:#94a3b8;margin-top:4px">AI answers from<br>your documents</div>
+                    </div>
+                </div>
+                <div style="font-size:13px;color:#94a3b8;line-height:1.7">
+                    <strong style="color:#e2e8f0">💡 Tip:</strong> Format your docs in the <strong style="color:#7dd3fc">📝 Format</strong> tab first for best results. Formatted docs produce better chunks, richer metadata, and more accurate retrieval.
                 </div>
             </div>
 
@@ -709,8 +745,8 @@
 <script src="scorer.js?v=44"></script>
 <script src="demo.js?v=44"></script>
 <script src="app.js?v=44"></script>
-<script src="pipeline.js?v=44"></script>
-<script src="pipeline-ui.js?v=44"></script>
+<script src="pipeline.js?v=45"></script>
+<script src="pipeline-ui.js?v=45"></script>
 </body>
 </html>
 <!-- deploy 1789572146 -->
