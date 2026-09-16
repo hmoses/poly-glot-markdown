@@ -41,22 +41,24 @@ tags: [baking, cake, dessert]
 date: "${today}"
 ---
 
+<!-- ✅ Rule 2: Heading hierarchy enforced (single H1) -->
 # Classic Vanilla Cake
 
-<!-- ✅ Rule 2: Section summary added -->
+<!-- ✅ Rule 3: Section summary added -->
 > **Summary:** Simple vanilla cake recipe with basic pantry ingredients, ready in 30 minutes.
 
-<!-- ✅ Rule 3: Chunk boundary for RAG splitting -->
+<!-- ✅ Rule 4: Chunk boundary for RAG splitting -->
 <!-- chunk-boundary -->
 
 ## Ingredients
 <!-- ✅ Rule 5: Keywords emphasized for GEO -->
+<!-- ✅ Rule 7: Keyword extraction engine (top terms bolded) -->
 - **Flour**, **sugar**, **eggs**, milk
 
 <!-- chunk-boundary -->
 
 ## Steps
-<!-- ✅ Rule 4: Anchor ID for deep linking -->
+<!-- ✅ Rule 6: Anchor ID for deep linking -->
 {#steps}
 
 1. Mix dry ingredients
@@ -303,22 +305,24 @@ tags: [baking, cake, dessert]
 date: "${today}"
 ---
 
+<!-- ✅ Rule 2: Heading hierarchy enforced (single H1) -->
 # Classic Vanilla Cake
 
-<!-- ✅ Rule 2: Section summary added -->
+<!-- ✅ Rule 3: Section summary added -->
 > **Summary:** Simple vanilla cake recipe with basic pantry ingredients, ready in 30 minutes.
 
-<!-- ✅ Rule 3: Chunk boundary for RAG splitting -->
+<!-- ✅ Rule 4: Chunk boundary for RAG splitting -->
 <!-- chunk-boundary -->
 
 ## Ingredients
 <!-- ✅ Rule 5: Keywords emphasized for GEO -->
+<!-- ✅ Rule 7: Keyword extraction engine (top terms bolded) -->
 - **Flour**, **sugar**, **eggs**, milk
 
 <!-- chunk-boundary -->
 
 ## Steps
-<!-- ✅ Rule 4: Anchor ID for deep linking -->
+<!-- ✅ Rule 6: Anchor ID for deep linking -->
 {#steps}
 
 1. Mix dry ingredients
