@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=55">
+    <link rel="stylesheet" href="styles.css?v=57">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -573,7 +573,7 @@
 
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
             <button class="cta-btn" onclick="(function(){var o=document.getElementById('outputArea');if(!o||!o.textContent.trim()){showToast('⚠️ Format a document first','#fbbf24');return;}navigator.clipboard.writeText(o.textContent).then(function(){showToast('✅ Copied to clipboard','#34d399')}).catch(function(){showToast('❌ Copy failed — try Download','#f87171')})})()" style="padding:12px 28px;font-size:15px">📋 Copy to Clipboard</button>
-            <button class="cta-btn" onclick="(function(){var o=document.getElementById('outputArea');if(!o||!o.textContent.trim()){showToast('⚠️ Format a document first','#fbbf24');return;}var b=new Blob([o.textContent],{type:'text/markdown'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='formatted-rag-doc.md';a.click();URL.revokeObjectURL(a.href);showToast('📥 Downloading formatted-rag-doc.md','#38bdf8')})()" style="padding:12px 28px;font-size:15px">📤 Download as .md</button>
+            <button class="cta-btn" onclick="(function(){var o=document.getElementById('outputArea');if(!o||!o.textContent.trim()){showToast('⚠️ Format a document first','#fbbf24');return;}var txt=o.textContent;if(window.showSaveFilePicker){window.showSaveFilePicker({suggestedName:'formatted-rag-doc.md',types:[{description:'Markdown',accept:{'text/markdown':['.md','.mdx']}}]}).then(function(h){return h.createWritable().then(function(w){return w.write(txt).then(function(){return w.close()})})}).then(function(){showToast('✅ File saved','#34d399')}).catch(function(e){if(e.name!=='AbortError')showToast('❌ Save failed','#f87171')})}else{var b=new Blob([txt],{type:'text/markdown'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='formatted-rag-doc.md';a.click();URL.revokeObjectURL(a.href);showToast('📥 Downloading formatted-rag-doc.md','#38bdf8')}})()" style="padding:12px 28px;font-size:15px">📤 Download as .md / .mdx</button>
         </div>
     </div>
 
@@ -810,10 +810,10 @@
     <div class="site-footer">
         <p>© 2026 <strong>Harold Moses</strong> · <span class="footer-domain">markdown.poly-glot.ai</span> is a registered domain owned by Harold Moses · Built with 🪿 Goose</p>
     </div>
-<script src="ai-formatter.js?v=44"></script>
-<script src="scorer.js?v=44"></script>
-<script src="demo.js?v=44"></script>
-<script src="app.js?v=44"></script>
+<script src="ai-formatter.js?v=57"></script>
+<script src="scorer.js?v=57"></script>
+<script src="demo.js?v=57"></script>
+<script src="app.js?v=57"></script>
 <script src="pipeline.js?v=46"></script>
 <script src="pipeline-ui.js?v=46"></script>
 <script src="pipeline-demo.js?v=51"></script>
