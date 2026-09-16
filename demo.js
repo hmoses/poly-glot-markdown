@@ -180,24 +180,28 @@ date: "${today}"
             if (el) el.style.opacity = '0';
         });
 
-        // Type both columns simultaneously, same duration (~5s)
+        // Step 1 — type before code (~5s at framesPerChar=3)
         demoPanels[0].classList.add('active');
-        demoPanels[1].classList.add('active');
-        const targetFrames = Math.ceil(beforeCode.length * 3); // same total duration as before
-        const afterFPC = Math.max(1, Math.round(targetFrames / afterCode.length));
-        await Promise.all([
-            typeCodeSmooth(beforeCodeEl, beforeCode, 3),
-            typeCodeSmooth(afterCodeEl, afterCode, afterFPC)
-        ]);
+        await typeCodeSmooth(beforeCodeEl, beforeCode, 3);
 
-        // Both scores fire together after typing completes
+        // BAD scores fire after Step 1 finishes
         demoIssues.style.opacity = '1';
-        demoBenefits.style.opacity = '1';
         if (scoreBefore) {
             scoreBefore.style.display = 'block';
-            animateBar('ragBarBefore', 12, 800);
-            animateBar('geoBarBefore', 8, 800);
+            animateBar('ragBarBefore', 12, 600);
+            animateBar('geoBarBefore', 8, 600);
         }
+
+        await sleep(200);
+
+        // Step 2 — type after code at same speed/duration as Step 1
+        demoPanels[1].classList.add('active');
+        const targetFrames = Math.ceil(beforeCode.length * 3);
+        const afterFPC = Math.max(1, Math.round(targetFrames / afterCode.length));
+        await typeCodeSmooth(afterCodeEl, afterCode, afterFPC);
+
+        // GOOD scores fire after Step 2 finishes
+        demoBenefits.style.opacity = '1';
         if (scoreAfter) {
             scoreAfter.style.display = 'block';
             animateBar('ragBarAfter', 91, 800);
