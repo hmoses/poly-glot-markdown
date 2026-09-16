@@ -635,6 +635,31 @@
                 </div>
             </div>
 
+            <!-- Pipeline Demo: See It In Action -->
+            <div class="pl-demo-section">
+                <h2 class="pl-demo-title"><span style="font-size:28px">🎬</span> See the Pipeline In Action</h2>
+                <p class="pl-demo-subtitle">Watch how a document flows through all 4 stages: chunk → embed → search → answer</p>
+                <div class="pl-demo-controls">
+                    <button id="plPlayDemo" class="pl-btn pl-btn-primary" style="padding:10px 28px;font-size:14px">▶️ Play Demo</button>
+                    <button id="plResetDemo" class="pl-btn pl-btn-outline" style="display:none">↻ Reset</button>
+                </div>
+                <div class="pl-demo-stage-bar">
+                    <div class="pl-demo-stage" id="plStage1"><span class="pl-demo-stage-num">1</span><span>Chunk</span></div>
+                    <div class="pl-demo-stage-arrow">→</div>
+                    <div class="pl-demo-stage" id="plStage2"><span class="pl-demo-stage-num">2</span><span>Embed</span></div>
+                    <div class="pl-demo-stage-arrow">→</div>
+                    <div class="pl-demo-stage" id="plStage3"><span class="pl-demo-stage-num">3</span><span>Search</span></div>
+                    <div class="pl-demo-stage-arrow">→</div>
+                    <div class="pl-demo-stage" id="plStage4"><span class="pl-demo-stage-num">4</span><span>Answer</span></div>
+                </div>
+                <div class="pl-demo-canvas" id="plDemoCanvas">
+                    <div class="pl-demo-placeholder">
+                        <span style="font-size:40px;opacity:0.3">🔬</span>
+                        <p style="color:#64748b;font-size:13px">Press Play to see the pipeline in action</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Step 1: Load Model -->
             <div class="pl-step-card">
                 <div class="pl-step-header">
