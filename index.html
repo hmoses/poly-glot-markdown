@@ -359,16 +359,7 @@
         </div>
     </div>
 
-    <!-- ── Mode Toggle ── -->
-    <div class="ai-enhance-bar" id="aiEnhanceBar">
-        <div class="ai-enhance-left">
-            <span class="ai-badge" id="modeBadge">⚡ Instant Mode</span>
-            <span class="ai-hint" id="modeHint">Client-side rules — instant, works offline</span>
-        </div>
-        <div class="ai-enhance-right">
-            <button id="modeToggleBtn" class="ai-toggle-btn">🧠 Switch to AI-Enhanced</button>
-        </div>
-    </div>
+    <!-- Mode Toggle moved below formatter header -->
 
     <!-- ── Mode Details ── -->
     <div class="mode-details-section">
@@ -462,6 +453,17 @@
             <span style="font-size:26px">✨</span> Markdown Formatter
         </h2>
         <p style="font-size:13px;color:#94a3b8;margin:6px 0 0;line-height:1.6">Paste or upload your Markdown below. Choose optimization options and click <strong style="color:#34d399">Format</strong>. When done, click <strong style="color:#34d399">🔬 → Pipeline</strong> in the output panel to send your formatted doc straight to the RAG Pipeline for embedding, search, and AI-powered Q&A.</p>
+
+        <!-- ── Mode Toggle ── -->
+        <div class="ai-enhance-bar" id="aiEnhanceBar" style="margin-top:12px">
+            <div class="ai-enhance-left">
+                <span class="ai-badge" id="modeBadge">⚡ Instant Mode</span>
+                <span class="ai-hint" id="modeHint">Client-side rules — instant, works offline</span>
+            </div>
+            <div class="ai-enhance-right">
+                <button id="modeToggleBtn" class="ai-toggle-btn">🧠 Switch to AI-Enhanced</button>
+            </div>
+        </div>
     </div>
 
     <!-- ── Main Tool ── -->
