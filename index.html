@@ -12,7 +12,7 @@
     <link rel="icon" href="parrot-logo.png" type="image/png">
     <link rel="apple-touch-icon" href="parrot-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=51">
+    <link rel="stylesheet" href="styles.css?v=52">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
@@ -33,8 +33,7 @@
         </div>
 
         <!-- ── Tab Bar ── -->
-        <!-- Tab bar hidden for now — Pipeline tab available but not shown -->
-        <div class="tab-bar" style="display:none">
+        <div class="tab-bar">
             <button id="tabFormat" class="tab-btn tab-active" onclick="document.getElementById('viewFormat').style.display='';document.getElementById('viewPipeline').style.display='none';this.classList.add('tab-active');document.getElementById('tabPipeline').classList.remove('tab-active')">📝 Format</button>
             <button id="tabPipeline" class="tab-btn" onclick="document.getElementById('viewPipeline').style.display='';document.getElementById('viewFormat').style.display='none';this.classList.add('tab-active');document.getElementById('tabFormat').classList.remove('tab-active')">🔬 RAG Pipeline</button>
         </div>
@@ -515,7 +514,7 @@
                     <button id="downloadBtn" class="action-btn" disabled>⬇️ Download</button>
                     <button id="diffBtn" class="action-btn" disabled>🔍 Diff</button>
                     <button id="chunkBtn" class="action-btn" disabled title="Preview how this document will be chunked by a RAG system">🧩 Chunks</button>
-                    <button id="sendToPipelineBtn" class="action-btn" disabled title="Send to RAG Pipeline" style="display:none;background:rgba(16,185,129,0.1);color:#34d399;border-color:rgba(16,185,129,0.3)" onclick="if(document.getElementById('outputArea').textContent){document.getElementById('plEmbedInput').value=document.getElementById('outputArea').textContent;document.getElementById('tabPipeline').click();document.getElementById('plEmbedInput').scrollIntoView({behavior:'smooth'})}">🔬 → Pipeline</button>
+                    <button id="sendToPipelineBtn" class="action-btn" disabled title="Send to RAG Pipeline" style="background:rgba(16,185,129,0.1);color:#34d399;border-color:rgba(16,185,129,0.3)" onclick="if(document.getElementById('outputArea').textContent){document.getElementById('plEmbedInput').value=document.getElementById('outputArea').textContent;document.getElementById('tabPipeline').click();document.getElementById('plEmbedInput').scrollIntoView({behavior:'smooth'})}">🔬 → Pipeline</button>
                 </div>
             </div>
 
@@ -567,8 +566,8 @@
         </div>
     </div>
 
-    <!-- What's Next: Format → Pipeline flow (hidden — Pipeline tab not shown) -->
-    <div style="display:none;max-width:1400px;margin:24px auto 0;padding:28px;background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(56,189,248,0.06));border:1px solid rgba(125,211,252,0.12);border-radius:12px;text-align:center">
+    <!-- What's Next: Format → Pipeline flow -->
+    <div style="max-width:1400px;margin:24px auto 0;padding:28px;background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(56,189,248,0.06));border:1px solid rgba(125,211,252,0.12);border-radius:12px;text-align:center">
         <h3 style="font-size:18px;color:#e2e8f0;margin:0 0 8px">🚀 What's Next?</h3>
         <p style="font-size:14px;color:#94a3b8;margin:0 0 20px;line-height:1.7">Your formatted Markdown is RAG-ready. Now embed it, search it, and ask questions — all in your browser.</p>
         <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
